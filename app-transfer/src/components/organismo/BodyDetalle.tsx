@@ -23,7 +23,7 @@ export const BodyDetalle = () => {
               <p className="p-[0.9px] "> PT-003</p>
               <p className="p-[1px]">18/01/2025</p>
               <p className="p-[1px]">
-                <span className="bg-yellow-100 text-yellow-600 text-xs font-semibold px-2 py-1 rounded">
+                <span className="bg-yellow-100 text-yellow-600 text-xs font-semibold px-3 py-1 rounded-3xl border-1" >
                   Pendiente
                 </span>
               </p>
@@ -60,7 +60,8 @@ export const BodyDetalle = () => {
       </div>
 
       <CardTexArea label="Observaciones" />
-      <CardTexArea label="Log de Integración:" isDisable />
+      <CardTexArea label="Observaciones" />
+      <CardTexArea label="Log de Integración:" isDisable={true} /> 
 
     </>
   )
