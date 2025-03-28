@@ -59,9 +59,9 @@ export const BodyDetalle = () => {
         </div>
       </div>
 
-      <CardTexArea label="Observaciones" />
-      <CardTexArea label="Observaciones" />
-      <CardTexArea label="Log de Integración:" isDisable={true} /> 
+      
+      <CardTexArea label="Observaciones" tipo="obs"/>
+      <CardTexArea label="Log de Integración:" isDisable={true} tipo="logs"/> 
 
     </>
   )
