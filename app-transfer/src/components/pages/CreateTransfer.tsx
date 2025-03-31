@@ -1,4 +1,49 @@
+import { useEffect } from "react";
+import {
+  createTransferencia,
+  getAlmacenes,
+} from "../../lib/fetchTransferencia";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/TransferenciaRedux";
+import { allAlmacenes } from "../../store/almacenes/almacenSlice";
+import { getUsuario } from "../../store/usuario/usuarioSlice";
+import { useTransferForm } from "../../hooks/useTransferForm";
+import { ITransfer } from "../../interfaces/ITransferCreate";
+
 const CreateTransfer = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    notify,
+  } = useTransferForm();
+
+  useEffect(() => {
+    const almacenes = async () => {
+      const rpt = await getAlmacenes();
+      dispatch(allAlmacenes(rpt.data));
+    };
+    dispatch(getUsuario());
+    almacenes();
+  }, [dispatch]);
+  const { almacenes } = useSelector((state: RootState) => state.almacenes);
+  const { usuario } = useSelector((state: RootState) => state.usuario);
+
+  const onSubmit = async (data: any) => {
+    console.log("asdas");
+    alert("dsa");
+
+    // console.log(data);
+    // data.usuario_creador_id = usuario.id;
+    // const response = await createTransferencia(data);
+    // if (response.ok) {
+    //   notify("✅ Formulario enviado correctamente!!!");
+    // } else {
+    //   notify(`❌ ${response.message || "❌  Error al enviar!!"}`);
+    // }
+  };
   return (
     <div className="mx-auto container my-10">
       <div className="flex justify-between mb-3">
@@ -16,7 +61,7 @@ const CreateTransfer = () => {
           <h2 className="text-white ">Registro de Parte de Transferencia</h2>
         </div>
         <div className=" w-full p-3 border border-gray-300">
-          <form action="" className="w-full">
+          <form onSubmit={handleSubmit(onSubmit)} className="w-full">
             <div className="w-[90%] flex gap-x-10">
               <div className="w-1/2  ">
                 <div className="border-b-1 border-b-gray-200 mb-5">
@@ -72,34 +117,43 @@ const CreateTransfer = () => {
                 </div>
                 <div className="mb-5 flex">
                   <label
-                    htmlFor="usuario"
+                    htmlFor="usuario_creador_id"
                     className="block mb-2 text-sm font-medium text-gray-900 w-1/2"
                   >
                     Usuario Creador:
                   </label>
-                  <input
-                    type="text"
-                    id="usuario"
-                    disabled
-                    className="shadow-xs bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder="Autegenerado"
-                    required
-                  />
+                  <div className="w-full">
+                    <input
+                      type="text"
+                      id="usuario_creador_id"
+                      disabled
+                      className="shadow-xs bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                      placeholder={`${usuario.nombre}`}
+                      // value={usuario.id}
+                    />
+                  </div>
                 </div>
                 <div className="mb-5 flex">
                   <label
-                    htmlFor="monto"
+                    htmlFor="monto_total"
                     className="block mb-2 text-sm font-medium text-gray-900 w-1/2"
                   >
                     Monto Total:
                   </label>
-                  <input
-                    type="text"
-                    id="monto"
-                    className="shadow-xs  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder=""
-                    required
-                  />
+                  <div className="w-full">
+                    <input
+                      type="text"
+                      id="monto_total"
+                      className="shadow-xs  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                      placeholder=""
+                      {...register("monto_total")}
+                    />
+                    {errors.monto_total && (
+                      <p className="text-red-500 text-xs">
+                        {errors.monto_total?.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
                 <div className="mb-5 flex">
                   <label
@@ -114,7 +168,6 @@ const CreateTransfer = () => {
                     disabled
                     className="shadow-xs bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                     placeholder="PEN"
-                    required
                   />
                 </div>
                 <div className="mb-5 flex">
@@ -127,9 +180,9 @@ const CreateTransfer = () => {
                   <input
                     type="text"
                     id="sap"
-                    className="shadow-xs  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder=""
-                    required
+                    disabled
+                    placeholder="-"
+                    className="shadow-xs  bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                   />
                 </div>
               </div>
@@ -139,48 +192,79 @@ const CreateTransfer = () => {
                 </div>
                 <div className="mb-5 flex">
                   <label
-                    htmlFor="origen"
+                    htmlFor="almacen_origen_id"
                     className="block mb-2 text-sm font-medium text-gray-900 w-1/2"
                   >
                     Almacen origen:
                   </label>
-                  <input
-                    type="text"
-                    id="origen"
-                    className="shadow-xs  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder=""
-                    required
-                  />
+                  <div className="w-full">
+                    <select
+                      id="almacen_origen_id"
+                      {...register("almacen_origen_id")}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                    >
+                      <option value="">Selecciona un almacen</option>
+                      {almacenes.map((item) => (
+                        <option key={item.id} value={`${item.id}`}>
+                          {item.nombre}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.almacen_origen_id && (
+                      <p className="text-red-500 text-xs">
+                        {errors.almacen_origen_id?.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
                 <div className="mb-5 flex">
                   <label
-                    htmlFor="destino"
+                    htmlFor="almacen_destino_id"
                     className="block mb-2 text-sm font-medium text-gray-900 w-1/2"
                   >
                     Almacen Destino:
                   </label>
-                  <input
-                    type="text"
-                    id="destino"
-                    className="shadow-xs  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder=""
-                    required
-                  />
+                  <div className="w-full">
+                    <select
+                      id="almacen_destino_id"
+                      {...register("almacen_destino_id")}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                    >
+                      <option value="">Selecciona un almacen</option>
+                      {almacenes.map((item) => (
+                        <option key={item.id} value={`${item.id}`}>
+                          {item.nombre}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.almacen_destino_id && (
+                      <p className="text-red-500 text-xs">
+                        {errors.almacen_destino_id?.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
                 <div className="mb-5 flex">
                   <label
-                    htmlFor="costo"
+                    htmlFor="centro_costo"
                     className="block mb-2 text-sm font-medium text-gray-900 w-1/2"
                   >
                     Centro de Costo:
                   </label>
-                  <input
-                    type="text"
-                    id="costo"
-                    className="shadow-xs  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder=""
-                    required
-                  />
+                  <div className="w-full">
+                    <input
+                      type="text"
+                      id="centro_costo"
+                      className="shadow-xs  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                      placeholder=""
+                      {...register("centro_costo")}
+                    />
+                    {errors.centro_costo && (
+                      <p className="text-red-500 text-xs">
+                        {errors.centro_costo?.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
                 <div className="mb-5 flex">
                   <label
@@ -195,7 +279,6 @@ const CreateTransfer = () => {
                     disabled
                     className="shadow-xs bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                     placeholder="-"
-                    required
                   />
                 </div>
                 <div className="mb-5 flex">
@@ -211,7 +294,6 @@ const CreateTransfer = () => {
                     disabled
                     className="shadow-xs bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                     placeholder="-"
-                    required
                   />
                 </div>
                 <div className="mb-5 flex">
@@ -227,7 +309,6 @@ const CreateTransfer = () => {
                     disabled
                     className="shadow-xs bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                     placeholder="-"
-                    required
                   />
                 </div>
               </div>
@@ -260,20 +341,20 @@ const CreateTransfer = () => {
                   className="bg-[#0B5DB4] text-white p-3 rounded-sm"
                 />
               </div>
-              <div>
-                <input
-                  type="submit"
+              {/* <div>
+                <button
                   id="cancelar"
-                  value={"Cancelar"}
                   className="bg-red-500 text-white p-3 rounded-sm"
-                />
+                >
+                  Cancelar
+                </button>
               </div>
-              <input
-                type="submit"
+              <button
                 id="previa"
-                value={"Vista Previa"}
                 className="bg-gray-100 text-black p-3 rounded-sm border border-gray-400"
-              />
+              >
+                Vista Previa
+              </button> */}
             </div>
           </form>
         </div>
