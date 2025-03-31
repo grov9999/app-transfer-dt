@@ -35,7 +35,7 @@ export const ModalDetalle = () => {
     }
     const obtenerTransfDetalle = async () => {
 
-        getDetalleTransferencia("1").then((response) => {
+        getDetalleTransferencia("5").then((response) => {
             if (!response.ok) {
                 //console.log("Responde Error")
             }

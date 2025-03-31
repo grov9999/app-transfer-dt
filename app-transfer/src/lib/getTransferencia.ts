@@ -20,10 +20,12 @@ export const getTransferencia = async () => {
     }
 }
 
-export const getDetalleTransferencia = async ( id : string) => {
+export const getDetalleTransferencia = async (id: string) => {
     try {
         const response = await fetch("http://localhost:3000/api/transfer/" + id);
-        const data: DetalleTransferencia = await response.json();
+        const datas = await response.json();
+        const data: DetalleTransferencia = datas.data;
+
         //console.log(data);
         //await sleep(1500);
         return {

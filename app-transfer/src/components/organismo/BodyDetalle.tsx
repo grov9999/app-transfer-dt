@@ -61,18 +61,17 @@ export const BodyDetalle = ({ detalleTransfer }: bodyDetalleProps) => {
 
               <p className="p-[1px]">{detalleTransfer?.almacen_origen}</p>
               <p className="p-[1px]">{detalleTransfer?.almacen_destino}</p>
-              <p className="p-[1px]">{}</p>
+              <p className="p-[1px]">{detalleTransfer?.centro_costo? detalleTransfer.centro_costo:'-' }</p>
               <p className="p-[1px]">{detalleTransfer?.usuario_aprobador ? detalleTransfer?.usuario_aprobador : '-'  }</p>
-              <p className="p-[1px]">{detalleTransfer?.fecha_aprobacion? dateAproba:'-'}</p>
-              <p className="p-[1px]">-</p>
+              <p className="p-[1px]">{detalleTransfer?.fecha_aprobacion? dateAproba : '-'}</p>
+              <p className="p-[1px]">{detalleTransfer?.motivo_rechazo? detalleTransfer.motivo_rechazo:'-'}</p>
             </div>
           </div>
         </div>
       </div>
 
-
       <CardTexArea label="Observaciones" tipo="obs" />
-      <CardTexArea label="Log de Integración:" isDisable={true} tipo="logs" />
+      <CardTexArea label="Log de Integración:" isDisable={true} tipo="logs" detalleTransfer={detalleTransfer}  />
 
     </>
   )

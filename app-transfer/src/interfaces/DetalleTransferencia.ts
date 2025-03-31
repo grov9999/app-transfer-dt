@@ -17,4 +17,5 @@ export interface DetalleTransferencia {
     log_usuario:       string;
     log_fecha:         Date;
     log_detalle:       string;
+    centro_costo:      string;
 }
