@@ -143,11 +143,15 @@ export const TransferManager = () => {
                     <td className="px-6 py-4">
                       {item.monto_total ? item.monto_total : "--"}
                     </td>
-                    <td className="px-6 py-4">{item.centro_costo}</td>
+                    <td className="px-6 py-4">
+                      {item.centro_costo}
+                    </td>
                     <td className="px-6 py-4">
                       {item.referencia_sap ? item.referencia_sap : "--"}
                     </td>
-                    <td className="px-6 py-4">{item.estado}</td>
+                    <td className="px-6 py-4">
+                      {item.estado}
+                    </td>
                     <td className="px-6 py-4">
                       <button
                         onClick={() => {
