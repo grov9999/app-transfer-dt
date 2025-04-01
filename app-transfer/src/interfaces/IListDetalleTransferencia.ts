@@ -20,6 +20,6 @@ export interface IListDetalleTransferencia{
     centro_costo:      string;
     almacen_origen_id: number;
 	almacen_destino_id: number;
-	usuario_creador_id: number
+	usuario_creador_id: number | null;
 	
 }
