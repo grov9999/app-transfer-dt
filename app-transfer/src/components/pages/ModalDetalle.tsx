@@ -6,8 +6,7 @@ import { HeaderDetalle } from "../organismo/HeaderDetalle";
 import {
   getDetalleTransferencia,
   getTransferencia,
-  sendDetalleTransferencia,
-} from "../../lib/getTransferencia";
+} from "../../lib/fetchTransferencia";
 import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
 import {
   onListingTransfer,
