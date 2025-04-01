@@ -15,7 +15,7 @@ export const TextArea = ({ isDisable = false, tipo, detalleTransfer = "", onChan
     <textarea className={`block w-full  rounded-lg border border-gray-300 p-1 overflow-auto ${isDisable
       ? "text-sm text-gray-500 bg-gray-100"
       : "text-sm  text-gray-900"
-      }`}name={tipo} id={tipo} rows={3} disabled={isDisable} value={detalleTransfer!} onChange={onChange} {...register} >
+      }`}name={tipo} id={tipo} rows={3} disabled={isDisable} defaultValue={detalleTransfer!} onChange={onChange} {...register} >
     </textarea>
   )
 }

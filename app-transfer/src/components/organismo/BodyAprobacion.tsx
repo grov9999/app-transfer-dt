@@ -10,48 +10,36 @@ interface boydAprobacionProps {
 
 }
 
-export const BodyAprobacion = ({ onRetun, setState }: boydAprobacionProps) => {
+export const BodyAprobacion = ({ onRetun, setState, detalle }: boydAprobacionProps) => {
+
+    const total = detalle.reduce((acc, item) => acc + parseFloat(item.monto_total), 0).toFixed(2);
+
+    const formatDate = (date: Date) => {
+        const day = String(date.getDate()).padStart(2, '0'); // Asegura que el día tenga dos dígitos
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses son 0-indexados
+        const year = date.getFullYear(); // Obtiene el año completo
+        return `${day}/${month}/${year}`; // Formato DD/MM/YYYY
+    };
+
+
     return (
         <div className="p-2">
             <h1 className="mb-2 px-1.5">Está a punto de Aprobar los siguientes partes de transferencia: </h1>
             {/* Contenedor de los detalles */}
             <div className="bg-gray-100 px-2 rounded-t-xl border-gray-400">
-
-                <div className="flex justify-between py-2">
-                    <span className="w-1/4">PT-002</span>
-                    <span className="w-1/4">17/01/2025</span>
-                    <span className="w-1/4">S/. 120.50</span>
-                    <span className="w-1/4">CC-TRANS-02</span>
-                </div>
-                <div className="flex justify-between py-2">
-                    <span className="w-1/4">PT-002</span>
-                    <span className="w-1/4">17/01/2025</span>
-                    <span className="w-1/4">S/ 120.50</span>
-                    <span className="w-1/4">CC-TRANS-02</span>
-                </div>
-                <div className="flex justify-between py-2">
-                    <span className="w-1/4">PT-002</span>
-                    <span className="w-1/4">17/01/2025</span>
-                    <span className="w-1/4">S/. 120.50</span>
-                    <span className="w-1/4">CC-TRANS-02</span>
-                </div>
-                <div className="flex justify-between py-2">
-                    <span className="w-1/4">PT-002</span>
-                    <span className="w-1/4">17/01/2025</span>
-                    <span className="w-1/4">S/. 120.50</span>
-                    <span className="w-1/4">CC-TRANS-02</span>
-                </div>
-                <div className="flex justify-between py-2">
-                    <span className="w-1/4">PT-002</span>
-                    <span className="w-1/4">17/01/2025</span>
-                    <span className="w-1/4">S/. 120.50</span>
-                    <span className="w-1/4">CC-TRANS-05</span>
-                </div>
+                {detalle.map((index) => (
+                    <div className="flex justify-between py-2" key={index.pt_id}>
+                        <span className="w-1/4">{index.codigo}</span>
+                        <span className="w-1/4">{formatDate(new Date(index.fecha_generacion))}</span>
+                        <span className="w-1/4">S/. {index.monto_total}</span>
+                        <span className="w-1/4">{index.centro_costo}</span>
+                    </div>
+                ))}
             </div>
             {/* Total */}
             <div className="flex justify-between font-semibold bg-gray-200 p-2 border-t-1">
                 <span className="w-1/2">Total:</span>
-                <span className="w-1/2">S/ 596.30</span>
+                <span className="w-1/2">S/ {total}</span>
             </div>
 
             {/* Mensaje de advertencia */}
