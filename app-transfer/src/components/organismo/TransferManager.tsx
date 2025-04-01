@@ -120,7 +120,7 @@ export const TransferManager = () => {
                     <td className="w-4 p-4">
                       <div className="flex items-center">
                         <input
-                          id="checkbox-table-search-1"
+                          id={`checkbox-table-search-${item.resultado_pt_id}`}
                           type="checkbox"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
                         />
