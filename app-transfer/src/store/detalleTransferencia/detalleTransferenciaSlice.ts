@@ -23,12 +23,16 @@ export const detalleTransferenciaSlice = createSlice({
             state.detalleTransferencia = action.payload;
             state.loadingDeTransferencia = false;
             state.errorMessageDeTransferencia = null;
-        }
+        },
 
+        onUpdateDetalleTransfer: (state, action: PayloadAction<DetalleTransferencia>) => {
+            state.detalleTransferencia = action.payload; // Actualiza el estado con el nuevo detalle
+        },
     }
 })
 
 export const {
     onStartDetaTransfLoading,
-    onListingDetaTransfer
+    onListingDetaTransfer,
+    onUpdateDetalleTransfer
 } = detalleTransferenciaSlice.actions
