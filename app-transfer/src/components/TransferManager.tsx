@@ -1,6 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ITransfer } from "../interfaces/ITransferCreate";
-import { getTransferencia } from "../lib/fetchTransferencia";
+import {
+  getDetalleTransferencia,
+  getTransferencia,
+} from "../lib/fetchTransferencia";
 import {
   onListingTransfer,
   onStartTransfLoading,
@@ -8,11 +11,16 @@ import {
 import { useAppDispatch, useAppSelector } from "../store/TransferenciaRedux";
 import { ModalDetalle } from "./pages/ModalDetalle";
 import { usePagination } from "../hooks/usePagination";
+import { DetalleTransferencia } from "../interfaces/DetalleTransferencia";
+import { onArregloDetaTransfer, onListingDetaTransfer } from "../store/detalleTransferencia/detalleTransferenciaSlice";
 
 export const TransferManager = () => {
   useEffect(() => {
     obtenerTransf();
   }, []);
+
+  const [openModalDetalle, setOpenModalDetalle] = useState(false);
+  const [openModalAprobacion, setOpenModalAprobacion] = useState(false);
 
   const dispatch = useAppDispatch();
   const { transferencias, loadingTransferencia, errorMessageTransferencia } =
@@ -30,6 +38,21 @@ export const TransferManager = () => {
       } else {
         dispatch(onListingTransfer(response.data as ITransfer[]));
         //console.log(response.data)
+      }
+    });
+  };
+
+  const { detalleTransferencia, listDetalleTransferencia } = useAppSelector(
+    (state) => state.detalleTransferencia
+  );
+
+  const obtenerTransfDetalle = async (id: string) => {
+    getDetalleTransferencia(id).then((response) => {
+      if (!response.ok) {
+        //console.log("Responde Error")
+      } else {
+        dispatch(onListingDetaTransfer(response.data as DetalleTransferencia));
+        dispatch(onArregloDetaTransfer(response.data as DetalleTransferencia));
       }
     });
   };
@@ -121,16 +144,21 @@ export const TransferManager = () => {
                     <td className="px-6 py-4">{item.estado}</td>
                     <td className="px-6 py-4">
                       <button
-                        type="button"
+                        onClick={() => {
+                          setOpenModalDetalle(true);
+                          console.log(openModalDetalle);
+                        //   obtenerTransfDetalle("15");
+                        }}
+                        type="submit"
                         className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                       >
-                        V
+                        VERI
                       </button>
                       <button
-                        type="button"
+                        type="submit"
                         className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                       >
-                        E
+                        EL
                       </button>
                     </td>
                   </tr>
@@ -150,20 +178,14 @@ export const TransferManager = () => {
             >
               Rechazar
             </button>
-            <button
-              type="button"
-              className="px-5 py-2.5 text-sm font-medium text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
-            >
-              Consultar
-            </button>
           </div>
           <nav
             className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4"
             aria-label="Table navigation"
           >
             <span className="text-sm font-normal text-gray-50 mb-4 md:mb-0 block w-full md:inline md:w-auto">
-              Showing <span className="font-semibold text-gray-900">1-10</span>{" "}
-              of <span className="font-semibold text-gray-900">1000</span>
+              Showing <span className="font-semibold text-gray-900">1-4</span>{" "}
+              of <span className="font-semibold text-gray-900"></span>
             </span>
             <ul className="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
               <li>
@@ -201,7 +223,8 @@ export const TransferManager = () => {
           </nav>
         </div>
       </div>
-      <ModalDetalle />
+      {openModalDetalle && <ModalDetalle />}
     </>
+    
   );
 };
