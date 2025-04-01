@@ -6,7 +6,7 @@ export interface IListDetalleTransferencia{
     almacen_destino:   string;
     monto_total:       string;
     moneda:            string;
-    estado:            string;  // Asegura que estado sea uno de estos tres valores
+    estado:            "Pendiente" | "Aprobado" | "Rechazado"| "Eliminado";  // Asegura que estado sea uno de estos tres valores
     usuario_creador:   string;
     usuario_aprobador: string;
     fecha_aprobacion:  Date;
