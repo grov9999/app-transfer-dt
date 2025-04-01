@@ -15,18 +15,21 @@ import {
 } from "../../store/transferencia/TransferenciaSlice";
 import { Transferencia } from "../../interfaces/Transferencia";
 import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia";
+//import ModalRechazo from './ModalRechazo';
 import {
+    onArregloDetaTransfer,
     onListingDetaTransfer,
     onUpdateDetalleTransfer,
 } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
+import { ModalAprobacion } from "./ModalAprobacion";
 
 export const ModalDetalle = () => {
     /*
       REDUX
        */
     const dispatch = useAppDispatch();
-    const { transferencia, loadingTransferencia, errorMessageTransferencia } = useAppSelector((state) => state.transferencia);
-    const { detalleTransferencia, loadingDeTransferencia, errorMessageDeTransferencia } = useAppSelector((state) => state.detalleTransferencia);
+    //const { transferencia, loadingTransferencia, errorMessageTransferencia } = useAppSelector((state) => state.transferencia);
+    const { detalleTransferencia, listDetalleTransferencia } = useAppSelector((state) => state.detalleTransferencia);
 
     const obtenerTransf = async () => {
         dispatch(onStartTransfLoading());
@@ -40,14 +43,13 @@ export const ModalDetalle = () => {
             }
         });
     };
-    const obtenerTransfDetalle = async () => {
-        getDetalleTransferencia("5").then((response) => {
+    const obtenerTransfDetalle = async (id: string) => {
+        getDetalleTransferencia(id).then((response) => {
             if (!response.ok) {
                 //console.log("Responde Error")
             } else {
                 dispatch(onListingDetaTransfer(response.data as DetalleTransferencia));
-                // setActionDeTransfer(response.data as DetalleTransferencia)
-                /*console.log(response.data)*/
+                dispatch(onArregloDetaTransfer(response.data as DetalleTransferencia))
             }
         });
     };
@@ -57,34 +59,37 @@ export const ModalDetalle = () => {
     }, []);
 
     const [openModalDetalle, setOpenModalDetalle] = useState(false);
+    const [openModalAprobacion, setOpenModalAprobacion] = useState(false);
+
+
     const onReturn = () => {
-        console.log(transferencia, loadingTransferencia, errorMessageTransferencia);
-        console.log(detalleTransferencia, loadingDeTransferencia, errorMessageDeTransferencia
-        );
         setOpenModalDetalle(false);
     };
     // const [actionDeTransfer, setActionDeTransfer] = useState<DetalleTransferencia>();
 
     const onApprove = () => {
-
-        const actiones: DetalleTransferencia = {
-            ...detalleTransferencia!, // Spread solo si no es null
-            usuario_aprobador_id: 4,
-            estado: "Aprobado",
-            motivo_rechazo: "2",
-            referencia_sap: "SAP-458",
-        };
-        console.log(actiones);
+        setOpenModalDetalle(false)
+        setOpenModalAprobacion(true);
+    };
+    const sendAprove = () => {
+        const actiones: DetalleTransferencia[] = listDetalleTransferencia?.map((detalle) => {
+            return {
+                ...detalle,
+                usuario_aprobador_id: 4, 
+                estado: "Aprobado", 
+                motivo_rechazo: "", 
+                referencia_sap: "SAP-458", 
+            }
+        })
+        console.log(actiones)
         sendDetalleTransferencia(actiones).then((response) => {
             if (!response.ok) {
-                // Manejo de error
                 console.log(response.message)
             } else {
-                //dispatch(onListingDetaTransfer(response.data as DetalleTransferencia));
                 console.log(response.data)
             }
         });
-    };
+    }
     const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const actiones: DetalleTransferencia = {
             ...detalleTransferencia!, // Spread solo si no es null
@@ -99,7 +104,7 @@ export const ModalDetalle = () => {
                 type="submit"
                 onClick={() => {
                     setOpenModalDetalle(true);
-                    obtenerTransfDetalle();
+                    obtenerTransfDetalle("15");
                 }}
             >
                 Modal
@@ -142,6 +147,9 @@ export const ModalDetalle = () => {
                     </div>
                 </div>
             )}
+            {openModalAprobacion &&
+                <ModalAprobacion setState={setOpenModalAprobacion} onReturn={sendAprove} />
+            }
         </>
     );
 };
