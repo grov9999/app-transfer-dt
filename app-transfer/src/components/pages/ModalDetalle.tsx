@@ -153,6 +153,7 @@ export const ModalDetalle = () => {
       )}
       {openModalAprobacion && (
         <ModalAprobacion
+          detalle={listDetalleTransferencia}
           setState={setOpenModalAprobacion}
           onReturn={sendAprove}
         />
