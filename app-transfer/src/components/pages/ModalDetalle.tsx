@@ -28,7 +28,7 @@ export const ModalDetalle = () => {
       REDUX
        */
   const dispatch = useAppDispatch();
-  //const { transferencia, loadingTransferencia, errorMessageTransferencia } = useAppSelector((state) => state.transferencia);
+  //const { transferencias, loadingTransferencia, errorMessageTransferencia } = useAppSelector((state) => state.transferencias);
   const { detalleTransferencia, listDetalleTransferencia } = useAppSelector(
     (state) => state.detalleTransferencia
   );
