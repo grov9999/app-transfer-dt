@@ -31,7 +31,7 @@ export const detalleTransferenciaSlice = createSlice({
             state.detalleTransferencia = action.payload; // Actualiza el estado con el nuevo detalle
         },
         onArregloDetaTransfer: (state: detalleTransferenciaInitialState, action: PayloadAction<IListDetalleTransferencia>) => {
-            const index = state.listDetalleTransferencia.findIndex((trans) => trans.pt_id === action.payload.pt_id);
+            const index = state.listDetalleTransferencia.findIndex((trans) => trans.resultado_pt_id === action.payload.resultado_pt_id);
             if (index !== -1) {
                 state.listDetalleTransferencia[index] = action.payload;
             } else {
@@ -41,7 +41,7 @@ export const detalleTransferenciaSlice = createSlice({
         },
         onDeleteTranfer: (state: detalleTransferenciaInitialState, action: PayloadAction<number>) => {
             state.listDetalleTransferencia = state.listDetalleTransferencia.filter(
-                (trans) => trans.pt_id !== action.payload // Aquí eliminamos el ítem cuyo pt_id coincida con el proporcionado
+                (trans) => trans.resultado_pt_id !== action.payload // Aquí eliminamos el ítem cuyo pt_id coincida con el proporcionado
             );
         }
         
