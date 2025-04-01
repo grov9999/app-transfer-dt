@@ -16,6 +16,10 @@ import {
   onArregloDetaTransfer,
   onListingDetaTransfer,
 } from "../store/detalleTransferencia/detalleTransferenciaSlice";
+import { string } from "yup";
+import { ModalAprobacion } from "./pages/ModalAprobacion";
+import { sendDetalleTransferencia } from '../lib/fetchTransferencia';
+import { IListDetalleTransferencia } from "../interfaces/IListDetalleTransferencia";
 
 export const TransferManager = () => {
   useEffect(() => {
@@ -28,9 +32,11 @@ export const TransferManager = () => {
   const dispatch = useAppDispatch();
   const { transferencias, loadingTransferencia, errorMessageTransferencia } =
     useAppSelector((state) => state.transferencias);
-
+  const { detalleTransferencia, listDetalleTransferencia } = useAppSelector(
+    (state) => state.detalleTransferencia
+  );
   const { currentItems, currentPage, maxPage, nextPage, prevPage, goToPage } =
-    usePagination<ITransfer>(transferencias, 4);
+    usePagination<IListDetalleTransferencia>(transferencias, 4);
 
   const obtenerTransf = async () => {
     dispatch(onStartTransfLoading());
@@ -39,7 +45,7 @@ export const TransferManager = () => {
       if (!response.ok) {
         console.log("Responde Error");
       } else {
-        dispatch(onListingTransfer(response.data as ITransfer[]));
+        dispatch(onListingTransfer(response.data as IListDetalleTransferencia[]));
         //console.log(response.data)
       }
     });
@@ -58,6 +64,10 @@ export const TransferManager = () => {
         dispatch(onArregloDetaTransfer(response.data as DetalleTransferencia));
       }
     });
+  };
+  const onApprove = () => {
+    setOpenModalDetalle(false);
+    setOpenModalAprobacion(true);
   };
 
   const formatDate = (date: Date) => {
@@ -115,7 +125,7 @@ export const TransferManager = () => {
             <tbody>
               {currentItems &&
                 currentItems.map((item) => (
-                  <tr className="bg-white border-b" key={item.id}>
+                  <tr className="bg-white border-b" key={item.resultado_pt_id}>
                     <td className="w-4 p-4">
                       <div className="flex items-center">
                         <input
@@ -164,8 +174,7 @@ export const TransferManager = () => {
                       <button
                         onClick={() => {
                           setOpenModalDetalle(true);
-                          console.log(openModalDetalle);
-                          //   obtenerTransfDetalle("15");
+                          obtenerTransfDetalle(String(item.resultado_pt_id));
                         }}
                         type="submit"
                         className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
@@ -245,7 +254,17 @@ export const TransferManager = () => {
           </nav>
         </div>
       </div>
-      {openModalDetalle && <ModalDetalle />}
+      {/* {openModalDetalle && <ModalDetalle setState={setOpenModalAprobacion} />} */}
+      {openModalDetalle ? (
+        <ModalDetalle setStates={{setOpenModalDetalle,setOpenModalAprobacion}} />
+      ) : null}
+      {openModalAprobacion ? (
+        <ModalAprobacion
+          setState={setOpenModalDetalle}
+          detalle={listDetalleTransferencia}
+          onReturn={onApprove}
+        />
+      ) : null}
     </>
   );
 };

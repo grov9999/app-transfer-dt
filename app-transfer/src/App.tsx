@@ -11,8 +11,8 @@ function App() {
         <Routes>
           <Route path="/" index element={<Home />} />
           <Route path="/create" element={<CreateTransfer />} />
-          <Route path="/modal" element={<ModalDetalle />} />
-          <Route path="/modal-rechazo" element={<ModalRechazo />} />
+{/*           <Route path="/modal" element={<ModalDetalle />} />
+ */}          <Route path="/modal-rechazo" element={<ModalRechazo />} />
         </Routes>
       </HashRouter>
     </>
