@@ -89,7 +89,7 @@ export const createTransferencia = async (datos: IListDetalleTransferencia) => {
 };
 
 export const sendDetalleTransferencia = async (
-  actionTransferencia: DetalleTransferencia[]
+  actionTransferencia: IListDetalleTransferencia[]
 ) => {
   try {
     const response = await fetch("http://localhost:3000/api/updateStatus", {
@@ -99,11 +99,7 @@ export const sendDetalleTransferencia = async (
       },
       body: JSON.stringify(actionTransferencia),
     });
-    console.log(JSON.stringify(actionTransferencia));
     const data = await response.json();
-
-    //console.log(data);
-    //await sleep(1500);
     return {
       ok: true,
       data,

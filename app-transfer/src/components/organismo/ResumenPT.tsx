@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { ITransfer } from "../../interfaces/ITransferCreate";
 import { useAppDispatch } from "../../store/TransferenciaRedux";
 import FilaResumenPT from "../molecules/FilaResumenPT";
 import FilaResumentTotal from "../molecules/FilaResumentTotal";
@@ -7,6 +6,7 @@ import { sendDetalleTransferencia } from "../../lib/fetchTransferencia";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
+import { onUpdateTransfer } from "../../store/transferencia/transferenciaSlice";
 
 type IPropsResumenPT = {
   texto: string;
@@ -20,17 +20,31 @@ const ResumenPT = ({ texto, transferencias }: IPropsResumenPT) => {
     0
   );
   const dispatch = useAppDispatch();
-  const handleUpdate = async (transferencias: any) => {
-    console.log(transferencias);
+  const handleUpdate = async (
+    e: React.FormEvent<HTMLFormElement>,
+    transferencias: IListDetalleTransferencia[]
+  ) => {
+    e.preventDefault();
+    const updateTransfer = transferencias.map((item) => ({
+      ...item,
+      pt_id: item.resultado_pt_id,
+      motivo_rechazo: motivos,
+      estado: "Rechazado",
+      usuario_aprobador_id: 2,
+      referencia_sap: "",
+    }));
+    console.log(updateTransfer);
 
-    // const response = await sendDetalleTransferencia(data);
-    // if (response.ok && response.data) {
-    //   toast.success("Transferencia actualizada con éxito!");
-    //   // dispatch(onAddTransfer(response.data));
-    //   navigate("/");
-    // } else {
-    //   toast.error("Error al actualizar la transferencia!");
-    // }
+    const response = await sendDetalleTransferencia(updateTransfer);
+    console.log(response);
+
+    if (response.ok) {
+      toast.success("Transferencia actualizada con éxito!");
+      dispatch(onUpdateTransfer(response.data));
+      navigate("/");
+    } else {
+      toast.error("Error al actualizar la transferencia!");
+    }
   };
   return (
     <>
@@ -38,12 +52,18 @@ const ResumenPT = ({ texto, transferencias }: IPropsResumenPT) => {
       <div className="mx-5 rounded-t-sm  border-2 border-gray-300">
         {transferencias.map((transferencia) => {
           return (
-            <FilaResumenPT transferencia={transferencia} key={Math.random()} />
+            <FilaResumenPT
+              transferencia={transferencia}
+              key={transferencia.codigo}
+            />
           );
         })}
         <FilaResumentTotal total={monto_total} />
       </div>
-      <form className=" px-5 p-3">
+      <form
+        className=" px-5 p-3"
+        onSubmit={(e) => handleUpdate(e, transferencias)}
+      >
         <label htmlFor="motivo_rechazo">Motivacion de rechazo(opcional)</label>
         <textarea
           id="motivo_rechazo"
@@ -56,14 +76,14 @@ const ResumenPT = ({ texto, transferencias }: IPropsResumenPT) => {
         ></textarea>
         <div className="flex justify-center gap-x-3 mt-5">
           <button
-            type="submit"
             className="bg-red-500 text-white p-3 rounded-sm  cursor-pointer"
-            onClick={() => handleUpdate(transferencias)}
+            type="submit"
           >
             Confirmar Rechazo
           </button>
           <button
             id="cancelar"
+            type="button"
             onClick={() => navigate("/")}
             className="bg-gray-100 text-black p-3 rounded-sm border border-gray-400 cursor-pointer"
           >
