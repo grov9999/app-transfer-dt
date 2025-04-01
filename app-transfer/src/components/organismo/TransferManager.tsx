@@ -6,6 +6,7 @@ import {
 import {
   onListingTransfer,
   onStartTransfLoading,
+  toggleSelectTransfer,
 } from "../../store/transferencia/transferenciaSlice";
 import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
 import { ModalDetalle } from "../pages/ModalDetalle";
@@ -22,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../utils/formatDate";
 
 export const TransferManager = () => {
+  const { selectedTransfers } = useAppSelector((state) => state.transferencias);
   const navigate = useNavigate();
   useEffect(() => {
     obtenerTransf();
@@ -31,9 +33,8 @@ export const TransferManager = () => {
   const [openModalAprobacion, setOpenModalAprobacion] = useState(false);
 
   const dispatch = useAppDispatch();
-  const { transferencias, loadingTransferencia, errorMessageTransferencia } =
-    useAppSelector((state) => state.transferencias);
-  const { detalleTransferencia, listDetalleTransferencia } = useAppSelector(
+  const { transferencias } = useAppSelector((state) => state.transferencias);
+  const { listDetalleTransferencia } = useAppSelector(
     (state) => state.detalleTransferencia
   );
   const { currentItems, currentPage, maxPage, nextPage, prevPage, goToPage } =
@@ -126,6 +127,11 @@ export const TransferManager = () => {
                             //console.log(isChecked);
                           }}
                           type="checkbox"
+                          checked={selectedTransfers.some(
+                            (transfer) =>
+                              transfer.resultado_pt_id === item.resultado_pt_id
+                          )} // Verificar si está seleccionado
+                          onChange={() => dispatch(toggleSelectTransfer(item))} // Despachar acción con el objeto completo
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
                         />
                         <label
