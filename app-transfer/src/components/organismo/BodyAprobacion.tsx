@@ -1,7 +1,16 @@
 import { Button } from "../atom/Button"
 import { Loading } from '../atom/Loading';
+import { DetalleTransferencia } from '../../interfaces/DetalleTransferencia';
 
-export const BodyAprobacion = () => {
+interface boydAprobacionProps {
+    onRetun?: () => void;
+    setState: React.Dispatch<React.SetStateAction<boolean>>,
+    detalle: DetalleTransferencia[];
+
+
+}
+
+export const BodyAprobacion = ({ onRetun, setState }: boydAprobacionProps) => {
     return (
         <div className="p-2">
             <h1 className="mb-2 px-1.5">Está a punto de Aprobar los siguientes partes de transferencia: </h1>
@@ -53,8 +62,8 @@ export const BodyAprobacion = () => {
                 </p>
             </div>
             <div className="flex justify-center space-x-4 pt-3">
-                <Button name='Confirmar y Enviar' color='blue' />
-                <Button name='Cancelar' color='gray' />
+                <Button name='Confirmar y Enviar' color='blue' onRetun={onRetun} />
+                <Button name='Cancelar' color='gray' onRetun={() => { setState(false) }} />
             </div>
             <Loading />
         </div>

@@ -1,4 +1,5 @@
 import { DetalleTransferencia } from "../interfaces/DetalleTransferencia";
+import { IAlmacen } from "../interfaces/IAlmacen";
 import { ITransfer } from "../interfaces/ITransferCreate";
 import { Transferencia } from "../interfaces/Transferencia";
 
@@ -24,7 +25,9 @@ export const getTransferencia = async () => {
 export const getDetalleTransferencia = async (id: string) => {
   try {
     const response = await fetch("http://localhost:3000/api/transfer/" + id);
-    const data: DetalleTransferencia = await response.json();
+    const datas = await response.json();
+    const data: DetalleTransferencia = datas.data;
+
     //console.log(data);
     //await sleep(1500);
     return {
@@ -43,7 +46,7 @@ export const getAlmacenes = async () => {
   try {
     const response = await fetch("http://localhost:3000/api/almacenes");
     const datas = await response.json();
-    const data = datas.data;
+    const data: IAlmacen[] = datas.data;
     return {
       ok: true,
       data,
@@ -73,7 +76,6 @@ export const createTransferencia = async (datos: ITransfer) => {
       }),
     });
     const data: ITransfer = await response.json();
-    console.log(data);
     return {
       ok: true,
       data,
@@ -85,3 +87,32 @@ export const createTransferencia = async (datos: ITransfer) => {
     };
   }
 };
+
+
+export const sendDetalleTransferencia = async (actionTransferencia: DetalleTransferencia[]) => {
+  try {
+    const response = await fetch("http://localhost:3000/api/updateStatus",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(actionTransferencia)
+      }
+    );
+    console.log(JSON.stringify(actionTransferencia));
+    const data = await response.json();
+
+    //console.log(data);
+    //await sleep(1500);
+    return {
+      ok: true,
+      data,
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      message: (error as Error).message,
+    };
+  }
+}
