@@ -1,3 +1,4 @@
+import { UseFormRegisterReturn } from "react-hook-form";
 import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia";
 
 interface TextAreaProps {
@@ -5,6 +6,7 @@ interface TextAreaProps {
   tipo: string;
   detalleTransfer?: DetalleTransferencia | null;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  register?: UseFormRegisterReturn;
 }
 
 export const TextArea = ({
@@ -12,6 +14,7 @@ export const TextArea = ({
   tipo,
   detalleTransfer,
   onChange,
+  register,
 }: TextAreaProps) => {
   /* const handleOnchange = (e: React.ChangeEvent<HTMLTextAreaElement>) => { 
         console.log(e)
@@ -31,6 +34,7 @@ export const TextArea = ({
       disabled={isDisable}
       value={detalleTransfer?.log_detalle}
       onChange={onChange}
+      {...register}
     ></textarea>
   );
 };

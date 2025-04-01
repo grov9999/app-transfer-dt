@@ -1,3 +1,4 @@
+import { UseFormRegisterReturn } from "react-hook-form";
 import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia";
 import { TextArea } from "../atom/TextArea";
 
@@ -8,6 +9,7 @@ interface CardTextArea {
   detalleTransfer?: DetalleTransferencia | null;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   padding?: boolean;
+  register?: UseFormRegisterReturn;
 }
 
 export const CardTexArea = ({
@@ -17,6 +19,7 @@ export const CardTexArea = ({
   detalleTransfer,
   onChange,
   padding = true,
+  register,
 }: CardTextArea) => {
   return (
     <>
@@ -34,6 +37,7 @@ export const CardTexArea = ({
           tipo={tipo}
           detalleTransfer={detalleTransfer}
           onChange={onChange}
+          register={register}
         />
       </div>
     </>

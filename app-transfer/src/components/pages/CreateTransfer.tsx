@@ -10,28 +10,14 @@ import { getUsuario } from "../../store/usuario/usuarioSlice";
 import toast from "react-hot-toast";
 import { useTransferForm } from "../../hooks/useTransferForm";
 import FormField from "../molecules/FormField";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
+
 import { CardTexArea } from "../molecules/CardTexArea";
 import FormSelect from "../molecules/FormSelect";
+import { useNavigate } from "react-router-dom";
 
-// const schema = yup
-//   .object({
-//     almacen_origen_id: yup
-//       .string()
-//       .required("El almacén de origen es requerido"),
-//     almacen_destino_id: yup
-//       .string()
-//       .required("El almacén de destino es requerido"),
-//     centro_costo: yup.string().required("El centro de costo es requerido"),
-//     observaciones: yup.string(),
-//     monto_total: yup.string().required("El monto total es requerido"),
-//   })
-//   .required();
 const CreateTransfer = () => {
   const dispatch = useDispatch<AppDispatch>();
-
+  const navigate = useNavigate();
   const { almacenes } = useSelector((state: RootState) => state.almacenes);
   const { usuario } = useSelector((state: RootState) => state.usuario);
 
@@ -65,7 +51,9 @@ const CreateTransfer = () => {
       toast.error("Error al enviar la transferencia!");
     }
   };
-
+  const handleHome = () => {
+    navigate("/");
+  };
   return (
     <div className="mx-auto container my-10">
       <div className="flex justify-between mb-3">
@@ -73,7 +61,10 @@ const CreateTransfer = () => {
           <h1 className="font-bold ">Registro parte Transferencia</h1>
         </div>
         <div>
-          <button className="bg-gray-100 text-xs text-black p-1 rounded-sm border border-gray-400">
+          <button
+            onClick={handleHome}
+            className="bg-gray-100 text-xs text-black p-1 rounded-sm border border-gray-400 cursor-pointer"
+          >
             ← Volver al listado
           </button>
         </div>
@@ -196,16 +187,13 @@ const CreateTransfer = () => {
                 />
               </div>
             </div>
-            <div>
-              <h3 className="my-2">Observaciones</h3>
-              <textarea
-                id="observaciones"
-                rows={4}
-                className="block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
-                placeholder=""
-                {...register("observaciones")}
-              ></textarea>
-            </div>
+            <CardTexArea
+              isDisable={false}
+              label="Observaciones"
+              tipo="observaciones"
+              padding={false}
+              register={register("observaciones")}
+            />
             <CardTexArea
               isDisable={true}
               label="Log de Integración"
@@ -219,23 +207,24 @@ const CreateTransfer = () => {
                   type="submit"
                   id="guardar"
                   value={"Guardar"}
-                  className="bg-[#0B5DB4] text-white p-3 rounded-sm"
+                  className="bg-[#0B5DB4] text-white p-3 rounded-sm cursor-pointer"
                 />
               </div>
               <div>
                 <button
                   id="cancelar"
-                  className="bg-red-500 text-white p-3 rounded-sm"
+                  className="bg-red-500 text-white p-3 rounded-sm cursor-pointer"
+                  onClick={handleHome}
                 >
                   Cancelar
                 </button>
               </div>
-              <button
+              {/* <button
                 id="previa"
                 className="bg-gray-100 text-black p-3 rounded-sm border border-gray-400"
               >
                 Vista Previa
-              </button>
+              </button> */}
             </div>
           </form>
         </div>
