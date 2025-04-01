@@ -114,7 +114,7 @@ export const TransferManager = () => {
                     <td className="w-4 p-4">
                       <div className="flex items-center">
                         <input
-                          id={`checkbox-table-search-${item.pt_id}`}
+                          id={`checkbox-table-search-${item.resultado_pt_id}`}
                           onChange={(e) => {
                             const isChecked = e.target.checked;
                             isChecked
@@ -123,7 +123,7 @@ export const TransferManager = () => {
                                     item as IListDetalleTransferencia
                                   )
                                 )
-                              : dispatch(onDeleteTranfer(item.pt_id));
+                              : dispatch(onDeleteTranfer(item.resultado_pt_id));
                             //console.log(isChecked);
                           }}
                           type="checkbox"
