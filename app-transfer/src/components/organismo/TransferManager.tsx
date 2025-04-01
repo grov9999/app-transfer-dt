@@ -15,6 +15,7 @@ import { ModalAprobacion } from "../pages/ModalAprobacion";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../utils/formatDate";
+import { onListingDetaTransfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 
 export const TransferManager = () => {
   const { selectedTransfers } = useAppSelector((state) => state.transferencias);
@@ -49,16 +50,16 @@ export const TransferManager = () => {
     });
   };
 
-  const obtenerTransfDetalle = async (id: string) => {
-    getDetalleTransferencia(id).then((response) => {
-      if (!response.ok) {
-        //console.log("Responde Error")
-      } else {
-        // dispatch(onListingDetaTransfer(response.data as DetalleTransferencia));
-        // dispatch(onArregloDetaTransfer(response.data as DetalleTransferencia));
-      }
-    });
-  };
+  // const obtenerTransfDetalle = async (id: string) => {
+  //   getDetalleTransferencia(id).then((response) => {
+  //     if (!response.ok) {
+  //       console.log("Responde Error");
+  //     } else {
+  //       dispatch(onListingDetaTransfer(response.data as DetalleTransferencia));
+  //       dispatch(onArregloDetaTransfer(response.data as DetalleTransferencia));
+  //     }
+  //   });
+  // };
   const onApprove = () => {
     setOpenModalDetalle(false);
     setOpenModalAprobacion(true);
@@ -166,7 +167,11 @@ export const TransferManager = () => {
                       <button
                         onClick={() => {
                           setOpenModalDetalle(true);
-                          obtenerTransfDetalle(String(item.resultado_pt_id));
+                          dispatch(
+                            onListingDetaTransfer(
+                              item as IListDetalleTransferencia
+                            )
+                          );
                         }}
                         type="submit"
                         className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
@@ -189,6 +194,7 @@ export const TransferManager = () => {
           <div className="flex-wrap justify-center">
             {/* <div className="grid gap-6 mb-6 md:grid-cols-2"> */}
             <button
+              onClick={onApprove}
               type="button"
               className="px-5 py-2.5 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
             >
@@ -255,7 +261,7 @@ export const TransferManager = () => {
       ) : null}
       {openModalAprobacion ? (
         <ModalAprobacion
-          setState={setOpenModalDetalle}
+          setState={setOpenModalAprobacion}
           detalle={listDetalleTransferencia}
           onReturn={onApprove}
         />
