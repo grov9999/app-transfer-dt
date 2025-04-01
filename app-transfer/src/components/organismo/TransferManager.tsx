@@ -15,7 +15,12 @@ import { ModalAprobacion } from "../pages/ModalAprobacion";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../utils/formatDate";
+<<<<<<< HEAD
 import { onListingDetaTransfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
+import ModalRechazo from "../pages/ModalRechazo";
+=======
+import ModalRechazo from "../pages/ModalRechazo";
+>>>>>>> feature/renzo
 
 export const TransferManager = () => {
   const { selectedTransfers } = useAppSelector((state) => state.transferencias);
@@ -26,6 +31,7 @@ export const TransferManager = () => {
 
   const [openModalDetalle, setOpenModalDetalle] = useState(false);
   const [openModalAprobacion, setOpenModalAprobacion] = useState(false);
+  const [openModalRechazar, setOpenModalRechazar] = useState(false);
 
   const dispatch = useAppDispatch();
   const { transferencias } = useAppSelector((state) => state.transferencias);
@@ -202,7 +208,7 @@ export const TransferManager = () => {
             </button>
             <button
               type="button"
-              onClick={() => navigate("/modal-rechazo")}
+              onClick={() => setOpenModalRechazar(true)}
               className="px-5 py-2.5 text-sm font-medium text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
             >
               Rechazar
@@ -266,6 +272,8 @@ export const TransferManager = () => {
           onReturn={onApprove}
         />
       ) : null}
+
+      {openModalRechazar ? <ModalRechazo setState={setOpenModalRechazar} /> : null}
     </>
   );
 };
