@@ -35,8 +35,22 @@ export const transferenciaSlice = createSlice({
       state.loadingTransferencia = false;
       state.errorMessageTransferencia = null;
     },
+    onUpdateTransfer: (
+      state: transferenciaInitialState,
+      action: PayloadAction<ITransfer>
+    ) => {
+      state.transferencias = state.transferencias.map((transfer) =>
+        transfer.id === action.payload.id ? action.payload : transfer
+      );
+      state.loadingTransferencia = false;
+      state.errorMessageTransferencia = null;
+    },
   },
 });
 
-export const { onStartTransfLoading, onListingTransfer, onAddTransfer } =
-  transferenciaSlice.actions;
+export const {
+  onStartTransfLoading,
+  onListingTransfer,
+  onAddTransfer,
+  onUpdateTransfer,
+} = transferenciaSlice.actions;
