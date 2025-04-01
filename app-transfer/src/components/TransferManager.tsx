@@ -18,7 +18,7 @@ import {
 } from "../store/detalleTransferencia/detalleTransferenciaSlice";
 import { string } from "yup";
 import { ModalAprobacion } from "./pages/ModalAprobacion";
-import { sendDetalleTransferencia } from '../lib/fetchTransferencia';
+import { sendDetalleTransferencia } from "../lib/fetchTransferencia";
 import { IListDetalleTransferencia } from "../interfaces/IListDetalleTransferencia";
 
 export const TransferManager = () => {
@@ -45,7 +45,9 @@ export const TransferManager = () => {
       if (!response.ok) {
         console.log("Responde Error");
       } else {
-        dispatch(onListingTransfer(response.data as IListDetalleTransferencia[]));
+        dispatch(
+          onListingTransfer(response.data as IListDetalleTransferencia[])
+        );
         //console.log(response.data)
       }
     });
@@ -256,7 +258,9 @@ export const TransferManager = () => {
       </div>
       {/* {openModalDetalle && <ModalDetalle setState={setOpenModalAprobacion} />} */}
       {openModalDetalle ? (
-        <ModalDetalle setStates={{setOpenModalDetalle,setOpenModalAprobacion}} />
+        <ModalDetalle
+          setStates={{ setOpenModalDetalle, setOpenModalAprobacion }}
+        />
       ) : null}
       {openModalAprobacion ? (
         <ModalAprobacion
