@@ -7,7 +7,7 @@ export const getTransferencia = async () => {
   try {
     const response = await fetch("http://localhost:3000/api/transfers");
     const datas = await response.json();
-    const data: Transferencia[] = datas.data;
+    const data: ITransfer[] = datas.data;
     //console.log(data);
     //await sleep(1500);
     return {
@@ -88,18 +88,17 @@ export const createTransferencia = async (datos: ITransfer) => {
   }
 };
 
-
-export const sendDetalleTransferencia = async (actionTransferencia: DetalleTransferencia[]) => {
+export const sendDetalleTransferencia = async (
+  actionTransferencia: DetalleTransferencia[]
+) => {
   try {
-    const response = await fetch("http://localhost:3000/api/updateStatus",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(actionTransferencia)
-      }
-    );
+    const response = await fetch("http://localhost:3000/api/updateStatus", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(actionTransferencia),
+    });
     console.log(JSON.stringify(actionTransferencia));
     const data = await response.json();
 
@@ -115,4 +114,4 @@ export const sendDetalleTransferencia = async (actionTransferencia: DetalleTrans
       message: (error as Error).message,
     };
   }
-}
+};

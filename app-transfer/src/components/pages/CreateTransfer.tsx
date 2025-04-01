@@ -14,6 +14,7 @@ import FormField from "../molecules/FormField";
 import { CardTexArea } from "../molecules/CardTexArea";
 import FormSelect from "../molecules/FormSelect";
 import { useNavigate } from "react-router-dom";
+import { onAddTransfer } from "../../store/transferencia/transferenciaSlice";
 
 const CreateTransfer = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -40,12 +41,11 @@ const CreateTransfer = () => {
   } = useTransferForm();
 
   const onSubmit = async (data: any) => {
-    console.log(data);
-
     data.usuario_creador_id = usuario.id;
     const response = await createTransferencia(data);
-    if (response.ok) {
+    if (response.ok && response.data) {
       toast.success("Transferencia creada con éxito!");
+      dispatch(onAddTransfer(response.data));
       reset();
     } else {
       toast.error("Error al enviar la transferencia!");

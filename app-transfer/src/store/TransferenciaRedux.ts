@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { transferenciaSlice } from "./transferencia/TransferenciaSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { detalleTransferenciaSlice } from "./detalleTransferencia/detalleTransferenciaSlice";
 import { almacenSlice } from "./almacenes/almacenSlice";
 import { usuarioSlice } from "./usuario/usuarioSlice";
+import { transferenciaSlice } from "./transferencia/transferenciaSlice";
 
 export const transferStore = configureStore({
   reducer: {
-    transferencia: transferenciaSlice.reducer,
+    transferencias: transferenciaSlice.reducer,
     detalleTransferencia: detalleTransferenciaSlice.reducer,
     almacenes: almacenSlice.reducer,
     usuario: usuarioSlice.reducer,
