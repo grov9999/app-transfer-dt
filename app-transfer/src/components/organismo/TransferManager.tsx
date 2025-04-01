@@ -11,11 +11,6 @@ import {
 import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
 import { ModalDetalle } from "../pages/ModalDetalle";
 import { usePagination } from "../../hooks/usePagination";
-import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia";
-import {
-  onArregloDetaTransfer,
-  onListingDetaTransfer,
-} from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 import { ModalAprobacion } from "../pages/ModalAprobacion";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { useNavigate } from "react-router-dom";
@@ -59,8 +54,8 @@ export const TransferManager = () => {
       if (!response.ok) {
         //console.log("Responde Error")
       } else {
-        dispatch(onListingDetaTransfer(response.data as DetalleTransferencia));
-        dispatch(onArregloDetaTransfer(response.data as DetalleTransferencia));
+        // dispatch(onListingDetaTransfer(response.data as DetalleTransferencia));
+        // dispatch(onArregloDetaTransfer(response.data as DetalleTransferencia));
       }
     });
   };
