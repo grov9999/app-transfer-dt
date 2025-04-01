@@ -16,11 +16,6 @@ import {
   onArregloDetaTransfer,
   onListingDetaTransfer,
 } from "../store/detalleTransferencia/detalleTransferenciaSlice";
-import { useNavigate } from "react-router-dom";
-import {
-  onArregloDetaTransfer,
-  onListingDetaTransfer,
-} from "../store/detalleTransferencia/detalleTransferenciaSlice";
 import { string } from "yup";
 import { ModalAprobacion } from "./pages/ModalAprobacion";
 import { sendDetalleTransferencia } from "../lib/fetchTransferencia";
@@ -30,7 +25,7 @@ export const TransferManager = () => {
   useEffect(() => {
     obtenerTransf();
   }, []);
-  const navigate = useNavigate();
+
   const [openModalDetalle, setOpenModalDetalle] = useState(false);
   const [openModalAprobacion, setOpenModalAprobacion] = useState(false);
 
@@ -188,7 +183,6 @@ export const TransferManager = () => {
             </button>
             <button
               type="button"
-              onClick={() => navigate("/modal-rechazo")}
               className="px-5 py-2.5 text-sm font-medium text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
             >
               Rechazar
