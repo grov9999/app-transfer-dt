@@ -33,7 +33,7 @@ const ResumenPT = ({ texto, transferencias }: IPropsResumenPT) => {
   };
   return (
     <>
-      <h1 className="mb-2 px-5 pt-3">{texto}</h1>
+      <h1 className="mb-2 px-5 pt-3 TEXT-SM">{texto}</h1>
       <div className="mx-5 rounded-t-sm  border-2 border-gray-300">
         {transferencias.map((transferencia) => {
           return (
