@@ -27,7 +27,7 @@ export const TransferManager = () => {
   }, []);
 
   const [openModalDetalle, setOpenModalDetalle] = useState(false);
-  // const [openModalAprobacion, setOpenModalAprobacion] = useState(false);
+  const [openModalAprobacion, setOpenModalAprobacion] = useState(false);
 
   const dispatch = useAppDispatch();
   const { transferencias, loadingTransferencia, errorMessageTransferencia } =
