@@ -12,7 +12,10 @@ import { useAppDispatch, useAppSelector } from "../store/TransferenciaRedux";
 import { ModalDetalle } from "./pages/ModalDetalle";
 import { usePagination } from "../hooks/usePagination";
 import { DetalleTransferencia } from "../interfaces/DetalleTransferencia";
-import { onArregloDetaTransfer, onListingDetaTransfer } from "../store/detalleTransferencia/detalleTransferenciaSlice";
+import {
+  onArregloDetaTransfer,
+  onListingDetaTransfer,
+} from "../store/detalleTransferencia/detalleTransferenciaSlice";
 
 export const TransferManager = () => {
   useEffect(() => {
@@ -20,7 +23,7 @@ export const TransferManager = () => {
   }, []);
 
   const [openModalDetalle, setOpenModalDetalle] = useState(false);
-  const [openModalAprobacion, setOpenModalAprobacion] = useState(false);
+  // const [openModalAprobacion, setOpenModalAprobacion] = useState(false);
 
   const dispatch = useAppDispatch();
   const { transferencias, loadingTransferencia, errorMessageTransferencia } =
@@ -42,9 +45,9 @@ export const TransferManager = () => {
     });
   };
 
-  const { detalleTransferencia, listDetalleTransferencia } = useAppSelector(
-    (state) => state.detalleTransferencia
-  );
+  // const { detalleTransferencia, listDetalleTransferencia } = useAppSelector(
+  //   (state) => state.detalleTransferencia
+  // );
 
   const obtenerTransfDetalle = async (id: string) => {
     getDetalleTransferencia(id).then((response) => {
@@ -66,11 +69,12 @@ export const TransferManager = () => {
 
   return (
     <>
-      <div className="mx-auto bg-white p-6 rounded-lg shadow-md">
+      <div className="mx-auto bg-gray-100 p-6 rounded-lg shadow-md">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-200">
               <tr>
+                {/* Encabezado de la tabla */}
                 <th scope="col" className="p-4">
                   <div className="flex items-center">
                     <input
@@ -106,6 +110,8 @@ export const TransferManager = () => {
                 </th>
               </tr>
             </thead>
+
+            {/* ## Cuerpo de la tabla */}
             <tbody>
               {currentItems &&
                 currentItems.map((item) => (
@@ -125,12 +131,12 @@ export const TransferManager = () => {
                         </label>
                       </div>
                     </td>
-                    <th
+                    <td
                       scope="row"
                       className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
                     >
                       {item.codigo}
-                    </th>
+                    </td>
                     <td className="px-6 py-4">
                       {formatDate(new Date(item.fecha_generacion))}
                     </td>
@@ -147,12 +153,12 @@ export const TransferManager = () => {
                         onClick={() => {
                           setOpenModalDetalle(true);
                           console.log(openModalDetalle);
-                        //   obtenerTransfDetalle("15");
+                          //   obtenerTransfDetalle("15");
                         }}
                         type="submit"
                         className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                       >
-                        VERI
+                        VE
                       </button>
                       <button
                         type="submit"
@@ -165,6 +171,8 @@ export const TransferManager = () => {
                 ))}
             </tbody>
           </table>
+
+          {/* BOTON ACEPTAR Y RECHAZAR */}
           <div className="flex-wrap justify-center">
             <button
               type="button"
@@ -179,13 +187,14 @@ export const TransferManager = () => {
               Rechazar
             </button>
           </div>
+
+          {/* ## PAGINACIÓN */}
           <nav
             className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4"
             aria-label="Table navigation"
           >
             <span className="text-sm font-normal text-gray-50 mb-4 md:mb-0 block w-full md:inline md:w-auto">
-              Showing <span className="font-semibold text-gray-900">1-4</span>{" "}
-              of <span className="font-semibold text-gray-900"></span>
+              Showing <span className="font-semibold text-gray-50">1-4</span>{" "}
             </span>
             <ul className="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
               <li>
@@ -225,6 +234,5 @@ export const TransferManager = () => {
       </div>
       {openModalDetalle && <ModalDetalle />}
     </>
-    
   );
 };
