@@ -103,7 +103,7 @@ export const ModalDetalle = () => {
 
   return (
     <>
-      <button
+      {/* <button
         type="submit"
         onClick={() => {
           setOpenModalDetalle(true);
@@ -111,7 +111,7 @@ export const ModalDetalle = () => {
         }}
       >
         Modal
-      </button>
+      </button> */}
       {/*  {openModalDetalle &&
                     <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[0.7px]">
                         <div className="w-[50%] h-3/4 px-7 max-w-full">
@@ -128,7 +128,7 @@ export const ModalDetalle = () => {
                         </div>
                     </div>
                 } */}
-      {openModalDetalle && (
+      (
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[0.7px]">
           <div className="w-full max-w-2xl h-[85vh] max-h-[90vh] px-7">
             <HeaderDetalle
@@ -149,7 +149,7 @@ export const ModalDetalle = () => {
             </div>
           </div>
         </div>
-      )}
+      )
       {openModalAprobacion && (
         <ModalAprobacion
           detalle={listDetalleTransferencia}
