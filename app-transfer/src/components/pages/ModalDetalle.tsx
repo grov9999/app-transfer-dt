@@ -129,6 +129,7 @@ export const ModalDetalle = () => {
                         </div>
                     </div>
                 } */}
+<<<<<<< HEAD
       {openModalDetalle && (
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[0.7px]">
           <div className="w-full max-w-2xl h-[85vh] max-h-[90vh] px-7">
@@ -160,4 +161,33 @@ export const ModalDetalle = () => {
       )}
     </>
   );
+=======
+            {openModalDetalle && (
+                <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[0.7px]">
+                    <div className="w-full max-w-2xl h-[85vh] max-h-[90vh] px-7">
+                        <HeaderDetalle
+                            onReturn={onReturn}
+                            detalleTransfer={detalleTransferencia}
+                        />
+                        <div className="bg-gray-200 shadow-lg pb-5">
+                            <HeaderBodyDetalle />
+                            <BodyDetalle
+                                detalleTransfer={detalleTransferencia}
+                                onChange={onChange}
+                            />
+                        </div>
+                        <div className="flex justify-center space-x-4 relative -top-3">
+                            <Button name="Aprobar" color="blue" onRetun={onApprove} />
+                            <Button name="Rechazar" color="red" />
+                            <Button name="Exportar PDF" color="gray" />
+                        </div>
+                    </div>
+                </div>
+            )}
+            {openModalAprobacion &&
+                <ModalAprobacion setState={setOpenModalAprobacion} onReturn={sendAprove} detalle={listDetalleTransferencia}/>
+            }
+        </>
+    );
+>>>>>>> 2cea5c8f871c7fdd6319ea090d8213a0fcc5135e
 };
