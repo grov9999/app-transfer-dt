@@ -6,7 +6,8 @@ import { HeaderDetalle } from "../organismo/HeaderDetalle";
 import {
   getDetalleTransferencia,
   getTransferencia,
-} from "../../lib/fetchTransferencia";
+  sendDetalleTransferencia,
+} from "../../lib/getTransferencia";
 import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
 import {
   onListingTransfer,
@@ -14,7 +15,10 @@ import {
 } from "../../store/transferencia/TransferenciaSlice";
 import { Transferencia } from "../../interfaces/Transferencia";
 import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia";
-import { onListingDetaTransfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
+import {
+  onListingDetaTransfer,
+  onUpdateDetalleTransfer,
+} from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 
 export const ModalDetalle = () => {
   /*
@@ -42,11 +46,12 @@ export const ModalDetalle = () => {
     });
   };
   const obtenerTransfDetalle = async () => {
-    getDetalleTransferencia("1").then((response) => {
+    getDetalleTransferencia("5").then((response) => {
       if (!response.ok) {
         //console.log("Responde Error")
       } else {
         dispatch(onListingDetaTransfer(response.data as DetalleTransferencia));
+        // setActionDeTransfer(response.data as DetalleTransferencia)
         /*console.log(response.data)*/
       }
     });
@@ -64,8 +69,34 @@ export const ModalDetalle = () => {
       loadingDeTransferencia,
       errorMessageDeTransferencia
     );
-
     setOpenModalDetalle(false);
+  };
+  // const [actionDeTransfer, setActionDeTransfer] = useState<DetalleTransferencia>();
+
+  const onApprove = () => {
+    const actiones: DetalleTransferencia = {
+      ...detalleTransferencia!, // Spread solo si no es null
+      usuario_aprobador: 3,
+      estado: "Aprobado",
+      motivo_rechazo: "2",
+      referencia_sap: "SAP-458",
+    };
+    console.log(actiones);
+    /* sendDetalleTransferencia(actiones).then((response) => {
+             if (!response.ok) {
+                 // Manejo de error
+             } else {
+                 //dispatch(onListingDetaTransfer(response.data as DetalleTransferencia));
+                 console.log(response.data)
+             }
+         });*/
+  };
+  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const actiones: DetalleTransferencia = {
+      ...detalleTransferencia!, // Spread solo si no es null
+      observaciones: e.target.value,
+    };
+    dispatch(onUpdateDetalleTransfer(actiones));
   };
 
   return (
@@ -76,11 +107,6 @@ export const ModalDetalle = () => {
         onClick={() => {
           setOpenModalDetalle(true);
           obtenerTransfDetalle();
-          console.log(
-            detalleTransferencia,
-            loadingDeTransferencia,
-            errorMessageDeTransferencia
-          );
         }}
       >
         Modal
@@ -110,10 +136,13 @@ export const ModalDetalle = () => {
             />
             <div className="bg-gray-200 shadow-lg pb-5">
               <HeaderBodyDetalle />
-              <BodyDetalle detalleTransfer={detalleTransferencia} />
+              <BodyDetalle
+                detalleTransfer={detalleTransferencia}
+                onChange={onChange}
+              />
             </div>
             <div className="flex justify-center space-x-4 relative -top-3">
-              <Button name="Aprobar" color="blue" />
+              <Button name="Aprobar" color="blue" onRetun={onApprove} />
               <Button name="Rechazar" color="red" />
               <Button name="Exportar PDF" color="gray" />
             </div>

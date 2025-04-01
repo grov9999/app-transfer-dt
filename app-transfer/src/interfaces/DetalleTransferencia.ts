@@ -8,11 +8,11 @@ export interface DetalleTransferencia {
     moneda:            string;
     estado:            string;
     usuario_creador:   string;
-    usuario_aprobador: null;
-    fecha_aprobacion:  null;
-    motivo_rechazo:    null;
-    referencia_sap:    null;
-    observaciones:     null;
+    usuario_aprobador: number|null;
+    fecha_aprobacion:  Date |null;
+    motivo_rechazo:    string|null;
+    referencia_sap:    string|null;
+    observaciones:     string|null;
     log_accion:        string;
     log_usuario:       string;
     log_fecha:         Date;

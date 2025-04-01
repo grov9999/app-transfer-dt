@@ -2,11 +2,12 @@ import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia"
 import { CardTexArea } from "../molecules/CardTexArea"
 
 interface bodyDetalleProps {
-  detalleTransfer: DetalleTransferencia | null
+  detalleTransfer: DetalleTransferencia | null,
+  onChange?:  (e:React.ChangeEvent<HTMLTextAreaElement>)=>void
 
 }
 
-export const BodyDetalle = ({ detalleTransfer }: bodyDetalleProps) => {
+export const BodyDetalle = ({ detalleTransfer,onChange }: bodyDetalleProps) => {
 
   const dateCreate = detalleTransfer?.fecha_generacion && new Date(detalleTransfer?.fecha_generacion).toISOString().split('T')[0].split('-').reverse().join('/');
   const dateAproba = detalleTransfer?.fecha_aprobacion && new Date(detalleTransfer?.fecha_aprobacion).toISOString().split('T')[0].split('-').reverse().join('/');
@@ -70,7 +71,7 @@ export const BodyDetalle = ({ detalleTransfer }: bodyDetalleProps) => {
         </div>
       </div>
 
-      <CardTexArea label="Observaciones" tipo="obs" />
+      <CardTexArea label="Observaciones" tipo="obs"  onChange={onChange} />
       <CardTexArea label="Log de Integración:" isDisable={true} tipo="logs" detalleTransfer={detalleTransfer}  />
 
     </>
