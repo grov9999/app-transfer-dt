@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia";
+//import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 
 export interface detalleTransferenciaInitialState {
@@ -31,14 +31,20 @@ export const detalleTransferenciaSlice = createSlice({
             state.detalleTransferencia = action.payload; // Actualiza el estado con el nuevo detalle
         },
         onArregloDetaTransfer: (state: detalleTransferenciaInitialState, action: PayloadAction<IListDetalleTransferencia>) => {
-            const index = state.listDetalleTransferencia.findIndex((trans) => trans.resultado_pt_id === action.payload.resultado_pt_id);
+            const index = state.listDetalleTransferencia.findIndex((trans) => trans.pt_id === action.payload.pt_id);
             if (index !== -1) {
                 state.listDetalleTransferencia[index] = action.payload;
             } else {
                 state.listDetalleTransferencia.push(action.payload);
             }
 
+        },
+        onDeleteTranfer: (state: detalleTransferenciaInitialState, action: PayloadAction<number>) => {
+            state.listDetalleTransferencia = state.listDetalleTransferencia.filter(
+                (trans) => trans.pt_id !== action.payload // Aquí eliminamos el ítem cuyo pt_id coincida con el proporcionado
+            );
         }
+        
     }
 })
 
@@ -46,5 +52,6 @@ export const {
     onStartDetaTransfLoading,
     onListingDetaTransfer,
     onUpdateDetalleTransfer,
-    onArregloDetaTransfer
+    onArregloDetaTransfer,
+    onDeleteTranfer
 } = detalleTransferenciaSlice.actions

@@ -64,7 +64,7 @@ export const ModalDetalle = ({ setStates }: modalDetalleProps) => {
     setOpenModalDetalle && setOpenModalDetalle(false); // Cierra el modal
     setOpenModalAprobacion && setOpenModalAprobacion(true);
   };
-  /* const sendAprove = () => {
+  /*const sendAprove = () => {
     const actiones: DetalleTransferencia[] = listDetalleTransferencia?.map(
       (detalle) => {
         return {
