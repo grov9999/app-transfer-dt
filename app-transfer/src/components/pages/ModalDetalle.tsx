@@ -22,13 +22,19 @@ import {
 } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 import { ModalAprobacion } from "./ModalAprobacion";
 import { ITransfer } from "../../interfaces/ITransferCreate";
+import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 
-export const ModalDetalle = () => {
-  /*
-      REDUX
-       */
+interface modalDetalleProps {
+  setStates: {
+    setOpenModalDetalle?: React.Dispatch<React.SetStateAction<boolean>>;
+    setOpenModalAprobacion?: React.Dispatch<React.SetStateAction<boolean>>;
+  };
+}
+export const ModalDetalle = ({ setStates }: modalDetalleProps) => {
+  const { setOpenModalDetalle, setOpenModalAprobacion } = setStates;
+
   const dispatch = useAppDispatch();
-  //const { transferencia, loadingTransferencia, errorMessageTransferencia } = useAppSelector((state) => state.transferencia);
+  //const { transferencias, loadingTransferencia, errorMessageTransferencia } = useAppSelector((state) => state.transferencias);
   const { detalleTransferencia, listDetalleTransferencia } = useAppSelector(
     (state) => state.detalleTransferencia
   );
@@ -40,37 +46,21 @@ export const ModalDetalle = () => {
       if (!response.ok) {
         console.log("Responde Error");
       } else {
-        dispatch(onListingTransfer(response.data as ITransfer[]));
+        dispatch(onListingTransfer(response.data as IListDetalleTransferencia[]));
         //console.log(response.data)
       }
     });
   };
-  const obtenerTransfDetalle = async (id: string) => {
-    getDetalleTransferencia(id).then((response) => {
-      if (!response.ok) {
-        //console.log("Responde Error")
-      } else {
-        dispatch(onListingDetaTransfer(response.data as DetalleTransferencia));
-        dispatch(onArregloDetaTransfer(response.data as DetalleTransferencia));
-      }
-    });
-  };
-
   useEffect(() => {
     obtenerTransf();
   }, []);
 
-  const [openModalDetalle, setOpenModalDetalle] = useState(false);
-  const [openModalAprobacion, setOpenModalAprobacion] = useState(false);
-
   const onReturn = () => {
-    setOpenModalDetalle(false);
+    setOpenModalDetalle && setOpenModalDetalle(false); // Cierra el modal
   };
-  // const [actionDeTransfer, setActionDeTransfer] = useState<DetalleTransferencia>();
-
   const onApprove = () => {
-    setOpenModalDetalle(false);
-    setOpenModalAprobacion(true);
+    setOpenModalDetalle && setOpenModalDetalle(false); // Cierra el modal
+    setOpenModalAprobacion && setOpenModalAprobacion(true);
   };
   const sendAprove = () => {
     const actiones: DetalleTransferencia[] = listDetalleTransferencia?.map(
@@ -103,60 +93,34 @@ export const ModalDetalle = () => {
 
   return (
     <>
-      {/* <button
-        type="submit"
-        onClick={() => {
-          setOpenModalDetalle(true);
-          obtenerTransfDetalle("15");
-        }}
-      >
-        Modal
-      </button> */}
-      {/*  {openModalDetalle &&
-                    <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[0.7px]">
-                        <div className="w-[50%] h-3/4 px-7 max-w-full">
-                            <HeaderDetalle onReturn={onReturn} />
-                            <div className=" w-full h-[85%] bg-gray-200 shadow-lg ">
-                                <HeaderBodyDetalle />
-                                <BodyDetalle />
-                                <div className="flex justify-center space-x-4 pt-2">
-                                    <Button name='Aprobar' color='blue' />
-                                    <Button name='Rechazar' color='red' />
-                                    <Button name='Exportar PDF' color='gray' />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                } */}
-      (
-        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[0.7px]">
-          <div className="w-full max-w-2xl h-[85vh] max-h-[90vh] px-7">
-            <HeaderDetalle
-              onReturn={onReturn}
+      <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[12px] ">
+        <div className="w-full max-w-2xl h-[85vh] max-h-[90vh] px-7">
+          <HeaderDetalle
+            onReturn={onReturn}
+            detalleTransfer={detalleTransferencia}
+          />
+          <div className="bg-gray-200 shadow-lg pb-5">
+            <HeaderBodyDetalle />
+            <BodyDetalle
               detalleTransfer={detalleTransferencia}
+              onChange={onChange}
             />
-            <div className="bg-gray-200 shadow-lg pb-5">
-              <HeaderBodyDetalle />
-              <BodyDetalle
-                detalleTransfer={detalleTransferencia}
-                onChange={onChange}
-              />
-            </div>
-            <div className="flex justify-center space-x-4 relative -top-3">
-              <Button name="Aprobar" color="blue" onRetun={onApprove} />
-              <Button name="Rechazar" color="red" />
-              <Button name="Exportar PDF" color="gray" />
-            </div>
+          </div>
+          <div className="flex justify-center space-x-4 relative -top-3">
+            <Button name="Aprobar" color="blue" onRetun={onApprove} />
+            <Button name="Rechazar" color="red" />
+            <Button name="Exportar PDF" color="gray" />
           </div>
         </div>
-      )
-      {openModalAprobacion && (
+      </div>
+
+      {/* {openModalAprobacion && (
         <ModalAprobacion
           detalle={listDetalleTransferencia}
           setState={setOpenModalAprobacion}
           onReturn={sendAprove}
         />
-      )}
+      )} */}
     </>
   );
 };

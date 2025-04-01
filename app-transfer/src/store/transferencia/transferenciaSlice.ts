@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ITransfer } from "../../interfaces/ITransferCreate";
+import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 
 export interface transferenciaInitialState {
-  transferencias: ITransfer[];
+  transferencias: IListDetalleTransferencia[];
   loadingTransferencia: boolean;
   errorMessageTransferencia?: string | null;
 }
@@ -21,7 +21,7 @@ export const transferenciaSlice = createSlice({
     },
     onListingTransfer: (
       state: transferenciaInitialState,
-      action: PayloadAction<ITransfer[]>
+      action: PayloadAction<IListDetalleTransferencia[]>
     ) => {
       state.transferencias = action.payload;
       state.loadingTransferencia = false;
@@ -29,7 +29,7 @@ export const transferenciaSlice = createSlice({
     },
     onAddTransfer: (
       state: transferenciaInitialState,
-      action: PayloadAction<ITransfer>
+      action: PayloadAction<IListDetalleTransferencia>
     ) => {
       state.transferencias = [...state.transferencias, action.payload];
       state.loadingTransferencia = false;
