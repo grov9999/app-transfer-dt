@@ -3,8 +3,7 @@ import { HeaderModal } from "../organismo/HeaderModal";
 import ResumenPT from "../organismo/ResumenPT";
 
 const ModalRechazo = () => {
-  const { transferencias } = useAppSelector((state) => state.transferencias);
-  // console.log(transferencias);
+  const { selectedTransfers } = useAppSelector((state) => state.transferencias);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[0.7px]">
@@ -15,7 +14,7 @@ const ModalRechazo = () => {
         />
         <ResumenPT
           texto="Esta a punto de rechazar las siguientes partes de tranferencia"
-          transferencias={transferencias}
+          transferencias={selectedTransfers}
         />
       </div>
     </div>
