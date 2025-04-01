@@ -1,4 +1,5 @@
 import { DetalleTransferencia } from "../interfaces/DetalleTransferencia";
+import { IAlmacen } from "../interfaces/IAlmacen";
 import { ITransfer } from "../interfaces/ITransferCreate";
 import { Transferencia } from "../interfaces/Transferencia";
 
@@ -45,7 +46,7 @@ export const getAlmacenes = async () => {
   try {
     const response = await fetch("http://localhost:3000/api/almacenes");
     const datas = await response.json();
-    const data = datas.data;
+    const data: IAlmacen[] = datas.data;
     return {
       ok: true,
       data,
@@ -75,7 +76,6 @@ export const createTransferencia = async (datos: ITransfer) => {
       }),
     });
     const data: ITransfer = await response.json();
-    console.log(data);
     return {
       ok: true,
       data,
