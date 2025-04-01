@@ -1,5 +1,5 @@
 export interface IListDetalleTransferencia{
-    pt_id:   number;
+    resultado_pt_id:   number;
     codigo:            string;
     fecha_generacion:  Date;
     almacen_origen:    string;

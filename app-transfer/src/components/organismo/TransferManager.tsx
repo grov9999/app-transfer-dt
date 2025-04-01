@@ -113,23 +113,23 @@ export const TransferManager = () => {
                     <td className="w-4 p-4">
                       <div className="flex items-center">
                         <input
-                          id={`checkbox-table-search-${item.pt_id}`}
+                          id={`checkbox-table-search-${String(item.resultado_pt_id)}`}
                           onChange={(e) => {
                             const isChecked = e.target.checked;
+                            //console.log(item.resultado_pt_id)
                             isChecked
                               ? dispatch(
                                   onArregloDetaTransfer(
                                     item as IListDetalleTransferencia
                                   )
                                 )
-                              : dispatch(onDeleteTranfer(item.pt_id));
-                            //console.log(isChecked);
+                              : dispatch(onDeleteTranfer(item.resultado_pt_id));
                           }}
                           type="checkbox"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
                         />
                         <label
-                          htmlFor={`checkbox-table-search-${item.pt_id}`}
+                          htmlFor={`checkbox-table-search-${item.resultado_pt_id}`}
                           className="sr-only"
                         >
                           checkbox
@@ -171,6 +171,11 @@ export const TransferManager = () => {
                           setOpenModalDetalle(true);
                           dispatch(
                             onListingDetaTransfer(
+                              item as IListDetalleTransferencia
+                            )
+                          );
+                          dispatch(
+                            onArregloDetaTransfer(
                               item as IListDetalleTransferencia
                             )
                           );

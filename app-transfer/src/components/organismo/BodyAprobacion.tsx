@@ -32,7 +32,7 @@ export const BodyAprobacion = ({
       {/* Contenedor de los detalles */}
       <div className="bg-gray-100 px-2 rounded-t-xl border-gray-400">
         {detalle && detalle.map((index) => (
-          <div className="flex justify-between py-2" key={index.pt_id}>
+          <div className="flex justify-between py-2" key={index.resultado_pt_id}>
             <span className="w-1/4">{index.codigo}</span>
             <span className="w-1/4">
               {formatDate(new Date(index.fecha_generacion))}
