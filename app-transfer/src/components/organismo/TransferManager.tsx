@@ -15,12 +15,8 @@ import { ModalAprobacion } from "../pages/ModalAprobacion";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../utils/formatDate";
-<<<<<<< HEAD
 import { onListingDetaTransfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 import ModalRechazo from "../pages/ModalRechazo";
-=======
-import ModalRechazo from "../pages/ModalRechazo";
->>>>>>> feature/renzo
 
 export const TransferManager = () => {
   const { selectedTransfers } = useAppSelector((state) => state.transferencias);
