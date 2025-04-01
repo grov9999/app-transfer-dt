@@ -1,7 +1,6 @@
 import { DetalleTransferencia } from "../interfaces/DetalleTransferencia";
 import { IAlmacen } from "../interfaces/IAlmacen";
 import { ITransfer } from "../interfaces/ITransferCreate";
-import { Transferencia } from "../interfaces/Transferencia";
 
 export const getTransferencia = async () => {
   try {

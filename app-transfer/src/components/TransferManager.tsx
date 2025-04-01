@@ -12,13 +12,17 @@ import { useAppDispatch, useAppSelector } from "../store/TransferenciaRedux";
 import { ModalDetalle } from "./pages/ModalDetalle";
 import { usePagination } from "../hooks/usePagination";
 import { DetalleTransferencia } from "../interfaces/DetalleTransferencia";
-import { onArregloDetaTransfer, onListingDetaTransfer } from "../store/detalleTransferencia/detalleTransferenciaSlice";
+import {
+  onArregloDetaTransfer,
+  onListingDetaTransfer,
+} from "../store/detalleTransferencia/detalleTransferenciaSlice";
+import { useNavigate } from "react-router-dom";
 
 export const TransferManager = () => {
   useEffect(() => {
     obtenerTransf();
   }, []);
-
+  const navigate = useNavigate();
   const [openModalDetalle, setOpenModalDetalle] = useState(false);
   const [openModalAprobacion, setOpenModalAprobacion] = useState(false);
 
@@ -147,7 +151,7 @@ export const TransferManager = () => {
                         onClick={() => {
                           setOpenModalDetalle(true);
                           console.log(openModalDetalle);
-                        //   obtenerTransfDetalle("15");
+                          //   obtenerTransfDetalle("15");
                         }}
                         type="submit"
                         className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -174,6 +178,7 @@ export const TransferManager = () => {
             </button>
             <button
               type="button"
+              onClick={() => navigate("/modal-rechazo")}
               className="px-5 py-2.5 text-sm font-medium text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
             >
               Rechazar
@@ -225,6 +230,5 @@ export const TransferManager = () => {
       </div>
       {openModalDetalle && <ModalDetalle />}
     </>
-    
   );
 };
