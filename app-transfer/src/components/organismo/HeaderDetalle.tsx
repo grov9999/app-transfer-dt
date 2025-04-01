@@ -8,7 +8,7 @@ interface HeaderDetalleProp {
 
 export const HeaderDetalle = ({ onReturn, detalleTransfer }: HeaderDetalleProp) => {
     return (
-        <div className="flex items-center py-2">
+        <div className="flex items-center py-2 bg-gray-100 border-gray-200 rounded-t-lg">
             <div>
                 <h1 className="text-xl font-bold">Consulta Parte Transferencia</h1>
                 <p className="text-gray-600">Código PT:{detalleTransfer?.codigo}</p>

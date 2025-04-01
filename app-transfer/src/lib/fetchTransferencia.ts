@@ -1,13 +1,13 @@
 import { DetalleTransferencia } from "../interfaces/DetalleTransferencia";
 import { IAlmacen } from "../interfaces/IAlmacen";
+import { IListDetalleTransferencia } from "../interfaces/IListDetalleTransferencia";
 import { ITransfer } from "../interfaces/ITransferCreate";
-import { Transferencia } from "../interfaces/Transferencia";
 
 export const getTransferencia = async () => {
   try {
     const response = await fetch("http://localhost:3000/api/transfers");
     const datas = await response.json();
-    const data: ITransfer[] = datas.data;
+    const data: IListDetalleTransferencia[] = datas.data;
     //console.log(data);
     //await sleep(1500);
     return {

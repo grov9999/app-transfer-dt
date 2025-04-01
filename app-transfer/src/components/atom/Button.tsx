@@ -5,7 +5,6 @@ interface buttonProps {
 
 }
 
-
 export const Button = ({ name, color = "blue", onRetun }: buttonProps) => {
     const colors = {
         blue: "bg-blue-500 hover:bg-blue-700",
