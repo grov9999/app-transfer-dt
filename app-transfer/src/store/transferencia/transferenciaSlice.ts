@@ -39,15 +39,16 @@ export const transferenciaSlice = createSlice({
     },
     onUpdateTransfer: (
       state: transferenciaInitialState,
-      action: PayloadAction<IListDetalleTransferencia>
+      action: PayloadAction<IListDetalleTransferencia[]>
     ) => {
-      state.transferencias = state.transferencias.map((transfer) =>
-        transfer.resultado_pt_id === action.payload.resultado_pt_id
-          ? action.payload
-          : transfer
-      );
-      state.loadingTransferencia = false;
-      state.errorMessageTransferencia = null;
+      state.transferencias = state.transferencias.map((transferencia) => {
+        const updatedTransfer = action.payload.find(
+          (item) => item.resultado_pt_id === transferencia.resultado_pt_id
+        );
+        return updatedTransfer
+          ? { ...transferencia, ...updatedTransfer }
+          : transferencia;
+      });
     },
     toggleSelectTransfer: (
       state,

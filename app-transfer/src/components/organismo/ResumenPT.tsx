@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../store/TransferenciaRedux";
 import FilaResumenPT from "../molecules/FilaResumenPT";
 import FilaResumentTotal from "../molecules/FilaResumentTotal";
@@ -12,11 +11,9 @@ type IPropsResumenPT = {
   texto: string;
   transferencias: IListDetalleTransferencia[];
   setState: React.Dispatch<React.SetStateAction<boolean>>;
-
 };
 const ResumenPT = ({ texto, transferencias, setState }: IPropsResumenPT) => {
   const [motivos, setmotivos] = useState("");
-  const navigate = useNavigate();
   const monto_total = transferencias.reduce(
     (acumulador, item) => acumulador + parseFloat(item.monto_total),
     0
@@ -35,15 +32,12 @@ const ResumenPT = ({ texto, transferencias, setState }: IPropsResumenPT) => {
       usuario_aprobador_id: 2,
       referencia_sap: "",
     }));
-    console.log(updateTransfer);
-
     const response = await sendDetalleTransferencia(updateTransfer);
-    console.log(response);
 
     if (response.ok) {
       toast.success("Transferencia actualizada con éxito!");
-      dispatch(onUpdateTransfer(response.data));
-      navigate("/");
+      dispatch(onUpdateTransfer(updateTransfer));
+      setState(false);
     } else {
       toast.error("Error al actualizar la transferencia!");
     }
@@ -86,7 +80,7 @@ const ResumenPT = ({ texto, transferencias, setState }: IPropsResumenPT) => {
           <button
             id="cancelar"
             type="button"
-            onClick={() =>setState(false) }
+            onClick={() => setState(false)}
             className="bg-gray-100 text-black p-3 rounded-sm border border-gray-400 cursor-pointer"
           >
             Cancelar

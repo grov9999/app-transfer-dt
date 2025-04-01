@@ -10,8 +10,8 @@ const ModalRechazo = ({ setState }: modalRechazoProps) => {
   const { selectedTransfers } = useAppSelector((state) => state.transferencias);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[14px]">
-      <div className="w-full max-w-lg border-1 border-gray-300 rounded-xl shadow-lg pb-3">
+    <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[14px] ">
+      <div className="w-full max-w-lg border-1 border-gray-300 rounded-xl shadow-lg pb-3 bg-white">
         <HeaderModal
           setState={setState}
           aprovado={false}

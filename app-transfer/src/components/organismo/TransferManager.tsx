@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  getDetalleTransferencia,
-  getTransferencia,
-} from "../../lib/fetchTransferencia";
+import { getTransferencia } from "../../lib/fetchTransferencia";
 import {
   onListingTransfer,
   onStartTransfLoading,
@@ -13,14 +10,12 @@ import { ModalDetalle } from "../pages/ModalDetalle";
 import { usePagination } from "../../hooks/usePagination";
 import { ModalAprobacion } from "../pages/ModalAprobacion";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
-import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../utils/formatDate";
 import { onListingDetaTransfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 import ModalRechazo from "../pages/ModalRechazo";
 
 export const TransferManager = () => {
   const { selectedTransfers } = useAppSelector((state) => state.transferencias);
-  const navigate = useNavigate();
   useEffect(() => {
     obtenerTransf();
   }, []);
@@ -47,21 +42,10 @@ export const TransferManager = () => {
         dispatch(
           onListingTransfer(response.data as IListDetalleTransferencia[])
         );
-        //console.log(response.data)
       }
     });
   };
 
-  // const obtenerTransfDetalle = async (id: string) => {
-  //   getDetalleTransferencia(id).then((response) => {
-  //     if (!response.ok) {
-  //       console.log("Responde Error");
-  //     } else {
-  //       dispatch(onListingDetaTransfer(response.data as DetalleTransferencia));
-  //       dispatch(onArregloDetaTransfer(response.data as DetalleTransferencia));
-  //     }
-  //   });
-  // };
   const onApprove = () => {
     setOpenModalDetalle(false);
     setOpenModalAprobacion(true);
@@ -269,7 +253,9 @@ export const TransferManager = () => {
         />
       ) : null}
 
-      {openModalRechazar ? <ModalRechazo setState={setOpenModalRechazar} /> : null}
+      {openModalRechazar ? (
+        <ModalRechazo setState={setOpenModalRechazar} />
+      ) : null}
     </>
   );
 };
