@@ -2,11 +2,11 @@ export const TransferSearch = () => {
   return (
     <form>
       <div className="flex justify-between">
-        <h1 className="text-2xl text-gray-90 ">Gestor de Transferencia DT</h1>
+        <h1 className="text-2xl text-gray-90 font-semibold">Gestor de Transferencia DT</h1>
         <button type="button" className="px-5 py-2.5 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">+ Nueva Parte</button>
       </div>
-      <div className="mx-auto bg-white p-6 rounded-lg shadow-md">
-        <h1 className="text-xl text-gray-90">Buscar Partes</h1>
+      <div className="mx-auto bg-gray-100 p-6 rounded-lg shadow-md">
+        <h1 className="text-xl text-gray-90 font-semibold">Buscar Partes</h1>
         <div className="grid gap-6 mb-6 md:grid-cols-4">
           <div>
             <label
