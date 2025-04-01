@@ -1,6 +1,6 @@
 export const TransferManager = () => {
     return (
-
+        <>
         <div className="mx-auto bg-white p-6 rounded-lg shadow-md">
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -50,7 +50,8 @@ export const TransferManager = () => {
                                 $2999
                             </td>
                             <td className="px-6 py-4">
-                                <a href="#" className="font-medium text-blue-600">Edit</a>
+                                <button type="button" className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">V</button>
+                                <button type="button" className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">E</button>
                             </td>
                         </tr>
                         <tr className="bg-white border-b">
@@ -73,7 +74,7 @@ export const TransferManager = () => {
                                 $1999
                             </td>
                             <td className="px-6 py-4">
-                                <a href="#" className="font-medium text-blue-600">Edit</a>
+                                <a href="#" className="font-medium text-blue-600">E</a>
                             </td>
                         </tr>
                         <tr className="bg-white border-b">
@@ -96,7 +97,7 @@ export const TransferManager = () => {
                                 $99
                             </td>
                             <td className="px-6 py-4">
-                                <a href="#" className="font-medium text-blue-600">Edit</a>
+                                <a href="#" className="font-medium text-blue-600">E</a>
                             </td>
                         </tr>
                         <tr className="bg-white border-b">
@@ -119,13 +120,15 @@ export const TransferManager = () => {
                                 $199
                             </td>
                             <td className="px-6 py-4">
-                                <a href="#" className="font-medium text-blue-600">Edit</a>
+                                <a href="#" className="font-medium text-blue-600">E</a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 
-                <button type="button" className="px-5 py-2.5 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Aprobar 3</button>
+                <button type="button" className="px-5 py-2.5 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Aprobar</button>
+                <button type="button" className="px-5 py-2.5 text-sm font-medium text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Rechazar</button>
+                <button type="button" className="px-5 py-2.5 text-sm font-medium text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Consultar</button>
 
                 <nav className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">
                     <span className="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">Showing <span className="font-semibold text-gray-900">1-10</span> of <span className="font-semibold text-gray-900">1000</span></span>
@@ -155,5 +158,6 @@ export const TransferManager = () => {
                 </nav>
             </div>
         </div>
+        </>
     )
 }
