@@ -13,6 +13,7 @@ import { usePagination } from "../../hooks/usePagination";
 import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia";
 import {
   onArregloDetaTransfer,
+  onDeleteTranfer,
   onListingDetaTransfer,
 } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 import { ModalAprobacion } from "../pages/ModalAprobacion";
@@ -57,7 +58,6 @@ export const TransferManager = () => {
   //   (state) => state.detalleTransferencia
   // );
   const onApprove = () => {
-    setOpenModalDetalle(false);
     setOpenModalAprobacion(true);
   };
 
@@ -108,17 +108,28 @@ export const TransferManager = () => {
             {/* ## Cuerpo de la tabla */}
             <tbody>
               {currentItems &&
-                currentItems.map((item: any) => (
+                currentItems.map((item: IListDetalleTransferencia) => (
                   <tr className="bg-white border-b" key={Math.random()}>
                     <td className="w-4 p-4">
                       <div className="flex items-center">
                         <input
-                          id={`checkbox-table-search-${item.resultado_pt_id}`}
+                          id={`checkbox-table-search-${item.pt_id}`}
+                          onChange={(e) => {
+                            const isChecked = e.target.checked;
+                            isChecked
+                              ? dispatch(
+                                  onArregloDetaTransfer(
+                                    item as IListDetalleTransferencia
+                                  )
+                                )
+                              : dispatch(onDeleteTranfer(item.pt_id));
+                            //console.log(isChecked);
+                          }}
                           type="checkbox"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
                         />
                         <label
-                          htmlFor="checkbox-table-search-1"
+                          htmlFor={`checkbox-table-search-${item.pt_id}`}
                           className="sr-only"
                         >
                           checkbox
@@ -158,8 +169,11 @@ export const TransferManager = () => {
                       <button
                         onClick={() => {
                           setOpenModalDetalle(true);
-                          dispatch(onListingDetaTransfer(item as IListDetalleTransferencia));
-
+                          dispatch(
+                            onListingDetaTransfer(
+                              item as IListDetalleTransferencia
+                            )
+                          );
                         }}
                         type="submit"
                         className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
@@ -184,6 +198,7 @@ export const TransferManager = () => {
             <button
               type="button"
               className="px-5 py-2.5 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
+              onClick={onApprove}
             >
               Aprobar
             </button>
@@ -246,13 +261,13 @@ export const TransferManager = () => {
           setStates={{ setOpenModalDetalle, setOpenModalAprobacion }}
         />
       ) : null}
-      {/* {openModalAprobacion ? (
+      {openModalAprobacion ? (
         <ModalAprobacion
-          setState={setOpenModalDetalle}
+          setState={setOpenModalAprobacion}
           detalle={listDetalleTransferencia}
           onReturn={onApprove}
         />
-      ) : null} */}
+      ) : null}
     </>
   );
 };

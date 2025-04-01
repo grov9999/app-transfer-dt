@@ -1,12 +1,12 @@
 export interface IListDetalleTransferencia{
-    resultado_pt_id:   number;
+    pt_id:   number;
     codigo:            string;
     fecha_generacion:  Date;
     almacen_origen:    string;
     almacen_destino:   string;
     monto_total:       string;
     moneda:            string;
-    estado:            "Pendiente" | "Aprobado" | "Rechazado";  // Asegura que estado sea uno de estos tres valores
+    estado:            "Pendiente" | "Aprobado" | "Rechazado"| "Eliminado";  // Asegura que estado sea uno de estos tres valores
     usuario_creador:   string;
     usuario_aprobador: string;
     fecha_aprobacion:  Date;
@@ -20,6 +20,8 @@ export interface IListDetalleTransferencia{
     centro_costo:      string;
     almacen_origen_id: number;
 	almacen_destino_id: number;
-	usuario_creador_id: number
+	usuario_creador_id: number;
+    usuario_aprobador_id?: number | null;  // 👈 Agregarlo como opcional
+
 	
 }

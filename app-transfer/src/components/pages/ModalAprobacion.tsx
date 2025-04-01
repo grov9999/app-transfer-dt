@@ -1,10 +1,10 @@
-import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia";
+import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { BodyAprobacion } from "../organismo/BodyAprobacion";
 import { HeaderAprobacion } from "../organismo/HeaderAprobacion";
 interface modalAprobacionHeader {
   onReturn?: () => void;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
-  detalle: DetalleTransferencia[];
+  detalle: IListDetalleTransferencia[];
 }
 
 export const ModalAprobacion = ({

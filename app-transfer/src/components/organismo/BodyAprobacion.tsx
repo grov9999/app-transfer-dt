@@ -1,11 +1,11 @@
 import { Button } from "../atom/Button";
 import { Loading } from "../atom/Loading";
-import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia";
+import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 
 interface boydAprobacionProps {
   onRetun?: () => void;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
-  detalle: DetalleTransferencia[];
+  detalle: IListDetalleTransferencia[];
 }
 
 export const BodyAprobacion = ({
@@ -31,7 +31,7 @@ export const BodyAprobacion = ({
       </h1>
       {/* Contenedor de los detalles */}
       <div className="bg-gray-100 px-2 rounded-t-xl border-gray-400">
-        {detalle.map((index) => (
+        {detalle && detalle.map((index) => (
           <div className="flex justify-between py-2" key={index.pt_id}>
             <span className="w-1/4">{index.codigo}</span>
             <span className="w-1/4">
