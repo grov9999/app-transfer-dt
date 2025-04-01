@@ -59,7 +59,7 @@ export const getAlmacenes = async () => {
   }
 };
 
-export const createTransferencia = async (datos: ITransfer) => {
+export const createTransferencia = async (datos: IListDetalleTransferencia) => {
   try {
     const response = await fetch("http://localhost:3000/api/transfer/", {
       method: "POST",
@@ -75,7 +75,7 @@ export const createTransferencia = async (datos: ITransfer) => {
         observaciones: datos.observaciones,
       }),
     });
-    const data: ITransfer = await response.json();
+    const data: IListDetalleTransferencia = await response.json();
     return {
       ok: true,
       data,
