@@ -17,7 +17,7 @@ const schema = yup
       .typeError("El monto debe ser un número")
       .positive("El monto debe ser positivo")
       .required("El monto total es requerido"),
-    usuario_creador_id: yup.string().required("El usuario es requerido"),
+    usuario_creador_id: yup.number().required("El usuario es requerido"),
   })
   .required();
 

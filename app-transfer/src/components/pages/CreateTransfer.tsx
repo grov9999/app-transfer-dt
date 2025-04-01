@@ -7,43 +7,64 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/TransferenciaRedux";
 import { allAlmacenes } from "../../store/almacenes/almacenSlice";
 import { getUsuario } from "../../store/usuario/usuarioSlice";
-import { useTransferForm } from "../../hooks/useTransferForm";
-import { ITransfer } from "../../interfaces/ITransferCreate";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import toast from "react-hot-toast";
+import { yupResolver } from "@hookform/resolvers/yup";
 
+const schema = yup
+  .object({
+    almacen_origen_id: yup
+      .string()
+      .required("El almacén de origen es requerido"),
+    almacen_destino_id: yup
+      .string()
+      .required("El almacén de destino es requerido"),
+    centro_costo: yup.string().required("El centro de costo es requerido"),
+    monto_total: yup
+      .number()
+      .typeError("El monto debe ser un número")
+      .positive("El monto debe ser positivo")
+      .required("El monto total es requerido"),
+  })
+  .required();
 const CreateTransfer = () => {
   const dispatch = useDispatch<AppDispatch>();
+
+  const { almacenes } = useSelector((state: RootState) => state.almacenes);
+  const { usuario } = useSelector((state: RootState) => state.usuario);
+
+  useEffect(() => {
+    const fetchAlmacenes = async () => {
+      const response = await getAlmacenes();
+      dispatch(allAlmacenes(response.data));
+    };
+    dispatch(getUsuario());
+    fetchAlmacenes();
+  }, [dispatch]);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-    notify,
-  } = useTransferForm();
-
-  useEffect(() => {
-    const almacenes = async () => {
-      const rpt = await getAlmacenes();
-      dispatch(allAlmacenes(rpt.data));
-    };
-    dispatch(getUsuario());
-    almacenes();
-  }, [dispatch]);
-  const { almacenes } = useSelector((state: RootState) => state.almacenes);
-  const { usuario } = useSelector((state: RootState) => state.usuario);
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const onSubmit = async (data: any) => {
-    console.log("asdas");
-    alert("dsa");
+    data.usuario_creador_id = usuario.id;
+    const response = await createTransferencia(data);
+    console.log(data);
 
-    // console.log(data);
-    // data.usuario_creador_id = usuario.id;
-    // const response = await createTransferencia(data);
-    // if (response.ok) {
-    //   notify("✅ Formulario enviado correctamente!!!");
-    // } else {
-    //   notify(`❌ ${response.message || "❌  Error al enviar!!"}`);
-    // }
+    if (response.ok) {
+      toast.success("Transferencia creada con éxito!");
+      reset();
+    } else {
+      toast.error("Error al enviar la transferencia!");
+    }
   };
+
   return (
     <div className="mx-auto container my-10">
       <div className="flex justify-between mb-3">
