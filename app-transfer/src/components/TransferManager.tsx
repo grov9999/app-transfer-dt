@@ -20,14 +20,16 @@ import { string } from "yup";
 import { ModalAprobacion } from "./pages/ModalAprobacion";
 import { sendDetalleTransferencia } from "../lib/fetchTransferencia";
 import { IListDetalleTransferencia } from "../interfaces/IListDetalleTransferencia";
+import { useNavigate } from "react-router-dom";
 
 export const TransferManager = () => {
+  const navigate = useNavigate();
   useEffect(() => {
     obtenerTransf();
   }, []);
 
   const [openModalDetalle, setOpenModalDetalle] = useState(false);
-  // const [openModalAprobacion, setOpenModalAprobacion] = useState(false);
+  const [openModalAprobacion, setOpenModalAprobacion] = useState(false);
 
   const dispatch = useAppDispatch();
   const { transferencias, loadingTransferencia, errorMessageTransferencia } =
@@ -197,7 +199,7 @@ export const TransferManager = () => {
 
           {/* BOTON ACEPTAR Y RECHAZAR */}
           <div className="flex-wrap justify-center">
-          {/* <div className="grid gap-6 mb-6 md:grid-cols-2"> */}
+            {/* <div className="grid gap-6 mb-6 md:grid-cols-2"> */}
             <button
               type="button"
               className="px-5 py-2.5 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
@@ -206,6 +208,7 @@ export const TransferManager = () => {
             </button>
             <button
               type="button"
+              onClick={() => navigate("/modal-rechazo")}
               className="px-5 py-2.5 text-sm font-medium text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
             >
               Rechazar
