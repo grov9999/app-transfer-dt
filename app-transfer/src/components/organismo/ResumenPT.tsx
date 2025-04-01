@@ -6,10 +6,11 @@ import FilaResumentTotal from "../molecules/FilaResumentTotal";
 import { sendDetalleTransferencia } from "../../lib/fetchTransferencia";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 
 type IPropsResumenPT = {
   texto: string;
-  transferencias: ITransfer[];
+  transferencias: IListDetalleTransferencia[];
 };
 const ResumenPT = ({ texto, transferencias }: IPropsResumenPT) => {
   const [motivos, setmotivos] = useState("");
@@ -19,8 +20,8 @@ const ResumenPT = ({ texto, transferencias }: IPropsResumenPT) => {
     0
   );
   const dispatch = useAppDispatch();
-  const handleUpdate = async (transferencia: any) => {
-    console.log(transferencia);
+  const handleUpdate = async (transferencias: any) => {
+    console.log(transferencias);
 
     // const response = await sendDetalleTransferencia(data);
     // if (response.ok && response.data) {

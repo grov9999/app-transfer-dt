@@ -1,7 +1,7 @@
-import { ITransfer } from "../../interfaces/ITransferCreate";
+import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { formatDate } from "../../utils/formatDate";
 type PropsFilaResumen = {
-  transferencia: ITransfer;
+  transferencia: IListDetalleTransferencia;
 };
 const FilaResumenPT = ({ transferencia }: PropsFilaResumen) => {
   return (

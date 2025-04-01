@@ -1,27 +1,27 @@
 import { useEffect, useState } from "react";
-import { ITransfer } from "../interfaces/ITransferCreate";
 import {
   getDetalleTransferencia,
   getTransferencia,
-} from "../lib/fetchTransferencia";
+} from "../../lib/fetchTransferencia";
 import {
   onListingTransfer,
   onStartTransfLoading,
-} from "../store/transferencia/transferenciaSlice";
-import { useAppDispatch, useAppSelector } from "../store/TransferenciaRedux";
-import { ModalDetalle } from "./pages/ModalDetalle";
-import { usePagination } from "../hooks/usePagination";
-import { DetalleTransferencia } from "../interfaces/DetalleTransferencia";
+} from "../../store/transferencia/transferenciaSlice";
+import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
+import { ModalDetalle } from "../pages/ModalDetalle";
+import { usePagination } from "../../hooks/usePagination";
+import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia";
 import {
   onArregloDetaTransfer,
   onListingDetaTransfer,
-} from "../store/detalleTransferencia/detalleTransferenciaSlice";
-import { string } from "yup";
-import { ModalAprobacion } from "./pages/ModalAprobacion";
-import { sendDetalleTransferencia } from "../lib/fetchTransferencia";
-import { IListDetalleTransferencia } from "../interfaces/IListDetalleTransferencia";
+} from "../../store/detalleTransferencia/detalleTransferenciaSlice";
+import { ModalAprobacion } from "../pages/ModalAprobacion";
+import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
+import { useNavigate } from "react-router-dom";
+import { formatDate } from "../../utils/formatDate";
 
 export const TransferManager = () => {
+  const navigate = useNavigate();
   useEffect(() => {
     obtenerTransf();
   }, []);
@@ -59,13 +59,6 @@ export const TransferManager = () => {
   const onApprove = () => {
     setOpenModalDetalle(false);
     setOpenModalAprobacion(true);
-  };
-
-  const formatDate = (date: Date) => {
-    const day = String(date.getDate()).padStart(2, "0"); // Asegura que el día tenga dos dígitos
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Los meses son 0-indexados
-    const year = date.getFullYear(); // Obtiene el año completo
-    return `${day}/${month}/${year}`; // Formato DD/MM/YYYY
   };
 
   return (
@@ -115,12 +108,12 @@ export const TransferManager = () => {
             {/* ## Cuerpo de la tabla */}
             <tbody>
               {currentItems &&
-                currentItems.map((item) => (
-                  <tr className="bg-white border-b" key={item.resultado_pt_id}>
+                currentItems.map((item: any) => (
+                  <tr className="bg-white border-b" key={Math.random()}>
                     <td className="w-4 p-4">
                       <div className="flex items-center">
                         <input
-                          id="checkbox-table-search-1"
+                          id={`checkbox-table-search-${item.resultado_pt_id}`}
                           type="checkbox"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
                         />
@@ -187,7 +180,7 @@ export const TransferManager = () => {
 
           {/* BOTON ACEPTAR Y RECHAZAR */}
           <div className="flex-wrap justify-center">
-          {/* <div className="grid gap-6 mb-6 md:grid-cols-2"> */}
+            {/* <div className="grid gap-6 mb-6 md:grid-cols-2"> */}
             <button
               type="button"
               className="px-5 py-2.5 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
@@ -196,6 +189,7 @@ export const TransferManager = () => {
             </button>
             <button
               type="button"
+              onClick={() => navigate("/modal-rechazo")}
               className="px-5 py-2.5 text-sm font-medium text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
             >
               Rechazar
@@ -252,13 +246,13 @@ export const TransferManager = () => {
           setStates={{ setOpenModalDetalle, setOpenModalAprobacion }}
         />
       ) : null}
-      {openModalAprobacion ? (
+      {/* {openModalAprobacion ? (
         <ModalAprobacion
           setState={setOpenModalDetalle}
           detalle={listDetalleTransferencia}
           onReturn={onApprove}
         />
-      ) : null}
+      ) : null} */}
     </>
   );
 };
