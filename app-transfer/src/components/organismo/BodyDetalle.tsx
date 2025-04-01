@@ -1,8 +1,8 @@
-import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia"
+import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { CardTexArea } from "../molecules/CardTexArea"
 
 interface bodyDetalleProps {
-  detalleTransfer: DetalleTransferencia | null,
+  detalleTransfer: IListDetalleTransferencia | null,
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
 
 }

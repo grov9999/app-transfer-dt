@@ -1,9 +1,10 @@
 import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia";
+import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { Button } from "../atom/Button";
 
 interface HeaderDetalleProp {
     onReturn?: () => void;
-    detalleTransfer: DetalleTransferencia | null
+    detalleTransfer: IListDetalleTransferencia | null
 }
 
 export const HeaderDetalle = ({ onReturn, detalleTransfer }: HeaderDetalleProp) => {

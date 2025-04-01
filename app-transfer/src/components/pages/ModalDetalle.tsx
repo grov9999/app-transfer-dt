@@ -13,7 +13,7 @@ import {
   onListingTransfer,
   onStartTransfLoading,
 } from "../../store/transferencia/transferenciaSlice";
-import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia";
+//import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia";
 //import ModalRechazo from './ModalRechazo';
 import {
   onArregloDetaTransfer,
@@ -46,7 +46,9 @@ export const ModalDetalle = ({ setStates }: modalDetalleProps) => {
       if (!response.ok) {
         console.log("Responde Error");
       } else {
-        dispatch(onListingTransfer(response.data as IListDetalleTransferencia[]));
+        dispatch(
+          onListingTransfer(response.data as IListDetalleTransferencia[])
+        );
         //console.log(response.data)
       }
     });
@@ -62,7 +64,7 @@ export const ModalDetalle = ({ setStates }: modalDetalleProps) => {
     setOpenModalDetalle && setOpenModalDetalle(false); // Cierra el modal
     setOpenModalAprobacion && setOpenModalAprobacion(true);
   };
-  const sendAprove = () => {
+  /* const sendAprove = () => {
     const actiones: DetalleTransferencia[] = listDetalleTransferencia?.map(
       (detalle) => {
         return {
@@ -82,29 +84,23 @@ export const ModalDetalle = ({ setStates }: modalDetalleProps) => {
         console.log(response.data);
       }
     });
-  };
-  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  }; */
+  /*  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const actiones: DetalleTransferencia = {
       ...detalleTransferencia!, // Spread solo si no es null
       observaciones: e.target.value,
     };
     dispatch(onUpdateDetalleTransfer(actiones));
-  };
+  }; */
 
   return (
     <>
       <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[12px] ">
         <div className="w-full max-w-2xl h-[85vh] max-h-[90vh] px-7">
-          <HeaderDetalle
-            onReturn={onReturn}
-            detalleTransfer={detalleTransferencia}
-          />
+          <HeaderDetalle onReturn={onReturn} detalleTransfer={detalleTransferencia} />
           <div className="bg-gray-200 shadow-lg pb-5">
             <HeaderBodyDetalle />
-            <BodyDetalle
-              detalleTransfer={detalleTransferencia}
-              onChange={onChange}
-            />
+            <BodyDetalle detalleTransfer={detalleTransferencia} />
           </div>
           <div className="flex justify-center space-x-4 relative -top-3">
             <Button name="Aprobar" color="blue" onRetun={onApprove} />
