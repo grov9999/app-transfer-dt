@@ -37,10 +37,10 @@ export const transferenciaSlice = createSlice({
     },
     onUpdateTransfer: (
       state: transferenciaInitialState,
-      action: PayloadAction<ITransfer>
+      action: PayloadAction<IListDetalleTransferencia>
     ) => {
       state.transferencias = state.transferencias.map((transfer) =>
-        transfer.id === action.payload.id ? action.payload : transfer
+        transfer.resultado_pt_id === action.payload.resultado_pt_id ? action.payload : transfer
       );
       state.loadingTransferencia = false;
       state.errorMessageTransferencia = null;

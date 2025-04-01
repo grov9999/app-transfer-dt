@@ -18,4 +18,8 @@ export interface IListDetalleTransferencia{
     log_fecha:         string;
     log_detalle:       string;
     centro_costo:      string;
+    almacen_origen_id: number;
+	almacen_destino_id: number;
+	usuario_creador_id: number
+	
 }
