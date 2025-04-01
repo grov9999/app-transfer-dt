@@ -11,8 +11,10 @@ import { onUpdateTransfer } from "../../store/transferencia/transferenciaSlice";
 type IPropsResumenPT = {
   texto: string;
   transferencias: IListDetalleTransferencia[];
+  setState: React.Dispatch<React.SetStateAction<boolean>>;
+
 };
-const ResumenPT = ({ texto, transferencias }: IPropsResumenPT) => {
+const ResumenPT = ({ texto, transferencias, setState }: IPropsResumenPT) => {
   const [motivos, setmotivos] = useState("");
   const navigate = useNavigate();
   const monto_total = transferencias.reduce(
@@ -84,7 +86,7 @@ const ResumenPT = ({ texto, transferencias }: IPropsResumenPT) => {
           <button
             id="cancelar"
             type="button"
-            onClick={() => navigate("/")}
+            onClick={() =>setState(false) }
             className="bg-gray-100 text-black p-3 rounded-sm border border-gray-400 cursor-pointer"
           >
             Cancelar

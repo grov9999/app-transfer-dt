@@ -20,6 +20,7 @@ import { ModalAprobacion } from "../pages/ModalAprobacion";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../utils/formatDate";
+import ModalRechazo from "../pages/ModalRechazo";
 
 export const TransferManager = () => {
   const { selectedTransfers } = useAppSelector((state) => state.transferencias);
@@ -30,6 +31,7 @@ export const TransferManager = () => {
 
   const [openModalDetalle, setOpenModalDetalle] = useState(false);
   const [openModalAprobacion, setOpenModalAprobacion] = useState(false);
+  const [openModalRechazar, setOpenModalRechazar] = useState(false);
 
   const dispatch = useAppDispatch();
   const { transferencias } = useAppSelector((state) => state.transferencias);
@@ -171,7 +173,11 @@ export const TransferManager = () => {
                       <button
                         onClick={() => {
                           setOpenModalDetalle(true);
-                          dispatch(onListingDetaTransfer(item as IListDetalleTransferencia))
+                          dispatch(
+                            onListingDetaTransfer(
+                              item as IListDetalleTransferencia
+                            )
+                          );
                         }}
                         type="submit"
                         className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
@@ -194,7 +200,7 @@ export const TransferManager = () => {
           <div className="flex-wrap justify-center">
             {/* <div className="grid gap-6 mb-6 md:grid-cols-2"> */}
             <button
-            onClick={onApprove}
+              onClick={onApprove}
               type="button"
               className="px-5 py-2.5 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
             >
@@ -202,7 +208,7 @@ export const TransferManager = () => {
             </button>
             <button
               type="button"
-              onClick={() => navigate("/modal-rechazo")}
+              onClick={() => setOpenModalRechazar(true)}
               className="px-5 py-2.5 text-sm font-medium text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
             >
               Rechazar
@@ -266,6 +272,8 @@ export const TransferManager = () => {
           onReturn={onApprove}
         />
       ) : null}
+
+      {openModalRechazar ? <ModalRechazo setState={setOpenModalRechazar} /> : null}
     </>
   );
 };
