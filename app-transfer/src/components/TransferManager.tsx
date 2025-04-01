@@ -143,14 +143,22 @@ export const TransferManager = () => {
                     <td className="px-6 py-4">
                       {item.monto_total ? item.monto_total : "--"}
                     </td>
-                    <td className="px-6 py-4">
-                      {item.centro_costo}
-                    </td>
+                    <td className="px-6 py-4">{item.centro_costo}</td>
                     <td className="px-6 py-4">
                       {item.referencia_sap ? item.referencia_sap : "--"}
                     </td>
-                    <td className="px-6 py-4">
-                      {item.estado}
+                    <td>
+                      <p
+                        className={`text-center text-sm font-semibold px-3 py-3 rounded-3xl border-1 ${
+                          item.estado == "Pendiente"
+                            ? "bg-[#FEF8E3] text-yellow-500"
+                            : item.estado == "Aprobado"
+                            ? "bg-[#EAF5EA] text-green-500"
+                            : "bg-[#FCECEE] text-red-500"
+                        } border-2`}
+                      >
+                        {item.estado}
+                      </p>
                     </td>
                     <td className="px-6 py-4">
                       <button
@@ -160,13 +168,13 @@ export const TransferManager = () => {
                           //   obtenerTransfDetalle("15");
                         }}
                         type="submit"
-                        className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                       >
                         VE
                       </button>
                       <button
                         type="submit"
-                        className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        className="px-3 py-2 text-xs font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                       >
                         EL
                       </button>
@@ -178,6 +186,7 @@ export const TransferManager = () => {
 
           {/* BOTON ACEPTAR Y RECHAZAR */}
           <div className="flex-wrap justify-center">
+          {/* <div className="grid gap-6 mb-6 md:grid-cols-2"> */}
             <button
               type="button"
               className="px-5 py-2.5 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
