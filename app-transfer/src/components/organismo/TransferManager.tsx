@@ -32,9 +32,8 @@ export const TransferManager = () => {
   const [openModalAprobacion, setOpenModalAprobacion] = useState(false);
 
   const dispatch = useAppDispatch();
-  const { transferencias, loadingTransferencia, errorMessageTransferencia } =
-    useAppSelector((state) => state.transferencias);
-  const { detalleTransferencia, listDetalleTransferencia } = useAppSelector(
+  const { transferencias } = useAppSelector((state) => state.transferencias);
+  const { listDetalleTransferencia } = useAppSelector(
     (state) => state.detalleTransferencia
   );
   const { currentItems, currentPage, maxPage, nextPage, prevPage, goToPage } =
