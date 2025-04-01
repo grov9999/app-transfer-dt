@@ -24,7 +24,9 @@ export const getTransferencia = async () => {
 export const getDetalleTransferencia = async (id: string) => {
   try {
     const response = await fetch("http://localhost:3000/api/transfer/" + id);
-    const data: DetalleTransferencia = await response.json();
+    const datas = await response.json();
+    const data: DetalleTransferencia = datas.data;
+
     //console.log(data);
     //await sleep(1500);
     return {
@@ -85,3 +87,32 @@ export const createTransferencia = async (datos: ITransfer) => {
     };
   }
 };
+
+
+export const sendDetalleTransferencia = async (actionTransferencia: DetalleTransferencia) => {
+  try {
+    const response = await fetch("http://localhost:3000/api/updateStatus",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify([actionTransferencia])
+      }
+    );
+    console.log(JSON.stringify([actionTransferencia]));
+    const data = await response.json();
+
+    //console.log(data);
+    //await sleep(1500);
+    return {
+      ok: true,
+      data,
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      message: (error as Error).message,
+    };
+  }
+}

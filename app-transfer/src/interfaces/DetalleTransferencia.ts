@@ -6,9 +6,9 @@ export interface DetalleTransferencia {
     almacen_destino:   string;
     monto_total:       string;
     moneda:            string;
-    estado:            string;
+    estado:            "Pendiente" | "Aprobado" | "Rechazado";  // Asegura que estado sea uno de estos tres valores
     usuario_creador:   string;
-    usuario_aprobador: number|null;
+    usuario_aprobador: string|null;
     fecha_aprobacion:  Date |null;
     motivo_rechazo:    string|null;
     referencia_sap:    string|null;
@@ -18,4 +18,6 @@ export interface DetalleTransferencia {
     log_fecha:         Date;
     log_detalle:       string;
     centro_costo:      string;
+    usuario_aprobador_id?: number | null;  // 👈 Agregarlo como opcional
+
 }
