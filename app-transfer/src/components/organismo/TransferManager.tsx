@@ -1,12 +1,17 @@
+import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import {
   ArrowUpCircleIcon,
   ArrowDownCircleIcon,
 } from "@heroicons/react/24/solid";
-import { getTransferencia } from "../../lib/fetchTransferencia";
+import {
+  getEliminarTransferencia,
+  getTransferencia,
+} from "../../lib/fetchTransferencia";
 import {
   onListingTransfer,
   onStartTransfLoading,
+  onDeleteTranfer,
   toggleSelectTransfer,
 } from "../../store/transferencia/transferenciaSlice";
 import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
@@ -20,6 +25,7 @@ import ModalRechazo from "../pages/ModalRechazo";
 
 export const TransferManager = () => {
   const { selectedTransfers } = useAppSelector((state) => state.transferencias);
+
   useEffect(() => {
     obtenerTransf();
   }, []);
@@ -31,10 +37,9 @@ export const TransferManager = () => {
 
   const dispatch = useAppDispatch();
   const { transferencias } = useAppSelector((state) => state.transferencias);
-  const { listDetalleTransferencia } = useAppSelector(
+  /*const {listDetalleTransferencia } = useAppSelector(
     (state) => state.detalleTransferencia
-  );
-
+  );*/
   const { currentItems, currentPage, maxPage, nextPage, prevPage, goToPage } =
     usePagination<IListDetalleTransferencia>(transferencias, 4);
 
@@ -88,18 +93,20 @@ export const TransferManager = () => {
     const sortedItems = [...transferencias].sort((a, b) => {
       let valueA = a[column];
       let valueB = b[column];
-  
+
       if (typeof valueA === "string" && !isNaN(Number(valueA))) {
         valueA = Number(valueA);
       }
       if (typeof valueB === "string" && !isNaN(Number(valueB))) {
         valueB = Number(valueB);
       }
-  
+
       if (typeof valueA === "number" && typeof valueB === "number") {
         return isAscending ? valueA - valueB : valueB - valueA;
       } else if (typeof valueA === "string" && typeof valueB === "string") {
-        return isAscending ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+        return isAscending
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
       } else {
         return 0;
       }
@@ -254,7 +261,10 @@ export const TransferManager = () => {
                             (transfer) =>
                               transfer.resultado_pt_id === item.resultado_pt_id
                           )}
-                          onChange={() => dispatch(toggleSelectTransfer(item))}
+                          onChange={() => {
+                            //dispatch(onArregloDetaTransfer(item));
+                            dispatch(toggleSelectTransfer(item));
+                          }}
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
                         />
                         <label
@@ -305,15 +315,47 @@ export const TransferManager = () => {
                               item as IListDetalleTransferencia
                             )
                           );
+                          //dispatch(onArregloDetaTransfer(item));
                         }}
                         type="submit"
-                        className="px-3 py-2 mr-2 text-xs font-medium text-center text-white bg-[#3666C2] rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                        className="px-3 py-2 mr-2 text-xs font-medium text-center text-white bg-[#3666C2] rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer"
                       >
                         V
                       </button>
                       <button
+                        onClick={() => {
+                          Swal.fire({
+                            title: "Estas seguro de eliminar ?",
+                            text: "Esta opcion no podra revertirse",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Sí, lo eliminare!",
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              getEliminarTransferencia(item.codigo).then(
+                                (response) => {
+                                  if (!response.ok) {
+                                  } else {
+                                    dispatch(
+                                      onDeleteTranfer(
+                                        item as IListDetalleTransferencia
+                                      )
+                                    );
+                                    Swal.fire({
+                                      title: "Eliminado!",
+                                      text: "Tu transferencias fue eliminada has.",
+                                      icon: "success",
+                                    });
+                                  }
+                                }
+                              );
+                            }
+                          });
+                        }}
                         type="submit"
-                        className="px-3 py-2 text-xs font-medium text-center text-white bg-[#4A4A4A] rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                        className="px-3 py-2 text-xs font-medium text-center text-white bg-[#4A4A4A] rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer"
                       >
                         E
                       </button>
@@ -325,16 +367,26 @@ export const TransferManager = () => {
 
           <div className="flex-wrap justify-center  border border-gray-200 bg-[#F5F7FA]  mt-5 py-3 pl-3">
             <button
+              disabled={selectedTransfers.length > 0 ? false : true}
               onClick={onApprove}
               type="button"
-              className="px-5 mr-3 py-2.5 text-sm font-medium text-white bg-[#3666C2] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
+              className={`px-5 mr-3 py-2.5 text-sm font-medium text-white rounded-lg  ${
+                selectedTransfers.length > 0
+                  ? "bg-[#3666C2] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer"
+                  : "bg-gray-400"
+              }`}
             >
               Aprobar
             </button>
             <button
+              disabled={selectedTransfers.length > 0 ? false : true}
               type="button"
               onClick={() => setOpenModalRechazar(true)}
-              className="px-5 py-2.5 text-sm font-medium text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
+              className={`px-5 py-2.5 text-sm font-medium text-white rounded-lg ${
+                selectedTransfers.length > 0
+                  ? "bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer"
+                  : "bg-gray-400"
+              } `}
             >
               Rechazar
             </button>
@@ -387,14 +439,17 @@ export const TransferManager = () => {
       {/* {openModalDetalle && <ModalDetalle setState={setOpenModalAprobacion} />} */}
       {openModalDetalle ? (
         <ModalDetalle
-          setStates={{ setOpenModalDetalle, setOpenModalAprobacion }}
+          setStates={{
+            setOpenModalDetalle,
+            setOpenModalAprobacion,
+            setOpenModalRechazar,
+          }}
         />
       ) : null}
       {openModalAprobacion ? (
         <ModalAprobacion
           setState={setOpenModalAprobacion}
-          detalle={listDetalleTransferencia}
-          onReturn={onApprove}
+          detalle={selectedTransfers}
         />
       ) : null}
 

@@ -4,7 +4,7 @@ import ResumenPT from "../organismo/ResumenPT";
 
 interface modalRechazoProps {
   setState: React.Dispatch<React.SetStateAction<boolean>>;
-}
+} 
 
 const ModalRechazo = ({ setState }: modalRechazoProps) => {
   const { selectedTransfers } = useAppSelector((state) => state.transferencias);

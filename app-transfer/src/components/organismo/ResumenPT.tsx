@@ -1,11 +1,14 @@
-import { useAppDispatch } from "../../store/TransferenciaRedux";
+import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
 import FilaResumenPT from "../molecules/FilaResumenPT";
 import FilaResumentTotal from "../molecules/FilaResumentTotal";
 import { sendDetalleTransferencia } from "../../lib/fetchTransferencia";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
-import { onUpdateTransfer } from "../../store/transferencia/transferenciaSlice";
+import {
+  onDeleteDeArregloTranfer,
+  onUpdateTransfer,
+} from "../../store/transferencia/transferenciaSlice";
 
 type IPropsResumenPT = {
   texto: string;
@@ -19,6 +22,10 @@ const ResumenPT = ({ texto, transferencias, setState }: IPropsResumenPT) => {
     0
   );
   const dispatch = useAppDispatch();
+  const { selectedTransfers } = useAppSelector(
+    (state) => state.transferencias
+  );
+
   const handleUpdate = async (
     e: React.FormEvent<HTMLFormElement>,
     transferencias: IListDetalleTransferencia[]
@@ -29,6 +36,7 @@ const ResumenPT = ({ texto, transferencias, setState }: IPropsResumenPT) => {
       pt_id: item.resultado_pt_id,
       motivo_rechazo: motivos,
       estado: "Rechazado",
+      usuario_aprobador:"María García",
       usuario_aprobador_id: 2,
       referencia_sap: "",
     }));
@@ -36,6 +44,10 @@ const ResumenPT = ({ texto, transferencias, setState }: IPropsResumenPT) => {
 
     if (response.ok) {
       toast.success("Transferencia actualizada con éxito!");
+      dispatch(
+        onDeleteDeArregloTranfer(updateTransfer as IListDetalleTransferencia[])
+      );
+
       dispatch(onUpdateTransfer(updateTransfer));
       setState(false);
     } else {
@@ -80,7 +92,17 @@ const ResumenPT = ({ texto, transferencias, setState }: IPropsResumenPT) => {
           <button
             id="cancelar"
             type="button"
-            onClick={() => setState(false)}
+            onClick={() => {
+             {
+              selectedTransfers &&
+                dispatch(
+                  onDeleteDeArregloTranfer(
+                    selectedTransfers as IListDetalleTransferencia[]
+                  )
+                );
+              } 
+              setState(false);
+            }}
             className="bg-gray-100 text-black p-3 rounded-sm border border-gray-400 cursor-pointer"
           >
             Cancelar

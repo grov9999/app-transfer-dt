@@ -65,6 +65,46 @@ export const transferenciaSlice = createSlice({
         state.selectedTransfers.splice(index, 1);
       }
     },
+    onDeleteTranfer: (
+      state: transferenciaInitialState,
+      action: PayloadAction<IListDetalleTransferencia>
+    ) => {
+      state.transferencias = state.transferencias.filter(
+        (trans) => trans.resultado_pt_id !== action.payload.resultado_pt_id // Aquí eliminamos el ítem cuyo pt_id coincida con el proporcionado
+      );
+    },
+    onDeleteDeTranfer: (
+      state: transferenciaInitialState,
+      action: PayloadAction<IListDetalleTransferencia>
+    ) => {
+      state.selectedTransfers = state.selectedTransfers.filter(
+        (trans) => trans.resultado_pt_id !== action.payload.resultado_pt_id // Aquí eliminamos el ítem cuyo pt_id coincida con el proporcionado
+      );
+    },
+    onDeleteDeArregloTranfer: (
+      state: transferenciaInitialState,
+      action: PayloadAction<IListDetalleTransferencia[]>
+    ) => {
+      action.payload.forEach((item) => {
+        state.selectedTransfers = state.selectedTransfers.filter(
+          (trans) => trans.resultado_pt_id !== item.resultado_pt_id
+        );
+      });
+    },
+
+    onUpdateArregloTransferencia: (
+      state: transferenciaInitialState,
+      action: PayloadAction<IListDetalleTransferencia>
+    ) => {
+      const index = state.selectedTransfers.findIndex(
+        (transa) => transa.resultado_pt_id === action.payload.resultado_pt_id
+      );
+      if (index !== -1) {
+        state.selectedTransfers[index] = action.payload;
+      } else {
+        state.selectedTransfers.push(action.payload);
+      }
+    },
   },
 });
 
@@ -74,4 +114,8 @@ export const {
   onAddTransfer,
   onUpdateTransfer,
   toggleSelectTransfer,
+  onDeleteTranfer,
+  onDeleteDeTranfer,
+  onDeleteDeArregloTranfer,
+  onUpdateArregloTransferencia,
 } = transferenciaSlice.actions;

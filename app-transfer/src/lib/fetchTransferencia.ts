@@ -1,7 +1,6 @@
 import { DetalleTransferencia } from "../interfaces/DetalleTransferencia";
 import { IAlmacen } from "../interfaces/IAlmacen";
 import { IListDetalleTransferencia } from "../interfaces/IListDetalleTransferencia";
-import { ITransfer } from "../interfaces/ITransferCreate";
 
 export const getTransferencia = async () => {
   try {
@@ -99,7 +98,35 @@ export const sendDetalleTransferencia = async (
       },
       body: JSON.stringify(actionTransferencia),
     });
+    console.log(actionTransferencia);
     const data = await response.json();
+    return {
+      ok: true,
+      data,
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      message: (error as Error).message,
+    };
+  }
+};
+
+export const getEliminarTransferencia = async (codigo: string) => {
+  try {
+    const response = await fetch(
+      "http://localhost:3000/api/transfer/" + codigo,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+
+    //console.log(data);
+    //await sleep(1500);
     return {
       ok: true,
       data,
