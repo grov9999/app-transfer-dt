@@ -7,7 +7,6 @@ import { useState } from "react";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import {
   onDeleteDeArregloTranfer,
-  onDeleteDeTranfer,
   onUpdateTransfer,
 } from "../../store/transferencia/transferenciaSlice";
 
@@ -23,8 +22,8 @@ const ResumenPT = ({ texto, transferencias, setState }: IPropsResumenPT) => {
     0
   );
   const dispatch = useAppDispatch();
-  const { detalleTransferencia } = useAppSelector(
-    (state) => state.detalleTransferencia
+  const { selectedTransfers } = useAppSelector(
+    (state) => state.transferencias
   );
 
   const handleUpdate = async (
@@ -37,6 +36,7 @@ const ResumenPT = ({ texto, transferencias, setState }: IPropsResumenPT) => {
       pt_id: item.resultado_pt_id,
       motivo_rechazo: motivos,
       estado: "Rechazado",
+      usuario_aprobador:"María García",
       usuario_aprobador_id: 2,
       referencia_sap: "",
     }));
@@ -45,8 +45,8 @@ const ResumenPT = ({ texto, transferencias, setState }: IPropsResumenPT) => {
     if (response.ok) {
       toast.success("Transferencia actualizada con éxito!");
       dispatch(
-        onDeleteDeArregloTranfer(updateTransfer as IListDetalleTransferencia[])  
-      ) 
+        onDeleteDeArregloTranfer(updateTransfer as IListDetalleTransferencia[])
+      );
 
       dispatch(onUpdateTransfer(updateTransfer));
       setState(false);
@@ -93,11 +93,14 @@ const ResumenPT = ({ texto, transferencias, setState }: IPropsResumenPT) => {
             id="cancelar"
             type="button"
             onClick={() => {
-              dispatch(
-                onDeleteDeTranfer(
-                  detalleTransferencia as IListDetalleTransferencia
-                )
-              );
+             {
+              selectedTransfers &&
+                dispatch(
+                  onDeleteDeArregloTranfer(
+                    selectedTransfers as IListDetalleTransferencia[]
+                  )
+                );
+              } 
               setState(false);
             }}
             className="bg-gray-100 text-black p-3 rounded-sm border border-gray-400 cursor-pointer"

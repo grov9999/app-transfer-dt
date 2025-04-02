@@ -2,7 +2,7 @@ import { X } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
 //import { onDeleteDeTranfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
-import { onDeleteDeTranfer } from "../../store/transferencia/transferenciaSlice";
+import { onDeleteDeArregloTranfer } from "../../store/transferencia/transferenciaSlice";
 //mport { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
 //import { onArregloDetaTransfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 //import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
@@ -13,8 +13,8 @@ interface headerAprobacionProps {
 
 export const HeaderAprobacion = ({ setState }: headerAprobacionProps) => {
   const dispatch = useAppDispatch();
-  const { detalleTransferencia } = useAppSelector(
-    (state) => state.detalleTransferencia
+  const { selectedTransfers } = useAppSelector(
+    (state) => state.transferencias
   );
 
   return (
@@ -23,10 +23,10 @@ export const HeaderAprobacion = ({ setState }: headerAprobacionProps) => {
         className="absolute top-2 right-2 text-6xl text-white hover:text-black"
         onClick={() => {
           {
-            detalleTransferencia &&
+            selectedTransfers &&
               dispatch(
-                onDeleteDeTranfer(
-                  detalleTransferencia as IListDetalleTransferencia
+                onDeleteDeArregloTranfer(
+                  selectedTransfers as IListDetalleTransferencia[]
                 )
               );
           }

@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { sendDetalleTransferencia } from "../../lib/fetchTransferencia";
 import {
@@ -17,7 +18,7 @@ export const ModalAprobacion = ({
   setState,
   // onReturn,
   detalle,
-}: modalAprobacionHeader) => {
+}: modalAprobacionHeader) => { 
   const dispatch = useAppDispatch();
   const onReturn = () => {
     const actiones: IListDetalleTransferencia[] = detalle?.map((detalle) => {
@@ -26,6 +27,7 @@ export const ModalAprobacion = ({
         pt_id: detalle.resultado_pt_id,
         estado: "Aprobado",
         usuario_aprobador_id: 4,
+        usuario_aprobador:"David Torres",
         motivo_rechazo: "",
         referencia_sap: "SAP-458",
       };
@@ -34,6 +36,7 @@ export const ModalAprobacion = ({
     sendDetalleTransferencia(actiones).then((response) => {
       if (!response.ok) {
       } else {
+        toast.success("Transferencia Aprobada con éxito!");
         dispatch(
           onDeleteDeArregloTranfer(actiones as IListDetalleTransferencia[])
         );

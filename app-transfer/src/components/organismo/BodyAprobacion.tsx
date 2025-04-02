@@ -2,7 +2,7 @@ import { Button } from "../atom/Button";
 import { Loading } from "../atom/Loading";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
-import { onDeleteDeTranfer } from "../../store/transferencia/transferenciaSlice";
+import { onDeleteDeArregloTranfer} from "../../store/transferencia/transferenciaSlice";
 //import { onDeleteDeTranfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 
 interface boydAprobacionProps {
@@ -17,8 +17,8 @@ export const BodyAprobacion = ({
   detalle,
 }: boydAprobacionProps) => {
   const dispatch = useAppDispatch();
-  const { detalleTransferencia } = useAppSelector(
-    (state) => state.detalleTransferencia
+  const { selectedTransfers } = useAppSelector(
+    (state) => state.transferencias
   );
 
   const total = detalle
@@ -73,11 +73,14 @@ export const BodyAprobacion = ({
           name="Cancelar"
           color="gray"
           onRetun={() => {
-            dispatch(
-              onDeleteDeTranfer(
-                detalleTransferencia as IListDetalleTransferencia
-              )
-            );
+             {
+              selectedTransfers &&
+                dispatch(
+                  onDeleteDeArregloTranfer(
+                    selectedTransfers as IListDetalleTransferencia[]
+                  )
+                );
+            } 
             setState(false);
           }}
         />

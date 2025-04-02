@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
-import { onDeleteDeTranfer } from "../../store/transferencia/transferenciaSlice";
+import { onDeleteDeArregloTranfer } from "../../store/transferencia/transferenciaSlice";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 type HeaderModalProps = {
   texto: string;
@@ -13,8 +13,8 @@ export const HeaderModal = ({
   setState,
 }: HeaderModalProps) => {
   const dispatch = useAppDispatch();
-  const { detalleTransferencia } = useAppSelector(
-    (state) => state.detalleTransferencia
+  const { selectedTransfers } = useAppSelector(
+    (state) => state.transferencias
   );
   return (
     <div
@@ -26,10 +26,10 @@ export const HeaderModal = ({
         className="absolute top-4 right-4 text-6xl text-white hover:text-black"
         onClick={() => {
           {
-            detalleTransferencia &&
+            selectedTransfers &&
               dispatch(
-                onDeleteDeTranfer(
-                  detalleTransferencia as IListDetalleTransferencia
+                onDeleteDeArregloTranfer(
+                  selectedTransfers as IListDetalleTransferencia[]
                 )
               );
           }
