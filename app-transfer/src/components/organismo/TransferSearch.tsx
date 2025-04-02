@@ -1,4 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../store/TransferenciaRedux";
+import { useState } from "react";
+import {
+  onStartTransfLoading,
+} from "../../store/transferencia/transferenciaSlice";
 
 export const TransferSearch = () => {
   const navigate = useNavigate();
@@ -6,6 +11,15 @@ export const TransferSearch = () => {
   const handleCreate = () => {
     navigate("/create");
   };
+
+  const dispatch = useAppDispatch();
+  const [ searchCod, setSearchCod] = useState("");
+
+  
+  const handleSeacrhClick = async () => {
+    dispatch(onStartTransfLoading());
+  }
+  
 
   return (
     <form>
@@ -37,9 +51,10 @@ export const TransferSearch = () => {
             <input
               type="text"
               id="ptcode"
+              // value={searchFast}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Buscar"
-              required
+              // required
             />
           </div>
           <div>
@@ -54,7 +69,7 @@ export const TransferSearch = () => {
               id="status"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Todos"
-              required
+              // required
             />
           </div>
           <div>
@@ -69,7 +84,7 @@ export const TransferSearch = () => {
               id="costcenter"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Todos"
-              required
+              // required
             />
           </div>
         </div>
@@ -83,12 +98,12 @@ export const TransferSearch = () => {
               FECHA DESDE
             </label>
             <input
-              type="tel"
+              type="text"
               id="datefrom"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="DD/MM/AAAA"
-              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-              required
+              // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+              // required
             />
           </div>
           <div>
@@ -99,11 +114,11 @@ export const TransferSearch = () => {
               FECHA HASTA
             </label>
             <input
-              type="url"
+              type="text"
               id="dateuntil"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="DD/MM/AAAA"
-              required
+              // required
             />
           </div>
           <div>
@@ -114,11 +129,11 @@ export const TransferSearch = () => {
               MONTO DESDE
             </label>
             <input
-              type="url"
+              type="text"
               id="amountfrom"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="0.00"
-              required
+              // required
             />
           </div>
           <div>
@@ -129,17 +144,18 @@ export const TransferSearch = () => {
               MONTO HASTA
             </label>
             <input
-              type="url"
+              type="text"
               id="amountuntil"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="0.00"
-              required
+              // required
             />
           </div>
 
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             <button
-              type="button"
+              // type="button"
+              // onClick={(e) => handleSearchFast(e)}
               className="px-3 py-2 text-sm font-medium text-center text-white bg-[#3666C2] rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
             >
               Buscar

@@ -34,6 +34,7 @@ export const TransferManager = () => {
   const { listDetalleTransferencia } = useAppSelector(
     (state) => state.detalleTransferencia
   );
+
   const { currentItems, currentPage, maxPage, nextPage, prevPage, goToPage } =
     usePagination<IListDetalleTransferencia>(transferencias, 4);
 
@@ -70,6 +71,17 @@ export const TransferManager = () => {
     );
     setfilterTransfersFast(newFilterTransfersFast);
   };
+
+  const handleSearchClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const valor = e.target.value;
+    setsearchFast(valor);
+    const newFilterTransfersFast = transferencias.filter(
+      (item) =>
+        item.codigo.toLowerCase().includes(valor)
+    );
+    setfilterTransfersFast(newFilterTransfersFast);
+  };
+
   const displayedItems = searchFast ? filterTransfersFast : currentItems;
 
   const sortTable = (column: keyof IListDetalleTransferencia) => {
@@ -93,8 +105,8 @@ export const TransferManager = () => {
       }
     });
 
-    dispatch(onListingTransfer(sortedItems)); // Actualiza los datos ordenados
-    setIsAscending(!isAscending); // Alterna entre ascendente y descendente
+    dispatch(onListingTransfer(sortedItems));
+    setIsAscending(!isAscending);
   };
 
   return (

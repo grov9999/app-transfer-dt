@@ -4,6 +4,7 @@ import { detalleTransferenciaSlice } from "./detalleTransferencia/detalleTransfe
 import { almacenSlice } from "./almacenes/almacenSlice";
 import { usuarioSlice } from "./usuario/usuarioSlice";
 import { transferenciaSlice } from "./transferencia/transferenciaSlice";
+import { tablaTransferenciaSlice } from "./tablaTransferenciaSlice";
 
 export const transferStore = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const transferStore = configureStore({
     detalleTransferencia: detalleTransferenciaSlice.reducer,
     almacenes: almacenSlice.reducer,
     usuario: usuarioSlice.reducer,
+    tabla: tablaTransferenciaSlice.reducer,
   },
 });
 
