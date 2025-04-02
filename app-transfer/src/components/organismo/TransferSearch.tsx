@@ -70,7 +70,7 @@ export const TransferSearch = () => {
     setSearchCod(valor);
   };
 
-  const handleFiltrosEst = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFiltrosEst = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const valor = e.target.value;
     setSearchEst(valor);
   };
@@ -102,6 +102,16 @@ export const TransferSearch = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+
+    const datos = {
+      ptcode: searchCod,
+      status: searchEst,
+      costcenter: searchCost,
+      datefrom: searchFech,
+      dateuntil: searchFechFin,
+      amountfrom: searchMon,
+      amountuntil: searchMonFin,
+    };
 
     const newFiltrosCod = transferencias.filter(
       (item) =>
@@ -170,7 +180,7 @@ export const TransferSearch = () => {
             >
               ESTADO
             </label>
-            <input
+            {/* <input
               type="text"
               id="status"
               value={searchEst}
@@ -178,7 +188,28 @@ export const TransferSearch = () => {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Todos"
               // required
-            />
+            /> */}
+
+            <select
+              id="status"
+              value={searchEst}
+              onChange={handleFiltrosEst}
+              // onChange={(e) => handleFiltrosEst(e)}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+            > 
+                <option key="" value="Seleccionar estado">
+                  Pendiente
+                </option>
+                <option key="1" value="Pendiente">
+                  Pendiente
+                </option>
+                <option key="2" value="Rechazado">
+                  Rechazado
+                </option>
+                <option key="3" value="Aprobado">
+                  Aprobado
+                </option>
+              </select>
           </div>
           <div>
             <label
