@@ -31,6 +31,7 @@ export const ModalAprobacion = ({
     sendDetalleTransferencia(actiones).then((response) => {
       if (!response.ok) {
         dispatch(onUpdateTransfer(actiones));
+        setState(false)
         //console.log(response.message);
       } else {
         //console.log(response.data);
