@@ -50,11 +50,39 @@ export const TransferManager = () => {
     setOpenModalDetalle(false);
     setOpenModalAprobacion(true);
   };
+  const [searchFast, setsearchFast] = useState("");
+  const [filterTransfersFast, setfilterTransfersFast] = useState<
+    IListDetalleTransferencia[]
+  >([]);
 
+  const handleSearchFast = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const valor = e.target.value;
+    setsearchFast(valor);
+    const newFilterTransfersFast = transferencias.filter(
+      (item) =>
+        item.codigo.toLowerCase().includes(valor) ||
+        item.centro_costo.toLowerCase().includes(valor)
+    );
+    setfilterTransfersFast(newFilterTransfersFast);
+  };
+  const displayedItems = searchFast ? filterTransfersFast : currentItems;
   return (
     <>
       <div className="mx-auto rounded-lg ">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg pb-3">
+          <div className="mb-2 flex items-center">
+            <label htmlFor="buscar-rapido" className="mr-2">
+              Buscar por:
+            </label>
+            <input
+              type="text"
+              id="buscar-rapido"
+              value={searchFast}
+              className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5"
+              placeholder="Codigo PT o C. Costo"
+              onChange={(e) => handleSearchFast(e)}
+            />
+          </div>
           <table className="w-full  text-sm text-left rtl:text-right text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-[#F5F7FA] ">
               <tr>
@@ -66,9 +94,9 @@ export const TransferManager = () => {
                       type="checkbox"
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
                     />
-                    <label htmlFor="checkbox-all-search" className="sr-only">
+                    {/* <label htmlFor="checkbox-all-search" className="sr-only">
                       checkbox
-                    </label>
+                    </label> */}
                   </div>
                 </th>
                 <th
@@ -118,8 +146,8 @@ export const TransferManager = () => {
 
             {/* ## Cuerpo de la tabla */}
             <tbody>
-              {currentItems &&
-                currentItems.map((item: IListDetalleTransferencia) => (
+              {displayedItems &&
+                displayedItems.map((item: IListDetalleTransferencia) => (
                   <tr
                     className="bg-white  border border-gray-300"
                     key={Math.random()}
@@ -137,7 +165,7 @@ export const TransferManager = () => {
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
                         />
                         <label
-                          htmlFor="checkbox-table-search-1"
+                          htmlFor={`checkbox-table-search-${item.resultado_pt_id}`}
                           className="sr-only"
                         >
                           checkbox
