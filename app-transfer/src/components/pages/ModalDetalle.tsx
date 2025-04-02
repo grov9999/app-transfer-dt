@@ -4,9 +4,6 @@ import { HeaderBodyDetalle } from "../organismo/HeaderBodyDetalle";
 import { HeaderDetalle } from "../organismo/HeaderDetalle";
 
 import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
-import //onDeleteDeTranfer,
-//onUpdateArregloTransferencia,
-"../../store/detalleTransferencia/detalleTransferenciaSlice";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { onUpdateArregloTransferencia } from "../../store/transferencia/transferenciaSlice";
 
@@ -43,7 +40,7 @@ export const ModalDetalle = ({ setStates }: modalDetalleProps) => {
   return (
     <>
       <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[1px] ">
-        <div className="w-full max-w-2xl h-[85vh] max-h-[90vh] px-7">
+        <div className="w-full sm:max-w-xl md:max-w-lg lg:max-w-3xl px-7 overflow-auto">
           <HeaderDetalle
             onReturn={onReturn}
             detalleTransfer={detalleTransferencia}

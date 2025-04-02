@@ -53,7 +53,7 @@ export const BodyDetalle = ({ detalleTransfer, onChange }: bodyDetalleProps) => 
         </div>
         <div>
           <h2 className="font-semibold text-gray-900 mb-2">Información de Transferencia</h2>
-          <div className="grid grid-cols-2 font-light">
+          <div className="grid grid-cols-2 font-light ">
             <div>
 
               <p className="p-[1px]">Almacén origen: </p>
@@ -70,7 +70,7 @@ export const BodyDetalle = ({ detalleTransfer, onChange }: bodyDetalleProps) => 
               <p className="p-[1px]">{detalleTransfer?.centro_costo ? detalleTransfer.centro_costo : '-'}</p>
               <p className="p-[1px]">{detalleTransfer?.usuario_aprobador ? detalleTransfer?.usuario_aprobador : '-'}</p>
               <p className="p-[1px]">{detalleTransfer?.fecha_aprobacion ? dateAproba : '-'}</p>
-              <p className="p-[1px]">{detalleTransfer?.motivo_rechazo ? detalleTransfer.motivo_rechazo : '-'}</p>
+              <p className="p-[1px] break-words text-xs ">{detalleTransfer?.motivo_rechazo ? detalleTransfer.motivo_rechazo : '-'}</p>
             </div>
           </div>
         </div>
