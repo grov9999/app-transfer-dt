@@ -3,10 +3,14 @@ import {
   ArrowUpCircleIcon,
   ArrowDownCircleIcon,
 } from "@heroicons/react/24/solid";
-import { getTransferencia } from "../../lib/fetchTransferencia";
+import {
+  getEliminarTransferencia,
+  getTransferencia,
+} from "../../lib/fetchTransferencia";
 import {
   onListingTransfer,
   onStartTransfLoading,
+  onDeleteTranfer,
   toggleSelectTransfer,
 } from "../../store/transferencia/transferenciaSlice";
 import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
@@ -15,11 +19,14 @@ import { usePagination } from "../../hooks/usePagination";
 import { ModalAprobacion } from "../pages/ModalAprobacion";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { formatDate } from "../../utils/formatDate";
-import { onListingDetaTransfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
+import {
+  onListingDetaTransfer,
+} from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 import ModalRechazo from "../pages/ModalRechazo";
 
 export const TransferManager = () => {
   const { selectedTransfers } = useAppSelector((state) => state.transferencias);
+  
   useEffect(() => {
     obtenerTransf();
   }, []);
@@ -31,9 +38,9 @@ export const TransferManager = () => {
 
   const dispatch = useAppDispatch();
   const { transferencias } = useAppSelector((state) => state.transferencias);
-  const { listDetalleTransferencia } = useAppSelector(
+  /*const {listDetalleTransferencia } = useAppSelector(
     (state) => state.detalleTransferencia
-  );
+  );*/
   const { currentItems, currentPage, maxPage, nextPage, prevPage, goToPage } =
     usePagination<IListDetalleTransferencia>(transferencias, 4);
 
@@ -242,7 +249,10 @@ export const TransferManager = () => {
                             (transfer) =>
                               transfer.resultado_pt_id === item.resultado_pt_id
                           )}
-                          onChange={() => dispatch(toggleSelectTransfer(item))}
+                          onChange={() => {
+                            //dispatch(onArregloDetaTransfer(item));
+                            dispatch(toggleSelectTransfer(item));
+                          }}
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
                         />
                         <label
@@ -293,6 +303,7 @@ export const TransferManager = () => {
                               item as IListDetalleTransferencia
                             )
                           );
+                          //dispatch(onArregloDetaTransfer(item));
                         }}
                         type="submit"
                         className="px-3 py-2 mr-2 text-xs font-medium text-center text-white bg-[#3666C2] rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
@@ -300,6 +311,21 @@ export const TransferManager = () => {
                         V
                       </button>
                       <button
+                        onClick={() => {
+                          getEliminarTransferencia(item.codigo).then(
+                            (response) => {
+                              if (!response.ok) {
+                                //console.log(response.message);
+                              } else {
+                                dispatch(
+                                  onDeleteTranfer(
+                                    item as IListDetalleTransferencia
+                                  )
+                                );
+                              }
+                            }
+                          );
+                        }}
                         type="submit"
                         className="px-3 py-2 text-xs font-medium text-center text-white bg-[#4A4A4A] rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                       >
@@ -375,14 +401,13 @@ export const TransferManager = () => {
       {/* {openModalDetalle && <ModalDetalle setState={setOpenModalAprobacion} />} */}
       {openModalDetalle ? (
         <ModalDetalle
-          setStates={{ setOpenModalDetalle, setOpenModalAprobacion }}
+          setStates={{ setOpenModalDetalle, setOpenModalAprobacion,setOpenModalRechazar }}
         />
       ) : null}
       {openModalAprobacion ? (
         <ModalAprobacion
           setState={setOpenModalAprobacion}
-          detalle={listDetalleTransferencia}
-          onReturn={onApprove}
+          detalle={selectedTransfers}
         />
       ) : null}
 

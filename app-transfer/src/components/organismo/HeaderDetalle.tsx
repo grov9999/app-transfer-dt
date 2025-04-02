@@ -1,4 +1,3 @@
-import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { Button } from "../atom/Button";
 
