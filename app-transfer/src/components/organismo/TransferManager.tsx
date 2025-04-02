@@ -71,25 +71,28 @@ export const TransferManager = () => {
     setfilterTransfersFast(newFilterTransfersFast);
   };
   const displayedItems = searchFast ? filterTransfersFast : currentItems;
-  // Función para ordenar datos
+
   const sortTable = (column: keyof IListDetalleTransferencia) => {
     const sortedItems = [...transferencias].sort((a, b) => {
-      const valueA =
-        typeof a[column] === "string" ? a[column].toString() : a[column];
-      const valueB =
-        typeof b[column] === "string" ? b[column].toString() : b[column];
-
+      let valueA = a[column];
+      let valueB = b[column];
+  
+      if (typeof valueA === "string" && !isNaN(Number(valueA))) {
+        valueA = Number(valueA);
+      }
+      if (typeof valueB === "string" && !isNaN(Number(valueB))) {
+        valueB = Number(valueB);
+      }
+  
       if (typeof valueA === "number" && typeof valueB === "number") {
         return isAscending ? valueA - valueB : valueB - valueA;
       } else if (typeof valueA === "string" && typeof valueB === "string") {
-        return isAscending
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
+        return isAscending ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
       } else {
-        return 0; // Para casos no manejados
+        return 0;
       }
     });
-    // Update the state or variable holding the sorted items
+
     dispatch(onListingTransfer(sortedItems)); // Actualiza los datos ordenados
     setIsAscending(!isAscending); // Alterna entre ascendente y descendente
   };
