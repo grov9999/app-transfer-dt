@@ -4,7 +4,7 @@ export const Nav = () => {
       <div className="bg-[#0B5DB4] p-3 flex justify-between">
         <h2 className="text-white ">Registro de Parte de Transferencia</h2>
       </div>
-      <nav className="border-b border-b-gray-200 mb-3">
+      <nav className="border-b border-b-gray-200 mb-3 ">
         <div className=" p-3 mx-auto">
           <div className="flex items-center">
             <ul className="flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm">
