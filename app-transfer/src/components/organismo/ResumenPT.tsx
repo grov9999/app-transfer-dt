@@ -13,7 +13,7 @@ type IPropsResumenPT = {
   transferencias: IListDetalleTransferencia[];
   setState: React.Dispatch<React.SetStateAction<boolean>>;
 
-};
+}; 
 const ResumenPT = ({ texto, transferencias, setState }: IPropsResumenPT) => {
   const [motivos, setmotivos] = useState("");
   const navigate = useNavigate();

@@ -32,12 +32,11 @@ export const detalleTransferenciaSlice = createSlice({
         },
         onArregloDetaTransfer: (state: detalleTransferenciaInitialState, action: PayloadAction<IListDetalleTransferencia>) => {
             const index = state.listDetalleTransferencia.findIndex((trans) => trans.resultado_pt_id === action.payload.resultado_pt_id);
-            if (index !== -1) {
-                state.listDetalleTransferencia[index] = action.payload;
-            } else {
+            if (index == -1) {
                 state.listDetalleTransferencia.push(action.payload);
-            }
-
+            } else {
+                state.listDetalleTransferencia.splice(index,1);
+            } 
         },
         onDeleteTranfer: (state: detalleTransferenciaInitialState, action: PayloadAction<number>) => {
             state.listDetalleTransferencia = state.listDetalleTransferencia.filter(

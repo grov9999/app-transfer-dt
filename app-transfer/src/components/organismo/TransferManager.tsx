@@ -35,7 +35,7 @@ export const TransferManager = () => {
 
   const dispatch = useAppDispatch();
   const { transferencias } = useAppSelector((state) => state.transferencias);
-  const { listDetalleTransferencia } = useAppSelector(
+  const {detalleTransferencia ,listDetalleTransferencia } = useAppSelector(
     (state) => state.detalleTransferencia
   );
   const { currentItems, currentPage, maxPage, nextPage, prevPage, goToPage } =
@@ -129,7 +129,11 @@ export const TransferManager = () => {
                             (transfer) =>
                               transfer.resultado_pt_id === item.resultado_pt_id
                           )}
-                          onChange={() => dispatch(toggleSelectTransfer(item))}
+                          onChange={() => {
+                            dispatch(onArregloDetaTransfer(item))
+                            dispatch(toggleSelectTransfer(item));
+                            
+                          }}
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
                         />
                         <label
@@ -269,11 +273,13 @@ export const TransferManager = () => {
         <ModalAprobacion
           setState={setOpenModalAprobacion}
           detalle={listDetalleTransferencia}
-          onReturn={onApprove}
+          
         />
       ) : null}
 
-      {openModalRechazar ? <ModalRechazo setState={setOpenModalRechazar} /> : null}
+      {openModalRechazar ? (
+        <ModalRechazo setState={setOpenModalRechazar} />
+      ) : null}
     </>
   );
 };
