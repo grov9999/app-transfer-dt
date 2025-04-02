@@ -1,8 +1,8 @@
-import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia"
+import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { CardTexArea } from "../molecules/CardTexArea"
 
 interface bodyDetalleProps {
-  detalleTransfer: DetalleTransferencia | null,
+  detalleTransfer: IListDetalleTransferencia | null,
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
 
 }
@@ -15,6 +15,7 @@ export const BodyDetalle = ({ detalleTransfer, onChange }: bodyDetalleProps) => 
     Pendiente: "bg-yellow-100 text-yellow-600",
     Aprobado: "bg-green-100 text-green-600",
     Rechazado: "bg-red-100 text-red-600",
+    
   };
 
   return (
@@ -39,7 +40,7 @@ export const BodyDetalle = ({ detalleTransfer, onChange }: bodyDetalleProps) => 
               <p className="p-[0.9px] "> {detalleTransfer?.codigo}</p>
               <p className="p-[1px]">{dateCreate}</p>
               <p className="p-[1px]">
-                <span className={` text-xs font-semibold px-3 py-1 rounded-3xl border-1 " ${detalleTransfer?.estado && colors[detalleTransfer.estado]} `} >
+                <span className={` text-xs font-semibold px-3 py-1 rounded-3xl border-1 " ${detalleTransfer?.estado && colors[detalleTransfer?.estado as keyof typeof colors]} `} >
                   {detalleTransfer?.estado}
                 </span>
               </p>

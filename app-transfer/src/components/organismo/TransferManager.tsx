@@ -1,38 +1,32 @@
 import { useEffect, useState } from "react";
-import {
-  getDetalleTransferencia,
-  getTransferencia,
-} from "../../lib/fetchTransferencia";
+import { getTransferencia } from "../../lib/fetchTransferencia";
 import {
   onListingTransfer,
   onStartTransfLoading,
+  toggleSelectTransfer,
 } from "../../store/transferencia/transferenciaSlice";
 import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
 import { ModalDetalle } from "../pages/ModalDetalle";
 import { usePagination } from "../../hooks/usePagination";
-import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia";
-import {
-  onArregloDetaTransfer,
-  onListingDetaTransfer,
-} from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 import { ModalAprobacion } from "../pages/ModalAprobacion";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
-import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../utils/formatDate";
+import { onListingDetaTransfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
+import ModalRechazo from "../pages/ModalRechazo";
 
 export const TransferManager = () => {
-  const navigate = useNavigate();
+  const { selectedTransfers } = useAppSelector((state) => state.transferencias);
   useEffect(() => {
     obtenerTransf();
   }, []);
 
   const [openModalDetalle, setOpenModalDetalle] = useState(false);
   const [openModalAprobacion, setOpenModalAprobacion] = useState(false);
+  const [openModalRechazar, setOpenModalRechazar] = useState(false);
 
   const dispatch = useAppDispatch();
-  const { transferencias, loadingTransferencia, errorMessageTransferencia } =
-    useAppSelector((state) => state.transferencias);
-  const { detalleTransferencia, listDetalleTransferencia } = useAppSelector(
+  const { transferencias } = useAppSelector((state) => state.transferencias);
+  const { listDetalleTransferencia } = useAppSelector(
     (state) => state.detalleTransferencia
   );
   const { currentItems, currentPage, maxPage, nextPage, prevPage, goToPage } =
@@ -48,21 +42,10 @@ export const TransferManager = () => {
         dispatch(
           onListingTransfer(response.data as IListDetalleTransferencia[])
         );
-        //console.log(response.data)
       }
     });
   };
 
-  const obtenerTransfDetalle = async (id: string) => {
-    getDetalleTransferencia(id).then((response) => {
-      if (!response.ok) {
-        //console.log("Responde Error")
-      } else {
-        dispatch(onListingDetaTransfer(response.data as DetalleTransferencia));
-        dispatch(onArregloDetaTransfer(response.data as DetalleTransferencia));
-      }
-    });
-  };
   const onApprove = () => {
     setOpenModalDetalle(false);
     setOpenModalAprobacion(true);
@@ -115,13 +98,18 @@ export const TransferManager = () => {
             {/* ## Cuerpo de la tabla */}
             <tbody>
               {currentItems &&
-                currentItems.map((item: any) => (
+                currentItems.map((item: IListDetalleTransferencia) => (
                   <tr className="bg-white border-b" key={Math.random()}>
                     <td className="w-4 p-4">
                       <div className="flex items-center">
                         <input
                           id={`checkbox-table-search-${item.resultado_pt_id}`}
                           type="checkbox"
+                          checked={selectedTransfers.some(
+                            (transfer) =>
+                              transfer.resultado_pt_id === item.resultado_pt_id
+                          )}
+                          onChange={() => dispatch(toggleSelectTransfer(item))}
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
                         />
                         <label
@@ -165,7 +153,11 @@ export const TransferManager = () => {
                       <button
                         onClick={() => {
                           setOpenModalDetalle(true);
-                          obtenerTransfDetalle(String(item.resultado_pt_id));
+                          dispatch(
+                            onListingDetaTransfer(
+                              item as IListDetalleTransferencia
+                            )
+                          );
                         }}
                         type="submit"
                         className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
@@ -188,6 +180,7 @@ export const TransferManager = () => {
           <div className="flex-wrap justify-center">
             {/* <div className="grid gap-6 mb-6 md:grid-cols-2"> */}
             <button
+              onClick={onApprove}
               type="button"
               className="px-5 py-2.5 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
             >
@@ -195,7 +188,7 @@ export const TransferManager = () => {
             </button>
             <button
               type="button"
-              onClick={() => navigate("/modal-rechazo")}
+              onClick={() => setOpenModalRechazar(true)}
               className="px-5 py-2.5 text-sm font-medium text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
             >
               Rechazar
@@ -254,10 +247,14 @@ export const TransferManager = () => {
       ) : null}
       {openModalAprobacion ? (
         <ModalAprobacion
-          setState={setOpenModalDetalle}
+          setState={setOpenModalAprobacion}
           detalle={listDetalleTransferencia}
           onReturn={onApprove}
         />
+      ) : null}
+
+      {openModalRechazar ? (
+        <ModalRechazo setState={setOpenModalRechazar} />
       ) : null}
     </>
   );
