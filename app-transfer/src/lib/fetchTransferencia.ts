@@ -98,8 +98,10 @@ export const sendDetalleTransferencia = async (
       },
       body: JSON.stringify(actionTransferencia),
     });
-    console.log(actionTransferencia);
-    const data = await response.json();
+    //console.log(actionTransferencia);
+    const datas = await response.json();
+    const data: IListDetalleTransferencia[] = datas.data;
+    console.log(data);
     return {
       ok: true,
       data,

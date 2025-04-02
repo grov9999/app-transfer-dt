@@ -6,12 +6,14 @@ export interface transferenciaInitialState {
   loadingTransferencia: boolean;
   errorMessageTransferencia?: string | null;
   selectedTransfers: IListDetalleTransferencia[];
+  booleanSelect: boolean;
 }
 const initialStateTrans: transferenciaInitialState = {
   transferencias: [],
   loadingTransferencia: false,
   errorMessageTransferencia: null,
   selectedTransfers: [],
+  booleanSelect: false,
 };
 export const transferenciaSlice = createSlice({
   name: "opeTransferencia",
@@ -49,6 +51,13 @@ export const transferenciaSlice = createSlice({
           ? { ...transferencia, ...updatedTransfer }
           : transferencia;
       });
+    },
+    onAddListTransfer: (
+      state: transferenciaInitialState,
+      action: PayloadAction<IListDetalleTransferencia[]>
+    ) => {
+      state.selectedTransfers = action.payload; // Asigna transferencias
+      state.booleanSelect = true;
     },
     toggleSelectTransfer: (
       state,
@@ -90,6 +99,7 @@ export const transferenciaSlice = createSlice({
           (trans) => trans.resultado_pt_id !== item.resultado_pt_id
         );
       });
+      state.booleanSelect = false;
     },
 
     onUpdateArregloTransferencia: (
@@ -105,6 +115,17 @@ export const transferenciaSlice = createSlice({
         state.selectedTransfers.push(action.payload);
       }
     },
+    onUpdateTransferenciaSimple: (
+      state: transferenciaInitialState,
+      action: PayloadAction<IListDetalleTransferencia>
+    ) => {
+      const index = state.transferencias.findIndex(
+        (transa) => transa.resultado_pt_id === action.payload.resultado_pt_id
+      );
+      if (index !== -1) {
+        state.transferencias[index] = action.payload;
+      }
+    },
   },
 });
 
@@ -114,8 +135,10 @@ export const {
   onAddTransfer,
   onUpdateTransfer,
   toggleSelectTransfer,
+  onAddListTransfer,
   onDeleteTranfer,
   onDeleteDeTranfer,
   onDeleteDeArregloTranfer,
   onUpdateArregloTransferencia,
+  onUpdateTransferenciaSimple,
 } = transferenciaSlice.actions;
