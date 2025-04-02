@@ -40,7 +40,7 @@ export const ModalDetalle = ({ setStates }: modalDetalleProps) => {
   return (
     <>
       <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[1px] ">
-        <div className="w-full sm:max-w-xl md:max-w-lg lg:max-w-3xl px-7 overflow-auto">
+        <div className="w-full sm:max-w-xl md:max-w-lg lg:max-w-4xl px-7 overflow-auto">
           <HeaderDetalle
             onReturn={onReturn}
             detalleTransfer={detalleTransferencia}

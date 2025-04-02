@@ -70,7 +70,7 @@ export const BodyDetalle = ({ detalleTransfer, onChange }: bodyDetalleProps) => 
               <p className="p-[1px]">{detalleTransfer?.centro_costo ? detalleTransfer.centro_costo : '-'}</p>
               <p className="p-[1px]">{detalleTransfer?.usuario_aprobador ? detalleTransfer?.usuario_aprobador : '-'}</p>
               <p className="p-[1px]">{detalleTransfer?.fecha_aprobacion ? dateAproba : '-'}</p>
-              <p className="p-[1px] break-words text-xs ">{detalleTransfer?.motivo_rechazo ? detalleTransfer.motivo_rechazo : '-'}</p>
+              <p className="p-[1px] break-words text-[11px]">{detalleTransfer?.motivo_rechazo ? detalleTransfer.motivo_rechazo : '-'}</p>
             </div>
           </div>
         </div>
