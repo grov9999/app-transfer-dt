@@ -1,23 +1,43 @@
 import { X } from "lucide-react";
+import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
+//import { onDeleteDeTranfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
+import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
+import { onDeleteDeTranfer } from "../../store/transferencia/transferenciaSlice";
+//mport { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
+//import { onArregloDetaTransfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
+//import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 interface headerAprobacionProps {
-    onReturn?: () => void;
-    setState: React.Dispatch<React.SetStateAction<boolean>>,
-
-
+  onReturn?: () => void;
+  setState: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const HeaderAprobacion = ({ setState }: headerAprobacionProps) => {
+  const dispatch = useAppDispatch();
+  const { detalleTransferencia } = useAppSelector(
+    (state) => state.detalleTransferencia
+  );
 
-    return (
-        <div className="relative bg-blue-600 rounded px-4 py-1">
-            <button
-                className="absolute top-2 right-2 text-6xl text-white hover:text-black" onClick={() => {
-                    setState(false)
-                }}>
-                <X size={20} strokeWidth={4} />
-            </button>
-            <h2 className="text-xl font-semibold text-white">Aprobar y Enviar Partes a SAP</h2>
-        </div>
-    )
-}
-
+  return (
+    <div className="relative bg-blue-600 rounded px-4 py-1">
+      <button
+        className="absolute top-2 right-2 text-6xl text-white hover:text-black"
+        onClick={() => {
+          {
+            detalleTransferencia &&
+              dispatch(
+                onDeleteDeTranfer(
+                  detalleTransferencia as IListDetalleTransferencia
+                )
+              );
+          }
+          setState(false);
+        }}
+      >
+        <X size={20} strokeWidth={4} />
+      </button>
+      <h2 className="text-xl font-semibold text-white">
+        Aprobar y Enviar Partes a SAP
+      </h2>
+    </div>
+  );
+};

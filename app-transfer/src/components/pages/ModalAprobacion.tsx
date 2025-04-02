@@ -1,6 +1,9 @@
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { sendDetalleTransferencia } from "../../lib/fetchTransferencia";
-import { onUpdateTransfer } from "../../store/transferencia/transferenciaSlice";
+import {
+  //onDeleteDeArregloTranfer,
+} from "../../store/detalleTransferencia/detalleTransferenciaSlice";
+import { onDeleteDeArregloTranfer, onUpdateTransfer } from "../../store/transferencia/transferenciaSlice";
 import { useAppDispatch } from "../../store/TransferenciaRedux";
 import { BodyAprobacion } from "../organismo/BodyAprobacion";
 import { HeaderAprobacion } from "../organismo/HeaderAprobacion";
@@ -9,20 +12,20 @@ interface modalAprobacionHeader {
   setState: React.Dispatch<React.SetStateAction<boolean>>;
   detalle: IListDetalleTransferencia[];
 }
-
+ 
 export const ModalAprobacion = ({
   setState,
   // onReturn,
   detalle,
 }: modalAprobacionHeader) => {
-    const dispatch = useAppDispatch();
-  
+  const dispatch = useAppDispatch();
   const onReturn = () => {
     const actiones: IListDetalleTransferencia[] = detalle?.map((detalle) => {
       return {
         ...detalle,
         pt_id: detalle.resultado_pt_id,
         estado: "Aprobado",
+        usuario_aprobador_id: 4,
         motivo_rechazo: "",
         referencia_sap: "SAP-458",
       };
@@ -30,11 +33,13 @@ export const ModalAprobacion = ({
     console.log(actiones);
     sendDetalleTransferencia(actiones).then((response) => {
       if (!response.ok) {
-        dispatch(onUpdateTransfer(actiones));
-        setState(false)
-        //console.log(response.message);
       } else {
-        //console.log(response.data);
+        dispatch(
+          onDeleteDeArregloTranfer(actiones as IListDetalleTransferencia[])
+        );
+        dispatch(onUpdateTransfer(actiones));
+
+        setState(false);
       }
     });
   };

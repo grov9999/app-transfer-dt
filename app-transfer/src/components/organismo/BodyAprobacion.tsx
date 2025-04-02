@@ -1,6 +1,9 @@
 import { Button } from "../atom/Button";
 import { Loading } from "../atom/Loading";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
+import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
+import { onDeleteDeTranfer } from "../../store/transferencia/transferenciaSlice";
+//import { onDeleteDeTranfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 
 interface boydAprobacionProps {
   onRetun?: () => void;
@@ -13,6 +16,11 @@ export const BodyAprobacion = ({
   setState,
   detalle,
 }: boydAprobacionProps) => {
+  const dispatch = useAppDispatch();
+  const { detalleTransferencia } = useAppSelector(
+    (state) => state.detalleTransferencia
+  );
+
   const total = detalle
     .reduce((acc, item) => acc + parseFloat(item.monto_total), 0)
     .toFixed(2);
@@ -31,16 +39,20 @@ export const BodyAprobacion = ({
       </h1>
       {/* Contenedor de los detalles */}
       <div className="bg-gray-100 px-2 rounded-t-xl border-gray-400">
-        {detalle && detalle.map((index) => (
-          <div className="flex justify-between py-2" key={index.resultado_pt_id}>
-            <span className="w-1/4">{index.codigo}</span>
-            <span className="w-1/4">
-              {formatDate(new Date(index.fecha_generacion))}
-            </span>
-            <span className="w-1/4">S/. {index.monto_total}</span>
-            <span className="w-1/4">{index.centro_costo}</span>
-          </div>
-        ))}
+        {detalle &&
+          detalle.map((index) => (
+            <div
+              className="flex justify-between py-2"
+              key={index.resultado_pt_id}
+            >
+              <span className="w-1/4">{index.codigo}</span>
+              <span className="w-1/4">
+                {formatDate(new Date(index.fecha_generacion))}
+              </span>
+              <span className="w-1/4">S/. {index.monto_total}</span>
+              <span className="w-1/4">{index.centro_costo}</span>
+            </div>
+          ))}
       </div>
       {/* Total */}
       <div className="flex justify-between font-semibold bg-gray-200 p-2 border-t-1">
@@ -61,6 +73,11 @@ export const BodyAprobacion = ({
           name="Cancelar"
           color="gray"
           onRetun={() => {
+            dispatch(
+              onDeleteDeTranfer(
+                detalleTransferencia as IListDetalleTransferencia
+              )
+            );
             setState(false);
           }}
         />

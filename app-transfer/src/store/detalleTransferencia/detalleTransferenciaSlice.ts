@@ -3,54 +3,93 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 
 export interface detalleTransferenciaInitialState {
-    detalleTransferencia: IListDetalleTransferencia | null;
-    listDetalleTransferencia: IListDetalleTransferencia[],
-    loadingDeTransferencia: boolean;
-    errorMessageDeTransferencia?: string | null;
+  detalleTransferencia: IListDetalleTransferencia | null;
+  listDetalleTransferencia: IListDetalleTransferencia[];
+  loadingDeTransferencia: boolean;
+  errorMessageDeTransferencia?: string | null;
 }
 const initialStateDetalleTrans: detalleTransferenciaInitialState = {
-    detalleTransferencia: null,
-    listDetalleTransferencia: [],
-    loadingDeTransferencia: false,
-    errorMessageDeTransferencia: null
-}
+  detalleTransferencia: null,
+  listDetalleTransferencia: [],
+  loadingDeTransferencia: false,
+  errorMessageDeTransferencia: null,
+};
 export const detalleTransferenciaSlice = createSlice({
-    name: 'openDetalleTransferencia',
-    initialState: initialStateDetalleTrans,
-    reducers: {
-        onStartDetaTransfLoading: (state: detalleTransferenciaInitialState) => {
-            state.loadingDeTransferencia = true;
-            state.errorMessageDeTransferencia = null;
-        },
-        onListingDetaTransfer: (state: detalleTransferenciaInitialState, action: PayloadAction<IListDetalleTransferencia>) => {
-            state.detalleTransferencia = action.payload;
-            state.loadingDeTransferencia = false;
-            state.errorMessageDeTransferencia = null;
-        },
-        onUpdateDetalleTransfer: (state, action: PayloadAction<IListDetalleTransferencia>) => {
-            state.detalleTransferencia = action.payload; // Actualiza el estado con el nuevo detalle
-        },
-        onArregloDetaTransfer: (state: detalleTransferenciaInitialState, action: PayloadAction<IListDetalleTransferencia>) => {
-            const index = state.listDetalleTransferencia.findIndex((trans) => trans.resultado_pt_id === action.payload.resultado_pt_id);
-            if (index == -1) {
-                state.listDetalleTransferencia.push(action.payload);
-            } else {
-                state.listDetalleTransferencia.splice(index,1);
-            } 
-        },
-        onDeleteTranfer: (state: detalleTransferenciaInitialState, action: PayloadAction<number>) => {
-            state.listDetalleTransferencia = state.listDetalleTransferencia.filter(
-                (trans) => trans.resultado_pt_id !== action.payload // Aquí eliminamos el ítem cuyo pt_id coincida con el proporcionado
-            );
-        }
-        
-    }
-})
+  name: "openDetalleTransferencia",
+  initialState: initialStateDetalleTrans,
+  reducers: {
+    onStartDetaTransfLoading: (state: detalleTransferenciaInitialState) => {
+      state.loadingDeTransferencia = true;
+      state.errorMessageDeTransferencia = null;
+    },
+    onListingDetaTransfer: (
+      state: detalleTransferenciaInitialState,
+      action: PayloadAction<IListDetalleTransferencia>
+    ) => {
+      state.detalleTransferencia = action.payload;
+      state.loadingDeTransferencia = false;
+      state.errorMessageDeTransferencia = null;
+    },
+    onUpdateDetalleTransfer: (
+      state,
+      action: PayloadAction<IListDetalleTransferencia>
+    ) => {
+      state.detalleTransferencia = action.payload; // Actualiza el estado con el nuevo detalle
+    },
+    /*onArregloDetaTransfer: (
+      state: detalleTransferenciaInitialState,
+      action: PayloadAction<IListDetalleTransferencia>
+    ) => {
+      const index = state.listDetalleTransferencia.findIndex(
+        (trans) => trans.resultado_pt_id === action.payload.resultado_pt_id
+      );
+      if (index == -1) {
+        state.listDetalleTransferencia.push(action.payload);
+      } else {
+        state.listDetalleTransferencia.splice(index, 1);
+      }
+    },
+    onDeleteDeTranfer: (
+      state: detalleTransferenciaInitialState,
+      action: PayloadAction<IListDetalleTransferencia>
+    ) => {
+      state.listDetalleTransferencia = state.listDetalleTransferencia.filter(
+        (trans) => trans.resultado_pt_id !== action.payload.resultado_pt_id // Aquí eliminamos el ítem cuyo pt_id coincida con el proporcionado
+      );
+    },
+    onDeleteDeArregloTranfer: (
+      state: detalleTransferenciaInitialState,
+      action: PayloadAction<IListDetalleTransferencia[]>
+    ) => {
+      action.payload.forEach((item) => {
+        state.listDetalleTransferencia = state.listDetalleTransferencia.filter(
+          (trans) => trans.resultado_pt_id !== item.resultado_pt_id
+        );
+      });
+    }, 
+
+    onUpdateArregloTransferencia: (
+      state: detalleTransferenciaInitialState,
+      action: PayloadAction<IListDetalleTransferencia>
+    ) => {
+      const index = state.listDetalleTransferencia.findIndex(
+        (transa) => transa.resultado_pt_id === action.payload.resultado_pt_id
+      );
+      if (index !== -1) {
+        state.listDetalleTransferencia[index] = action.payload;
+      } else {
+        state.listDetalleTransferencia.push(action.payload);
+      }
+    },*/
+  },
+});
 
 export const {
-    onStartDetaTransfLoading,
-    onListingDetaTransfer,
-    onUpdateDetalleTransfer,
-    onArregloDetaTransfer,
-    onDeleteTranfer
-} = detalleTransferenciaSlice.actions
+  onStartDetaTransfLoading,
+  onListingDetaTransfer,
+  onUpdateDetalleTransfer,
+  /*onArregloDetaTransfer,
+  onDeleteDeTranfer,
+  onDeleteDeArregloTranfer,
+  onUpdateArregloTransferencia,*/
+} = detalleTransferenciaSlice.actions;
