@@ -55,7 +55,22 @@ export const TransferManager = () => {
     setOpenModalDetalle(false);
     setOpenModalAprobacion(true);
   };
+  const [searchFast, setsearchFast] = useState("");
+  const [filterTransfersFast, setfilterTransfersFast] = useState<
+    IListDetalleTransferencia[]
+  >([]);
 
+  const handleSearchFast = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const valor = e.target.value;
+    setsearchFast(valor);
+    const newFilterTransfersFast = transferencias.filter(
+      (item) =>
+        item.codigo.toLowerCase().includes(valor) ||
+        item.centro_costo.toLowerCase().includes(valor)
+    );
+    setfilterTransfersFast(newFilterTransfersFast);
+  };
+  const displayedItems = searchFast ? filterTransfersFast : currentItems;
   // Función para ordenar datos
   const sortTable = (column: keyof IListDetalleTransferencia) => {
     const sortedItems = [...transferencias].sort((a, b) => {
@@ -81,10 +96,23 @@ export const TransferManager = () => {
 
   return (
     <>
-      <div className="mx-auto bg-gray-100 p-6 rounded-lg shadow-md">
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-200">
+      <div className="mx-auto rounded-lg ">
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg pb-3">
+          <div className="mb-2 flex items-center">
+            <label htmlFor="buscar-rapido" className="mr-2">
+              Buscar por:
+            </label>
+            <input
+              type="text"
+              id="buscar-rapido"
+              value={searchFast}
+              className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5"
+              placeholder="Codigo PT o C. Costo"
+              onChange={(e) => handleSearchFast(e)}
+            />
+          </div>
+          <table className="w-full  text-sm text-left rtl:text-right text-gray-500">
+            <thead className="text-xs text-gray-700 uppercase bg-[#F5F7FA] ">
               <tr>
                 {/* Encabezado de la tabla */}
                 <th scope="col" className="p-4">
@@ -94,12 +122,15 @@ export const TransferManager = () => {
                       type="checkbox"
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
                     />
-                    <label htmlFor="checkbox-all-search" className="sr-only">
+                    {/* <label htmlFor="checkbox-all-search" className="sr-only">
                       checkbox
-                    </label>
+                    </label> */}
                   </div>
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th
+                  scope="col"
+                  className="px-6 py-3  border border-gray-200 text-center"
+                >
                   Codigo
                   <button
                     className="text-2xl text-blue-500 hover:text-blue-700 focus:outline-none"
@@ -112,7 +143,10 @@ export const TransferManager = () => {
                     )}
                   </button>
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th
+                  scope="col"
+                  className="px-6 py-3  border border-gray-200 text-center"
+                >
                   Fecha
                   <button
                     className="text-2xl text-blue-500 hover:text-blue-700 focus:outline-none"
@@ -125,7 +159,10 @@ export const TransferManager = () => {
                     )}
                   </button>
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th
+                  scope="col"
+                  className="px-6 py-3  border border-gray-200 text-center"
+                >
                   Monto
                   <button
                     className="text-2xl text-blue-500 hover:text-blue-700 focus:outline-none"
@@ -138,7 +175,10 @@ export const TransferManager = () => {
                     )}
                   </button>
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th
+                  scope="col"
+                  className="px-6 py-3  border border-gray-200 text-center"
+                >
                   Centro Costo
                   <button
                     className="text-2xl text-blue-500 hover:text-blue-700 focus:outline-none"
@@ -151,10 +191,16 @@ export const TransferManager = () => {
                     )}
                   </button>
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th
+                  scope="col"
+                  className="px-6 py-3  border border-gray-200 text-center"
+                >
                   Ref. SAP
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-center border border-gray-200"
+                >
                   Estado
                   <button
                     className="text-2xl text-blue-500 hover:text-blue-700 focus:outline-none"
@@ -167,7 +213,10 @@ export const TransferManager = () => {
                     )}
                   </button>
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-center border border-gray-200"
+                >
                   Acciones
                 </th>
               </tr>
@@ -175,10 +224,13 @@ export const TransferManager = () => {
 
             {/* ## Cuerpo de la tabla */}
             <tbody>
-              {currentItems &&
-                currentItems.map((item: IListDetalleTransferencia) => (
-                  <tr className="bg-white border-b" key={item.resultado_pt_id}>
-                    <td className="w-4 p-4">
+              {displayedItems &&
+                displayedItems.map((item: IListDetalleTransferencia) => (
+                  <tr
+                    className="bg-white  border border-gray-300"
+                    key={Math.random()}
+                  >
+                    <td className="w-4 p-4  border border-gray-200">
                       <div className="flex items-center">
                         <input
                           id={`checkbox-table-search-${item.resultado_pt_id}`}
@@ -191,7 +243,7 @@ export const TransferManager = () => {
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
                         />
                         <label
-                          htmlFor="checkbox-table-search-1"
+                          htmlFor={`checkbox-table-search-${item.resultado_pt_id}`}
                           className="sr-only"
                         >
                           checkbox
@@ -200,23 +252,25 @@ export const TransferManager = () => {
                     </td>
                     <td
                       scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
+                      className="px-6 py-4 font-medium text-gray-900 text-center whitespace-nowrap border border-gray-200 "
                     >
                       {item.codigo}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4  border border-gray-200 text-center">
                       {formatDate(new Date(item.fecha_generacion))}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4  border border-gray-200 text-center">
                       {item.monto_total ? item.monto_total : "--"}
                     </td>
-                    <td className="px-6 py-4">{item.centro_costo}</td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4  border border-gray-200 text-center">
+                      {item.centro_costo}
+                    </td>
+                    <td className="px-6 py-4  border border-gray-200 text-center">
                       {item.referencia_sap ? item.referencia_sap : "--"}
                     </td>
-                    <td>
-                      <p
-                        className={`text-center text-sm font-semibold px-3 py-3 rounded-3xl border-1 ${
+                    <td className="text-center">
+                      <span
+                        className={`text-center text-xs font-semibold px-3 py-2 rounded-3xl border-1 ${
                           item.estado == "Pendiente"
                             ? "bg-[#FEF8E3] text-yellow-500"
                             : item.estado == "Aprobado"
@@ -225,9 +279,9 @@ export const TransferManager = () => {
                         } border-2`}
                       >
                         {item.estado}
-                      </p>
+                      </span>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 text-center">
                       <button
                         onClick={() => {
                           setOpenModalDetalle(true);
@@ -238,13 +292,13 @@ export const TransferManager = () => {
                           );
                         }}
                         type="submit"
-                        className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                        className="px-3 py-2 mr-2 text-xs font-medium text-center text-white bg-[#3666C2] rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                       >
                         V
                       </button>
                       <button
                         type="submit"
-                        className="px-3 py-2 text-xs font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                        className="px-3 py-2 text-xs font-medium text-center text-white bg-[#4A4A4A] rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                       >
                         E
                       </button>
@@ -254,13 +308,11 @@ export const TransferManager = () => {
             </tbody>
           </table>
 
-          {/* BOTON ACEPTAR Y RECHAZAR */}
-          <div className="flex-wrap justify-center">
-            {/* <div className="grid gap-6 mb-6 md:grid-cols-2"> */}
+          <div className="flex-wrap justify-center  border border-gray-200 bg-[#F5F7FA]  mt-5 py-3 pl-3">
             <button
               onClick={onApprove}
               type="button"
-              className="px-5 py-2.5 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
+              className="px-5 mr-3 py-2.5 text-sm font-medium text-white bg-[#3666C2] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
             >
               Aprobar
             </button>
@@ -288,7 +340,7 @@ export const TransferManager = () => {
                   disabled={currentPage === 1}
                   className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
                 >
-                  Previous
+                  {`<<`}
                 </button>
               </li>
               {[...Array(maxPage)].map((_, index) => (
@@ -310,7 +362,7 @@ export const TransferManager = () => {
                   disabled={currentPage === maxPage}
                   className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
                 >
-                  Next
+                  {`>>`}
                 </button>
               </li>
             </ul>

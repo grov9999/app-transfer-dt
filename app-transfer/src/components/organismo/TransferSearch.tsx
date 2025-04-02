@@ -9,21 +9,23 @@ export const TransferSearch = () => {
 
   return (
     <form>
-      <div className="flex justify-between">
+      <div className="flex justify-between mb-3">
         <h1 className="text-2xl text-gray-90 font-semibold">
           Gestor de Transferencia DT
         </h1>
         <button
           type="button"
-          className="px-5 py-2.5 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
+          className="px-5 py-2.5 text-sm font-medium text-white bg-[#3666C2] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center"
           onClick={handleCreate}
         >
           + Nueva Parte
         </button>
       </div>
-      <div className="mx-auto bg-gray-100 p-6 rounded-lg shadow-md">
-        <h1 className="text-xl text-gray-90 font-semibold">Buscar Partes</h1>
 
+      <div className="mx-auto bg-[#F5F7FA] p-6 mb-5 rounded-lg  border border-gray-200">
+        <h1 className="text-xl text-gray-90 font-semibold mb-3">
+          Buscar Partes
+        </h1>
         <div className="grid gap-6 mb-6 md:grid-cols-4">
           <div>
             <label
@@ -134,17 +136,17 @@ export const TransferSearch = () => {
               required
             />
           </div>
-          
+
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             <button
               type="button"
-              className="px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+              className="px-3 py-2 text-sm font-medium text-center text-white bg-[#3666C2] rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
             >
               Buscar
             </button>
             <button
               type="button"
-              className="px-3 py-2 text-sm font-medium text-center text-black bg-white rounded-lg hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-blue-300"
+              className="px-3 py-2 text-sm font-medium text-center text-black border border-gray-400 cursor-pointer rounded-lg hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-blue-300"
             >
               Limpiar
             </button>
