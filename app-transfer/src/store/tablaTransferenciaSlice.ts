@@ -19,23 +19,44 @@ export const tablaTransferenciaSlice = createSlice({
   name: "filtroTransferencia",
   initialState: initialStateFilter,
   reducers: {
-    setFiltroCodigo: (state: TransferState, action: PayloadAction<IListDetalleTransferencia[]>) => {
+    setFiltroCodigo: (
+      state: TransferState,
+      action: PayloadAction<IListDetalleTransferencia[]>
+    ) => {
       state.filtroTransferencia = action.payload;
     },
-    setFiltroEstado: (state: TransferState, action: PayloadAction<IListDetalleTransferencia[]>) => {
+    setFiltroEstado: (
+      state: TransferState,
+      action: PayloadAction<IListDetalleTransferencia[]>
+    ) => {
       state.filtroTransferencia = action.payload;
     },
-    setFiltroMonto: (state: TransferState, action: PayloadAction<IListDetalleTransferencia[]>) => {
+    setFiltroMonto: (
+      state: TransferState,
+      action: PayloadAction<IListDetalleTransferencia[]>
+    ) => {
       state.filtroTransferencia = action.payload;
     },
-    setFiltroCosto: (state: TransferState, action: PayloadAction<IListDetalleTransferencia[]>) => {
+    setFiltroCosto: (
+      state: TransferState,
+      action: PayloadAction<IListDetalleTransferencia[]>
+    ) => {
       state.filtroTransferencia = action.payload;
     },
-    setFiltroFecha: (state: TransferState, action: PayloadAction<IListDetalleTransferencia[]>) => {
+    setFiltroFecha: (
+      state: TransferState,
+      action: PayloadAction<IListDetalleTransferencia[]>
+    ) => {
       state.filtroTransferencia = action.payload;
     },
   },
 });
 
-export const { setFiltroCodigo, setFiltroEstado, setFiltroMonto, setFiltroCosto, setFiltroFecha } = tablaTransferenciaSlice.actions;
+export const {
+  setFiltroCodigo,
+  setFiltroEstado,
+  setFiltroMonto,
+  setFiltroCosto,
+  setFiltroFecha,
+} = tablaTransferenciaSlice.actions;
 export default tablaTransferenciaSlice.reducer;

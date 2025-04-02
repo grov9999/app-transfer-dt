@@ -13,8 +13,6 @@ import {
   onStartTransfLoading,
   onDeleteTranfer,
   toggleSelectTransfer,
-  onUpdateTransfer,
-  onAddTransfer,
   onAddListTransfer,
   onDeleteDeArregloTranfer,
 } from "../../store/transferencia/transferenciaSlice";
@@ -30,9 +28,9 @@ import {
   setFiltroEstado,
   setFiltroMonto,
   setFiltroCosto,
-  setFiltroFecha
+  setFiltroFecha,
 } from "../../store/tablaTransferenciaSlice";
-import { boolean } from "yup";
+import { formatDate } from "../../utils/formatDate";
 
 export const TransferManager = () => {
   const { selectedTransfers } = useAppSelector((state) => state.transferencias);
@@ -51,9 +49,7 @@ export const TransferManager = () => {
   const { transferencias, booleanSelect } = useAppSelector(
     (state) => state.transferencias
   );
-  /*const {listDetalleTransferencia } = useAppSelector(
-    (state) => state.detalleTransferencia
-  );*/
+
   const { currentItems, currentPage, maxPage, nextPage, prevPage, goToPage } =
     usePagination<IListDetalleTransferencia>(filtroTransferencia, 4);
 
@@ -95,16 +91,6 @@ export const TransferManager = () => {
     );
     setfilterTransfersFast(newFilterTransfersFast);
   };
-
-  // const handleSearchClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const valor = e.target.value;
-  //   setsearchFast(valor);
-  //   const newFilterTransfersFast = transferencias.filter(
-  //     (item) =>
-  //       item.codigo.toLowerCase().includes(valor)
-  //   );
-  //   setfilterTransfersFast(newFilterTransfersFast);
-  // };
 
   const displayedItems = searchFast ? filterTransfersFast : currentItems;
 
@@ -155,7 +141,6 @@ export const TransferManager = () => {
           <table className="w-full  text-sm text-left rtl:text-right text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-[#F5F7FA] ">
               <tr>
-                {/* Encabezado de la tabla */}
                 <th scope="col" className="p-4">
                   <div className="flex items-center">
                     <input
@@ -173,9 +158,6 @@ export const TransferManager = () => {
                       }}
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
                     />
-                    {/* <label htmlFor="checkbox-all-search" className="sr-only">
-                      checkbox
-                    </label> */}
                   </div>
                 </th>
                 <th
@@ -291,7 +273,6 @@ export const TransferManager = () => {
                               transfer.resultado_pt_id === item.resultado_pt_id
                           )}
                           onChange={() => {
-                            //dispatch(onArregloDetaTransfer(item));
                             dispatch(toggleSelectTransfer(item));
                           }}
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
@@ -311,8 +292,7 @@ export const TransferManager = () => {
                       {item.codigo}
                     </td>
                     <td className="px-6 py-4  border border-gray-200 text-center">
-                      {/* {formatDate(new Date(item.fecha_generacion))} */}
-                      {item.fecha_generacion.toString()}
+                      {formatDate(new Date(item.fecha_generacion))}
                     </td>
                     <td className="px-6 py-4  border border-gray-200 text-center">
                       {item.monto_total ? item.monto_total : "--"}
@@ -345,7 +325,6 @@ export const TransferManager = () => {
                               item as IListDetalleTransferencia
                             )
                           );
-                          //dispatch(onArregloDetaTransfer(item));
                         }}
                         type="submit"
                         className="px-3 py-2 mr-2 text-xs font-medium text-center text-white bg-[#3666C2] rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer"
@@ -469,7 +448,6 @@ export const TransferManager = () => {
           </nav>
         </div>
       </div>
-      {/* {openModalDetalle && <ModalDetalle setState={setOpenModalAprobacion} />} */}
       {openModalDetalle ? (
         <ModalDetalle
           setStates={{
