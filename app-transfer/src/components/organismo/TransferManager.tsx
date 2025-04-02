@@ -19,12 +19,19 @@ import { ModalDetalle } from "../pages/ModalDetalle";
 import { usePagination } from "../../hooks/usePagination";
 import { ModalAprobacion } from "../pages/ModalAprobacion";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
-import { formatDate } from "../../utils/formatDate";
 import { onListingDetaTransfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 import ModalRechazo from "../pages/ModalRechazo";
+import {
+  setFiltroCodigo,
+  setFiltroEstado,
+  setFiltroMonto,
+  setFiltroCosto,
+  setFiltroFecha
+} from "../../store/tablaTransferenciaSlice";
 
 export const TransferManager = () => {
   const { selectedTransfers } = useAppSelector((state) => state.transferencias);
+  const { filtroTransferencia } = useAppSelector((state) => state.filtros);
 
   useEffect(() => {
     obtenerTransf();
@@ -41,7 +48,7 @@ export const TransferManager = () => {
     (state) => state.detalleTransferencia
   );*/
   const { currentItems, currentPage, maxPage, nextPage, prevPage, goToPage } =
-    usePagination<IListDetalleTransferencia>(transferencias, 4);
+    usePagination<IListDetalleTransferencia>(filtroTransferencia, 4);
 
   const obtenerTransf = async () => {
     dispatch(onStartTransfLoading());
@@ -53,6 +60,11 @@ export const TransferManager = () => {
         dispatch(
           onListingTransfer(response.data as IListDetalleTransferencia[])
         );
+        dispatch(setFiltroCodigo(response.data as IListDetalleTransferencia[]));
+        dispatch(setFiltroEstado(response.data as IListDetalleTransferencia[]));
+        dispatch(setFiltroMonto(response.data as IListDetalleTransferencia[]));
+        dispatch(setFiltroCosto(response.data as IListDetalleTransferencia[]));
+        dispatch(setFiltroFecha(response.data as IListDetalleTransferencia[]));
       }
     });
   };
@@ -77,15 +89,15 @@ export const TransferManager = () => {
     setfilterTransfersFast(newFilterTransfersFast);
   };
 
-  const handleSearchClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const valor = e.target.value;
-    setsearchFast(valor);
-    const newFilterTransfersFast = transferencias.filter(
-      (item) =>
-        item.codigo.toLowerCase().includes(valor)
-    );
-    setfilterTransfersFast(newFilterTransfersFast);
-  };
+  // const handleSearchClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const valor = e.target.value;
+  //   setsearchFast(valor);
+  //   const newFilterTransfersFast = transferencias.filter(
+  //     (item) =>
+  //       item.codigo.toLowerCase().includes(valor)
+  //   );
+  //   setfilterTransfersFast(newFilterTransfersFast);
+  // };
 
   const displayedItems = searchFast ? filterTransfersFast : currentItems;
 
@@ -282,7 +294,8 @@ export const TransferManager = () => {
                       {item.codigo}
                     </td>
                     <td className="px-6 py-4  border border-gray-200 text-center">
-                      {formatDate(new Date(item.fecha_generacion))}
+                      {/* {formatDate(new Date(item.fecha_generacion))} */}
+                      {item.fecha_generacion.toString()}
                     </td>
                     <td className="px-6 py-4  border border-gray-200 text-center">
                       {item.monto_total ? item.monto_total : "--"}

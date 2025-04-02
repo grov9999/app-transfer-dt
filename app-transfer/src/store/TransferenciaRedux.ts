@@ -12,7 +12,7 @@ export const transferStore = configureStore({
     detalleTransferencia: detalleTransferenciaSlice.reducer,
     almacenes: almacenSlice.reducer,
     usuario: usuarioSlice.reducer,
-    tabla: tablaTransferenciaSlice.reducer,
+    filtros: tablaTransferenciaSlice.reducer,
   },
 });
 
