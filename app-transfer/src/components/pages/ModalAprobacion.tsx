@@ -27,7 +27,7 @@ export const ModalAprobacion = ({
         pt_id: detalle.resultado_pt_id,
         estado: "Aprobado",
         usuario_aprobador_id: 4,
-        usuario_aprobador:"David Torres",
+       // usuario_aprobador:"David Torres",
         motivo_rechazo: "",
         referencia_sap: "SAP-458",
       };

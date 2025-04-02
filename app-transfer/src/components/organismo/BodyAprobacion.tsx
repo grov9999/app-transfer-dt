@@ -3,6 +3,7 @@ import { Loading } from "../atom/Loading";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
 import { onDeleteDeArregloTranfer} from "../../store/transferencia/transferenciaSlice";
+import { formatDate } from "../../utils/formatDate";
 //import { onDeleteDeTranfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 
 interface boydAprobacionProps {
@@ -25,12 +26,6 @@ export const BodyAprobacion = ({
     .reduce((acc, item) => acc + parseFloat(item.monto_total), 0)
     .toFixed(2);
 
-  const formatDate = (date: Date) => {
-    const day = String(date.getDate()).padStart(2, "0"); // Asegura que el día tenga dos dígitos
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Los meses son 0-indexados
-    const year = date.getFullYear(); // Obtiene el año completo
-    return `${day}/${month}/${year}`; // Formato DD/MM/YYYY
-  };
 
   return (
     <div className="p-2">
