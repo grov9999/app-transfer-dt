@@ -94,12 +94,12 @@ export const transferenciaSlice = createSlice({
       state: transferenciaInitialState,
       action: PayloadAction<IListDetalleTransferencia[]>
     ) => {
-        action.payload.forEach((item) => {
+      action.payload.forEach((item) => {
         state.selectedTransfers = state.selectedTransfers.filter(
           (trans) => trans.resultado_pt_id !== item.resultado_pt_id
         );
       });
-      state.booleanSelect=false;
+      state.booleanSelect = false;
     },
 
     onUpdateArregloTransferencia: (
@@ -113,6 +113,17 @@ export const transferenciaSlice = createSlice({
         state.selectedTransfers[index] = action.payload;
       } else {
         state.selectedTransfers.push(action.payload);
+      }
+    },
+    onUpdateTransferenciaSimple: (
+      state: transferenciaInitialState,
+      action: PayloadAction<IListDetalleTransferencia>
+    ) => {
+      const index = state.transferencias.findIndex(
+        (transa) => transa.resultado_pt_id === action.payload.resultado_pt_id
+      );
+      if (index !== -1) {
+        state.transferencias[index] = action.payload;
       }
     },
   },
@@ -129,4 +140,5 @@ export const {
   onDeleteDeTranfer,
   onDeleteDeArregloTranfer,
   onUpdateArregloTransferencia,
+  onUpdateTransferenciaSimple,
 } = transferenciaSlice.actions;

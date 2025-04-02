@@ -36,7 +36,6 @@ const ResumenPT = ({ texto, transferencias, setState }: IPropsResumenPT) => {
       pt_id: item.resultado_pt_id,
       motivo_rechazo: motivos,
       estado: "Rechazado",
-      usuario_aprobador:"María García",
       usuario_aprobador_id: 2,
       referencia_sap: "",
     }));
@@ -45,10 +44,10 @@ const ResumenPT = ({ texto, transferencias, setState }: IPropsResumenPT) => {
     if (response.ok) {
       toast.success("Transferencia actualizada con éxito!");
       dispatch(
-        onDeleteDeArregloTranfer(updateTransfer as IListDetalleTransferencia[])
+        onDeleteDeArregloTranfer(response.data as IListDetalleTransferencia[])
       );
 
-      dispatch(onUpdateTransfer(updateTransfer));
+      dispatch(onUpdateTransfer(response.data as IListDetalleTransferencia[]));
       setState(false);
     } else {
       toast.error("Error al actualizar la transferencia!");
