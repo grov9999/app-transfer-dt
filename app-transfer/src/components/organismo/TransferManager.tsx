@@ -27,6 +27,7 @@ import { formatDate } from "../../utils/formatDate";
 import { onListingDetaTransfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 import ModalRechazo from "../pages/ModalRechazo";
 import { boolean } from "yup";
+import { useStateHooks } from "../../hooks/useStateHooks";
 
 export const TransferManager = () => {
   const { selectedTransfers } = useAppSelector((state) => state.transferencias);
@@ -34,10 +35,15 @@ export const TransferManager = () => {
   useEffect(() => {
     obtenerTransf();
   }, []);
+  const {
+    openModalDetalle,
+    setOpenModalDetalle,
+    openModalAprobacion,
+    setOpenModalAprobacion,
+    openModalRechazar,
+    setOpenModalRechazar
+  } = useStateHooks();
 
-  const [openModalDetalle, setOpenModalDetalle] = useState(false);
-  const [openModalAprobacion, setOpenModalAprobacion] = useState(false);
-  const [openModalRechazar, setOpenModalRechazar] = useState(false);
   const [isAscending, setIsAscending] = useState(true);
 
   const dispatch = useAppDispatch();
@@ -64,10 +70,6 @@ export const TransferManager = () => {
     });
   };
 
-  const onApprove = () => {
-    setOpenModalDetalle(false);
-    setOpenModalAprobacion(true);
-  };
   const [searchFast, setsearchFast] = useState("");
   const [filterTransfersFast, setfilterTransfersFast] = useState<
     IListDetalleTransferencia[]
@@ -374,7 +376,10 @@ export const TransferManager = () => {
           <div className="flex-wrap justify-center  border border-gray-200 bg-[#F5F7FA]  mt-5 py-3 pl-3">
             <button
               disabled={selectedTransfers.length > 0 ? false : true}
-              onClick={onApprove}
+              onClick={() => {
+                setOpenModalDetalle(false);
+                setOpenModalAprobacion(true);
+              }}
               type="button"
               className={`px-5 mr-3 py-2.5 text-sm font-medium text-white rounded-lg  ${
                 selectedTransfers.length > 0
@@ -445,7 +450,6 @@ export const TransferManager = () => {
           </nav>
         </div>
       </div>
-      {/* {openModalDetalle && <ModalDetalle setState={setOpenModalAprobacion} />} */}
       {openModalDetalle ? (
         <ModalDetalle
           setStates={{
@@ -456,10 +460,7 @@ export const TransferManager = () => {
         />
       ) : null}
       {openModalAprobacion ? (
-        <ModalAprobacion
-          setState={setOpenModalAprobacion}
-          detalle={selectedTransfers}
-        />
+        <ModalAprobacion setState={setOpenModalAprobacion} />
       ) : null}
 
       {openModalRechazar ? (

@@ -7,23 +7,25 @@ import {
   onDeleteDeArregloTranfer,
   onUpdateTransfer,
 } from "../../store/transferencia/transferenciaSlice";
-import { useAppDispatch } from "../../store/TransferenciaRedux";
+import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
 import { BodyAprobacion } from "../organismo/BodyAprobacion";
 import { HeaderAprobacion } from "../organismo/HeaderAprobacion";
 interface modalAprobacionHeader {
   // onReturn?: () => void;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
-  detalle: IListDetalleTransferencia[];
+  //detalle: IListDetalleTransferencia[];
 }
 
 export const ModalAprobacion = ({
   setState,
   // onReturn,
-  detalle,
+  //detalle,
 }: modalAprobacionHeader) => {
+  const { selectedTransfers } = useAppSelector((state) => state.transferencias);
+  
   const dispatch = useAppDispatch();
   const onReturn = () => {
-    const actiones: IListDetalleTransferencia[] = detalle?.map((detalle) => {
+    const actiones: IListDetalleTransferencia[] = selectedTransfers?.map((detalle) => {
       return {
         ...detalle,
         pt_id: detalle.resultado_pt_id,
@@ -54,7 +56,7 @@ export const ModalAprobacion = ({
         <BodyAprobacion
           setState={setState}
           onRetun={onReturn}
-          detalle={detalle}
+          detalle={selectedTransfers}
         />
       </div>
     </div>

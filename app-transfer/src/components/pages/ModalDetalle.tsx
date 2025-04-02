@@ -42,7 +42,7 @@ export const ModalDetalle = ({ setStates }: modalDetalleProps) => {
 
   return (
     <>
-      <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[12px] ">
+      <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[1px] ">
         <div className="w-full max-w-2xl h-[85vh] max-h-[90vh] px-7">
           <HeaderDetalle
             onReturn={onReturn}
