@@ -15,6 +15,7 @@ import { CardTexArea } from "../molecules/CardTexArea";
 import FormSelect from "../molecules/FormSelect";
 import { useNavigate } from "react-router-dom";
 import { onAddTransfer } from "../../store/transferencia/transferenciaSlice";
+import MainLayout from "../templates/MainLayout";
 
 const CreateTransfer = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -55,10 +56,13 @@ const CreateTransfer = () => {
     navigate("/");
   };
   return (
-    <div className="mx-auto container my-10">
+    <MainLayout>
+      {/* <div className="mx-auto container"> */}
       <div className="flex justify-between mb-3">
         <div>
-          <h1 className="font-bold ">Registro parte Transferencia</h1>
+          <h1 className="text-2xl text-gray-90 font-semibold">
+            Registro parte Transferencia
+          </h1>
         </div>
         <div>
           <button
@@ -219,17 +223,12 @@ const CreateTransfer = () => {
                   Cancelar
                 </button>
               </div>
-              {/* <button
-                id="previa"
-                className="bg-gray-100 text-black p-3 rounded-sm border border-gray-400"
-              >
-                Vista Previa
-              </button> */}
             </div>
           </form>
         </div>
       </div>
-    </div>
+      {/* </div> */}
+    </MainLayout>
   );
 };
 
