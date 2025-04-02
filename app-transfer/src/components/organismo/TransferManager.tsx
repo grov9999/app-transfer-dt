@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import {
-  ArrowUpIcon,
-  ArrowDownIcon,
   ArrowUpCircleIcon,
   ArrowDownCircleIcon,
 } from "@heroicons/react/24/solid";
