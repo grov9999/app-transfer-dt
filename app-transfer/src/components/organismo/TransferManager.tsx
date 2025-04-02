@@ -1,4 +1,10 @@
 import { useEffect, useState } from "react";
+import {
+  ArrowUpIcon,
+  ArrowDownIcon,
+  ArrowUpCircleIcon,
+  ArrowDownCircleIcon,
+} from "@heroicons/react/24/solid";
 import { getTransferencia } from "../../lib/fetchTransferencia";
 import {
   onListingTransfer,
@@ -23,6 +29,7 @@ export const TransferManager = () => {
   const [openModalDetalle, setOpenModalDetalle] = useState(false);
   const [openModalAprobacion, setOpenModalAprobacion] = useState(false);
   const [openModalRechazar, setOpenModalRechazar] = useState(false);
+  const [isAscending, setIsAscending] = useState(true);
 
   const dispatch = useAppDispatch();
   const { transferencias } = useAppSelector((state) => state.transferencias);
@@ -51,6 +58,29 @@ export const TransferManager = () => {
     setOpenModalAprobacion(true);
   };
 
+  // Función para ordenar datos
+  const sortTable = (column: keyof IListDetalleTransferencia) => {
+    const sortedItems = [...transferencias].sort((a, b) => {
+      const valueA =
+        typeof a[column] === "string" ? a[column].toString() : a[column];
+      const valueB =
+        typeof b[column] === "string" ? b[column].toString() : b[column];
+
+      if (typeof valueA === "number" && typeof valueB === "number") {
+        return isAscending ? valueA - valueB : valueB - valueA;
+      } else if (typeof valueA === "string" && typeof valueB === "string") {
+        return isAscending
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      } else {
+        return 0; // Para casos no manejados
+      }
+    });
+    // Update the state or variable holding the sorted items
+    dispatch(onListingTransfer(sortedItems)); // Actualiza los datos ordenados
+    setIsAscending(!isAscending); // Alterna entre ascendente y descendente
+  };
+
   return (
     <>
       <div className="mx-auto bg-gray-100 p-6 rounded-lg shadow-md">
@@ -73,21 +103,71 @@ export const TransferManager = () => {
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Codigo
+                  <button
+                    className="text-2xl text-blue-500 hover:text-blue-700 focus:outline-none"
+                    onClick={() => sortTable("codigo")}
+                  >
+                    {isAscending ? (
+                      <ArrowUpCircleIcon className="w-6 h-6 inline" />
+                    ) : (
+                      <ArrowDownCircleIcon className="w-6 h-6 inline" />
+                    )}
+                  </button>
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Fecha
+                  <button
+                    className="text-2xl text-blue-500 hover:text-blue-700 focus:outline-none"
+                    onClick={() => sortTable("fecha_generacion")}
+                  >
+                    {isAscending ? (
+                      <ArrowUpCircleIcon className="w-6 h-6 inline" />
+                    ) : (
+                      <ArrowDownCircleIcon className="w-6 h-6 inline" />
+                    )}
+                  </button>
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Monto
+                  <button
+                    className="text-2xl text-blue-500 hover:text-blue-700 focus:outline-none"
+                    onClick={() => sortTable("monto_total")}
+                  >
+                    {isAscending ? (
+                      <ArrowUpCircleIcon className="w-6 h-6 inline" />
+                    ) : (
+                      <ArrowDownCircleIcon className="w-6 h-6 inline" />
+                    )}
+                  </button>
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Centro Costo
+                  <button
+                    className="text-2xl text-blue-500 hover:text-blue-700 focus:outline-none"
+                    onClick={() => sortTable("centro_costo")}
+                  >
+                    {isAscending ? (
+                      <ArrowUpCircleIcon className="w-6 h-6 inline" />
+                    ) : (
+                      <ArrowDownCircleIcon className="w-6 h-6 inline" />
+                    )}
+                  </button>
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Ref. SAP
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Estado
+                  <button
+                    className="text-2xl text-blue-500 hover:text-blue-700 focus:outline-none"
+                    onClick={() => sortTable("estado")}
+                  >
+                    {isAscending ? (
+                      <ArrowUpCircleIcon className="w-6 h-6 inline" />
+                    ) : (
+                      <ArrowDownCircleIcon className="w-6 h-6 inline" />
+                    )}
+                  </button>
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Acciones
@@ -99,7 +179,7 @@ export const TransferManager = () => {
             <tbody>
               {currentItems &&
                 currentItems.map((item: IListDetalleTransferencia) => (
-                  <tr className="bg-white border-b" key={Math.random()}>
+                  <tr className="bg-white border-b" key={item.resultado_pt_id}>
                     <td className="w-4 p-4">
                       <div className="flex items-center">
                         <input
@@ -162,13 +242,13 @@ export const TransferManager = () => {
                         type="submit"
                         className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                       >
-                        VE
+                        V
                       </button>
                       <button
                         type="submit"
                         className="px-3 py-2 text-xs font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                       >
-                        EL
+                        E
                       </button>
                     </td>
                   </tr>
