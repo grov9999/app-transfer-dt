@@ -13,6 +13,10 @@ import {
   onStartTransfLoading,
   onDeleteTranfer,
   toggleSelectTransfer,
+  onUpdateTransfer,
+  onAddTransfer,
+  onAddListTransfer,
+  onDeleteDeArregloTranfer,
 } from "../../store/transferencia/transferenciaSlice";
 import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
 import { ModalDetalle } from "../pages/ModalDetalle";
@@ -22,6 +26,7 @@ import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransfer
 import { formatDate } from "../../utils/formatDate";
 import { onListingDetaTransfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 import ModalRechazo from "../pages/ModalRechazo";
+import { boolean } from "yup";
 
 export const TransferManager = () => {
   const { selectedTransfers } = useAppSelector((state) => state.transferencias);
@@ -36,7 +41,7 @@ export const TransferManager = () => {
   const [isAscending, setIsAscending] = useState(true);
 
   const dispatch = useAppDispatch();
-  const { transferencias } = useAppSelector((state) => state.transferencias);
+  const { transferencias,booleanSelect } = useAppSelector((state) => state.transferencias);
   /*const {listDetalleTransferencia } = useAppSelector(
     (state) => state.detalleTransferencia
   );*/
@@ -131,6 +136,15 @@ export const TransferManager = () => {
                     <input
                       id="checkbox-all-search"
                       type="checkbox"
+                      checked={
+                        booleanSelect
+                      }
+                      onChange={(e) => {
+                        {
+                          e.target.checked ?
+                          dispatch(onAddListTransfer(displayedItems)):dispatch(onDeleteDeArregloTranfer(displayedItems)) ;
+                        }
+                      }}
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500"
                     />
                     {/* <label htmlFor="checkbox-all-search" className="sr-only">
