@@ -9,6 +9,7 @@ import {
   onDeleteDeArregloTranfer,
   onUpdateTransfer,
 } from "../../store/transferencia/transferenciaSlice";
+import { onUpdateTransferTem } from "../../store/tablaTransferenciaSlice";
 
 type IPropsResumenPT = {
   texto: string;
@@ -48,6 +49,8 @@ const ResumenPT = ({ texto, transferencias, setState }: IPropsResumenPT) => {
       );
 
       dispatch(onUpdateTransfer(response.data as IListDetalleTransferencia[]));
+      dispatch(onUpdateTransferTem(response.data as IListDetalleTransferencia[]));
+
       setState(false);
     } else {
       toast.error("Error al actualizar la transferencia!");

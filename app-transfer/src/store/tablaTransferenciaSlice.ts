@@ -9,7 +9,7 @@ export interface TransferState {
 }
 
 const initialStateFilter: TransferState = {
-  filtroTransferencia: []
+  filtroTransferencia: [],
   // filtroCodigo: "",
   // fechaInicio: "",
   // fechaFin: "",
@@ -19,31 +19,21 @@ export const tablaTransferenciaSlice = createSlice({
   name: "filtroTransferencia",
   initialState: initialStateFilter,
   reducers: {
+     onUpdateTransferTem: (
+          state: TransferState,
+          action: PayloadAction<IListDetalleTransferencia[]>
+        ) => {
+          state.filtroTransferencia = state.filtroTransferencia.map((transferencia) => {
+            const updatedTransfer = action.payload.find(
+              (item) => item.resultado_pt_id === transferencia.resultado_pt_id
+            );
+            return updatedTransfer
+              ? { ...transferencia, ...updatedTransfer }
+              : transferencia;
+          });
+        },
+
     setFiltroCodigo: (
-      state: TransferState,
-      action: PayloadAction<IListDetalleTransferencia[]>
-    ) => {
-      state.filtroTransferencia = action.payload;
-    },
-    setFiltroEstado: (
-      state: TransferState,
-      action: PayloadAction<IListDetalleTransferencia[]>
-    ) => {
-      state.filtroTransferencia = action.payload;
-    },
-    setFiltroMonto: (
-      state: TransferState,
-      action: PayloadAction<IListDetalleTransferencia[]>
-    ) => {
-      state.filtroTransferencia = action.payload;
-    },
-    setFiltroCosto: (
-      state: TransferState,
-      action: PayloadAction<IListDetalleTransferencia[]>
-    ) => {
-      state.filtroTransferencia = action.payload;
-    },
-    setFiltroFecha: (
       state: TransferState,
       action: PayloadAction<IListDetalleTransferencia[]>
     ) => {
@@ -53,10 +43,7 @@ export const tablaTransferenciaSlice = createSlice({
 });
 
 export const {
-  setFiltroCodigo,
-  setFiltroEstado,
-  setFiltroMonto,
-  setFiltroCosto,
-  setFiltroFecha,
+  onUpdateTransferTem,
+  setFiltroCodigo
 } = tablaTransferenciaSlice.actions;
 export default tablaTransferenciaSlice.reducer;

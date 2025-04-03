@@ -10,6 +10,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
 import { BodyAprobacion } from "../organismo/BodyAprobacion";
 import { HeaderAprobacion } from "../organismo/HeaderAprobacion";
+import { onUpdateTransferTem } from "../../store/tablaTransferenciaSlice";
 interface modalAprobacionHeader {
   // onReturn?: () => void;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,23 +19,25 @@ interface modalAprobacionHeader {
 
 export const ModalAprobacion = ({
   setState,
-  // onReturn,
-  //detalle,
-}: modalAprobacionHeader) => {
+}: // onReturn,
+//detalle,
+modalAprobacionHeader) => {
   const { selectedTransfers } = useAppSelector((state) => state.transferencias);
-  
+
   const dispatch = useAppDispatch();
   const onReturn = () => {
-    const actiones: IListDetalleTransferencia[] = selectedTransfers?.map((detalle) => {
-      return {
-        ...detalle,
-        pt_id: detalle.resultado_pt_id,
-        estado: "Aprobado",
-        usuario_aprobador_id: 4,
-        motivo_rechazo: "",
-        referencia_sap: "",
-      };
-    });
+    const actiones: IListDetalleTransferencia[] = selectedTransfers?.map(
+      (detalle) => {
+        return {
+          ...detalle,
+          pt_id: detalle.resultado_pt_id,
+          estado: "Aprobado",
+          usuario_aprobador_id: 4,
+          motivo_rechazo: "",
+          referencia_sap: "",
+        };
+      }
+    );
     sendDetalleTransferencia(actiones).then((response) => {
       if (!response.ok) {
       } else {
@@ -42,7 +45,12 @@ export const ModalAprobacion = ({
         dispatch(
           onDeleteDeArregloTranfer(response.data as IListDetalleTransferencia[])
         );
-        dispatch(onUpdateTransfer(response.data as IListDetalleTransferencia[]));
+        dispatch(
+          onUpdateTransfer(response.data as IListDetalleTransferencia[])
+        );
+        dispatch(
+          onUpdateTransferTem(response.data as IListDetalleTransferencia[])
+        );
 
         setState(false);
       }

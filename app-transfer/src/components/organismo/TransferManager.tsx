@@ -24,11 +24,7 @@ import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransfer
 import { onListingDetaTransfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 import ModalRechazo from "../pages/ModalRechazo";
 import {
-  setFiltroCodigo,
-  setFiltroEstado,
-  setFiltroMonto,
-  setFiltroCosto,
-  setFiltroFecha,
+  setFiltroCodigo
 } from "../../store/tablaTransferenciaSlice";
 import { formatDate } from "../../utils/formatDate";
 import { useStateHooks } from "../../hooks/useStateHooks";
@@ -69,10 +65,10 @@ export const TransferManager = () => {
           onListingTransfer(response.data as IListDetalleTransferencia[])
         );
         dispatch(setFiltroCodigo(response.data as IListDetalleTransferencia[]));
-        dispatch(setFiltroEstado(response.data as IListDetalleTransferencia[]));
+        /*  dispatch(setFiltroEstado(response.data as IListDetalleTransferencia[]));
         dispatch(setFiltroMonto(response.data as IListDetalleTransferencia[]));
         dispatch(setFiltroCosto(response.data as IListDetalleTransferencia[]));
-        dispatch(setFiltroFecha(response.data as IListDetalleTransferencia[]));
+        dispatch(setFiltroFecha(response.data as IListDetalleTransferencia[]));  */
       }
     });
   };

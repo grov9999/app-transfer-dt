@@ -4,7 +4,7 @@ interface SelectProps {
     onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
     label: string;
     options: { value: string; label: string }[];
-  }
+  } 
   
   export const SelectTransfer = ({ id, value, onChange, label, options }: SelectProps) => (
     <div>
