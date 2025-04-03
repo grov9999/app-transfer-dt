@@ -64,8 +64,8 @@ export const ModalDetalle = ({ setStates }: modalDetalleProps) => {
                 setOpenModalRechazar && setOpenModalRechazar(true);
               }}
             />
-            <Button name="Exportar PDF" color="gray" />
-          </div>
+            {/* <Button name="Exportar PDF" color="gray" />
+ */}          </div>
         </div>
       </div>
     </>
