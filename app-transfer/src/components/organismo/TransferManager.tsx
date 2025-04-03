@@ -80,6 +80,7 @@ export const TransferManager = () => {
           item.centro_costo.toLowerCase().includes(searchFast)
       )
     : currentItems;
+    
   const sortTable = (column: keyof IListDetalleTransferencia) => {
     const sortedTransfers = [...transferencias].sort((a, b) => {
       let valueA = a[column];

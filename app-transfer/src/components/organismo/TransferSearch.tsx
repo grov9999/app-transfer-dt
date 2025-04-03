@@ -7,6 +7,7 @@ import { SelectTransfer } from "../molecules/SelectTransfer";
 import { InputTransfer } from "../molecules/InputTransfer";
 
 export const TransferSearch = () => {
+  const today = new Date().toISOString().split("T")[0];
   const navigate = useNavigate();
   const { transferencias } = useAppSelector((state) => state.transferencias);
   const handleCreate = () => {
@@ -196,6 +197,7 @@ export const TransferSearch = () => {
             </label>
             <input
               type="date"
+              max={today}
               id="dateuntil"
               value={searchDateEnd}
               onChange={handleFilterDateEnd}
