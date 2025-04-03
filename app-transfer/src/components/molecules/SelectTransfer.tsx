@@ -1,4 +1,3 @@
-// components/Select.tsx
 interface SelectProps {
     id: string;
     value: string;

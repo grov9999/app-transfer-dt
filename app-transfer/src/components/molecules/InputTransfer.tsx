@@ -1,4 +1,3 @@
-// components/Input.tsx
 interface InputProps {
     id: string;
     value: string;
