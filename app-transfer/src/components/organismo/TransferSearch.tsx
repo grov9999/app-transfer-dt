@@ -153,86 +153,56 @@ export const TransferSearch = () => {
             />
           </div>
           <div>
-            <label
-              htmlFor="costcenter"
-              className="block mb-2 text-sm font-medium text-gray-900 "
-            >
-              CENTRO DE COSTO
-            </label>
-            <input
-              type="text"
+            <InputTransfer
               id="costcenter"
               value={searchCost}
               onChange={handleFilterCost}
-              className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Todos"
+              label="CENTRO DE COSTO"
+              type="text"
             />
           </div>
         </div>
 
         <div className="grid gap-6 mb-6 md:grid-cols-5">
           <div>
-            <label
-              htmlFor="datefrom"
-              className="block mb-2 text-sm font-medium text-gray-900 "
-            >
-              FECHA DESDE
-            </label>
-            <input
-              type="date"
+            <InputTransfer
               id="datefrom"
               value={searchDateStart}
               onChange={handleFilterDateStart}
-              className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="DD/MM/AAAA"
+              label="FECHA DESDE"
+              type="date"
             />
           </div>
           <div>
-            <label
-              htmlFor="dateuntil"
-              className="block mb-2 text-sm font-medium text-gray-900 "
-            >
-              FECHA HASTA
-            </label>
-            <input
-              type="date"
+            <InputTransfer
               id="dateuntil"
               value={searchDateEnd}
               onChange={handleFilterDateEnd}
-              className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="DD/MM/AAAA"
+              label="FECHA HASTA"
+              type="date"
             />
           </div>
           <div>
-            <label
-              htmlFor="amountfrom"
-              className="block mb-2 text-sm font-medium text-gray-900 "
-            >
-              MONTO DESDE
-            </label>
-            <input
-              type="text"
+            <InputTransfer
               id="amountfrom"
               value={searchAmountStart}
               onChange={handleFilterAmountStart}
-              className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="0.00"
+              label="MONTO DESDE"
+              type="text"
             />
           </div>
           <div>
-            <label
-              htmlFor="amountuntil"
-              className="block mb-2 text-sm font-medium text-gray-900 "
-            >
-              MONTO HASTA
-            </label>
-            <input
-              type="text"
+            <InputTransfer
               id="amountuntil"
               value={searchAmountEnd}
               onChange={handleFilterAmountEnd}
-              className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="0.00"
+              label="MONTO HASTA"
+              type="text"
             />
           </div>
 
