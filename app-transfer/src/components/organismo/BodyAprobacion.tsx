@@ -2,10 +2,8 @@ import { Button } from "../atom/Button";
 import { Loading } from "../atom/Loading";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
-import { onDeleteDeArregloTranfer} from "../../store/transferencia/transferenciaSlice";
+import { onDeleteDeArregloTranfer } from "../../store/transferencia/transferenciaSlice";
 import { formatDate } from "../../utils/formatDate";
-//import { onDeleteDeTranfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
-
 interface boydAprobacionProps {
   onRetun?: () => void;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,14 +16,11 @@ export const BodyAprobacion = ({
   detalle,
 }: boydAprobacionProps) => {
   const dispatch = useAppDispatch();
-  const { selectedTransfers } = useAppSelector(
-    (state) => state.transferencias
-  );
+  const { selectedTransfers } = useAppSelector((state) => state.transferencias);
 
   const total = detalle
     .reduce((acc, item) => acc + parseFloat(item.monto_total), 0)
     .toFixed(2);
-
 
   return (
     <div className="p-2">
@@ -68,14 +63,14 @@ export const BodyAprobacion = ({
           name="Cancelar"
           color="gray"
           onRetun={() => {
-             {
+            {
               selectedTransfers &&
                 dispatch(
                   onDeleteDeArregloTranfer(
                     selectedTransfers as IListDetalleTransferencia[]
                   )
                 );
-            } 
+            }
             setState(false);
           }}
         />

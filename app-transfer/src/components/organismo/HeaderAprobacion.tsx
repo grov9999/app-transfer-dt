@@ -1,11 +1,7 @@
 import { X } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
-//import { onDeleteDeTranfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { onDeleteDeArregloTranfer } from "../../store/transferencia/transferenciaSlice";
-//mport { useAppDispatch, useAppSelector } from "../../store/TransferenciaRedux";
-//import { onArregloDetaTransfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
-//import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 interface headerAprobacionProps {
   onReturn?: () => void;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,9 +9,7 @@ interface headerAprobacionProps {
 
 export const HeaderAprobacion = ({ setState }: headerAprobacionProps) => {
   const dispatch = useAppDispatch();
-  const { selectedTransfers } = useAppSelector(
-    (state) => state.transferencias
-  );
+  const { selectedTransfers } = useAppSelector((state) => state.transferencias);
 
   return (
     <div className="relative bg-blue-600 rounded px-4 py-1">

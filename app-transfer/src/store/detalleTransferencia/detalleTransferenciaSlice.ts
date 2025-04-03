@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-//import { DetalleTransferencia } from "../../interfaces/DetalleTransferencia";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 
 export interface detalleTransferenciaInitialState {
@@ -36,51 +35,6 @@ export const detalleTransferenciaSlice = createSlice({
     ) => {
       state.detalleTransferencia = action.payload; // Actualiza el estado con el nuevo detalle
     },
-    /*onArregloDetaTransfer: (
-      state: detalleTransferenciaInitialState,
-      action: PayloadAction<IListDetalleTransferencia>
-    ) => {
-      const index = state.listDetalleTransferencia.findIndex(
-        (trans) => trans.resultado_pt_id === action.payload.resultado_pt_id
-      );
-      if (index == -1) {
-        state.listDetalleTransferencia.push(action.payload);
-      } else {
-        state.listDetalleTransferencia.splice(index, 1);
-      }
-    },
-    onDeleteDeTranfer: (
-      state: detalleTransferenciaInitialState,
-      action: PayloadAction<IListDetalleTransferencia>
-    ) => {
-      state.listDetalleTransferencia = state.listDetalleTransferencia.filter(
-        (trans) => trans.resultado_pt_id !== action.payload.resultado_pt_id // Aquí eliminamos el ítem cuyo pt_id coincida con el proporcionado
-      );
-    },
-    onDeleteDeArregloTranfer: (
-      state: detalleTransferenciaInitialState,
-      action: PayloadAction<IListDetalleTransferencia[]>
-    ) => {
-      action.payload.forEach((item) => {
-        state.listDetalleTransferencia = state.listDetalleTransferencia.filter(
-          (trans) => trans.resultado_pt_id !== item.resultado_pt_id
-        );
-      });
-    }, 
-
-    onUpdateArregloTransferencia: (
-      state: detalleTransferenciaInitialState,
-      action: PayloadAction<IListDetalleTransferencia>
-    ) => {
-      const index = state.listDetalleTransferencia.findIndex(
-        (transa) => transa.resultado_pt_id === action.payload.resultado_pt_id
-      );
-      if (index !== -1) {
-        state.listDetalleTransferencia[index] = action.payload;
-      } else {
-        state.listDetalleTransferencia.push(action.payload);
-      }
-    },*/
   },
 });
 
@@ -88,8 +42,4 @@ export const {
   onStartDetaTransfLoading,
   onListingDetaTransfer,
   onUpdateDetalleTransfer,
-  /*onArregloDetaTransfer,
-  onDeleteDeTranfer,
-  onDeleteDeArregloTranfer,
-  onUpdateArregloTransferencia,*/
 } = detalleTransferenciaSlice.actions;

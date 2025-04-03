@@ -3,8 +3,6 @@ import { useAppSelector } from "../../store/TransferenciaRedux";
 import { FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setFiltroCodigo } from "../../store/tablaTransferenciaSlice";
-import { formatDate } from "../../utils/formatDate";
-import { formatDateLocal } from "../../utils/formatDateLocal";
 import { SelectTransfer } from "../molecules/SelectTransfer";
 import { InputTransfer } from "../molecules/InputTransfer";
 
@@ -80,15 +78,18 @@ export const TransferSearch = () => {
     const montoMax = parseFloat(searchAmountEnd) || 999999;
 
     const fechaInicio = searchDateStart
-      ? formatDateLocal(new Date(searchDateStart + "T00:00:00"))
-      : formatDateLocal(new Date("2000-01-01T00:00:00"));
+      ? new Date(`${searchDateStart}T00:00:00`)
+      : new Date(2000, 0, 1);
+
     const fechaFinal = searchDateEnd
-      ? formatDateLocal(new Date(searchDateEnd + "T23:59:59"))
-      : formatDateLocal(new Date(new Date().setDate(new Date().getDate() + 1)));
+      ? new Date(`${searchDateEnd}T23:59:59.999`)
+      : new Date();
+
+    fechaFinal.setHours(23, 59, 59, 999);
 
     const newFilterTransfer = transferencias.filter((item) => {
       const montoEvaluar = parseFloat(item.monto_total);
-      const fechaEvaluar = formatDate(new Date(item.fecha_generacion));
+      const fechaEvaluar = new Date(item.fecha_generacion);
 
       return (
         item.codigo.toLowerCase().includes(searchCode.toLowerCase()) &&
@@ -163,7 +164,7 @@ export const TransferSearch = () => {
               id="costcenter"
               value={searchCost}
               onChange={handleFilterCost}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Todos"
             />
           </div>
@@ -182,7 +183,7 @@ export const TransferSearch = () => {
               id="datefrom"
               value={searchDateStart}
               onChange={handleFilterDateStart}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="DD/MM/AAAA"
             />
           </div>
@@ -198,7 +199,7 @@ export const TransferSearch = () => {
               id="dateuntil"
               value={searchDateEnd}
               onChange={handleFilterDateEnd}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="DD/MM/AAAA"
             />
           </div>
@@ -214,7 +215,7 @@ export const TransferSearch = () => {
               id="amountfrom"
               value={searchAmountStart}
               onChange={handleFilterAmountStart}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="0.00"
             />
           </div>
@@ -230,7 +231,7 @@ export const TransferSearch = () => {
               id="amountuntil"
               value={searchAmountEnd}
               onChange={handleFilterAmountEnd}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="0.00"
             />
           </div>

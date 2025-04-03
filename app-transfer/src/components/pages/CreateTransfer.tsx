@@ -57,7 +57,6 @@ const CreateTransfer = () => {
   };
   return (
     <MainLayout>
-      {/* <div className="mx-auto container"> */}
       <div className="flex justify-between mb-3">
         <div>
           <h1 className="text-2xl text-gray-90 font-semibold">
@@ -227,7 +226,6 @@ const CreateTransfer = () => {
           </form>
         </div>
       </div>
-      {/* </div> */}
     </MainLayout>
   );
 };

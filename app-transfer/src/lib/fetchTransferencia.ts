@@ -7,8 +7,7 @@ export const getTransferencia = async () => {
     const response = await fetch("http://localhost:3000/api/transfers");
     const datas = await response.json();
     const data: IListDetalleTransferencia[] = datas.data;
-    //console.log(data);
-    //await sleep(1500);
+
     return {
       ok: true,
       data,
@@ -27,8 +26,6 @@ export const getDetalleTransferencia = async (id: string) => {
     const datas = await response.json();
     const data: DetalleTransferencia = datas.data;
 
-    //console.log(data);
-    //await sleep(1500);
     return {
       ok: true,
       data,
@@ -98,10 +95,8 @@ export const sendDetalleTransferencia = async (
       },
       body: JSON.stringify(actionTransferencia),
     });
-    //console.log(actionTransferencia);
     const datas = await response.json();
     const data: IListDetalleTransferencia[] = datas.data;
-    console.log(data);
     return {
       ok: true,
       data,
@@ -127,8 +122,6 @@ export const getEliminarTransferencia = async (codigo: string) => {
     );
     const data = await response.json();
 
-    //console.log(data);
-    //await sleep(1500);
     return {
       ok: true,
       data,

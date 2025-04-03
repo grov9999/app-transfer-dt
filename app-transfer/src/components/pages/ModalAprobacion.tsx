@@ -1,8 +1,7 @@
 import toast from "react-hot-toast";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { sendDetalleTransferencia } from "../../lib/fetchTransferencia";
-import //onDeleteDeArregloTranfer,
-"../../store/detalleTransferencia/detalleTransferenciaSlice";
+("../../store/detalleTransferencia/detalleTransferenciaSlice");
 import {
   onDeleteDeArregloTranfer,
   onUpdateTransfer,
@@ -12,16 +11,10 @@ import { BodyAprobacion } from "../organismo/BodyAprobacion";
 import { HeaderAprobacion } from "../organismo/HeaderAprobacion";
 import { onUpdateTransferTem } from "../../store/tablaTransferenciaSlice";
 interface modalAprobacionHeader {
-  // onReturn?: () => void;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
-  //detalle: IListDetalleTransferencia[];
 }
 
-export const ModalAprobacion = ({
-  setState,
-}: // onReturn,
-//detalle,
-modalAprobacionHeader) => {
+export const ModalAprobacion = ({ setState }: modalAprobacionHeader) => {
   const { selectedTransfers } = useAppSelector((state) => state.transferencias);
 
   const dispatch = useAppDispatch();
@@ -32,7 +25,7 @@ modalAprobacionHeader) => {
           ...detalle,
           pt_id: detalle.resultado_pt_id,
           estado: "Aprobado",
-          usuario_aprobador_id: 4,
+          usuario_aprobador_id: 2,
           motivo_rechazo: "",
           referencia_sap: "",
         };
