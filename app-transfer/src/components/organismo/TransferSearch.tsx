@@ -60,7 +60,7 @@ export const TransferSearch = () => {
     const valor = e.target.value;
     setSearchCost(valor);
   };
-
+  
   const handleFilterDateStart = (e: React.ChangeEvent<HTMLInputElement>) => {
     const valor = e.target.value;
     setsearchDateStart(valor);

@@ -81,7 +81,7 @@ export const TransferManager = () => {
       )
     : currentItems;
   const sortTable = (column: keyof IListDetalleTransferencia) => {
-    const sortedTransfers = [...transferencias].sort((a, b) => {
+    const sortedTransfers = [...filtroTransferencia].sort((a, b) => {
       let valueA = a[column];
       let valueB = b[column];
 
@@ -102,8 +102,8 @@ export const TransferManager = () => {
         return 0;
       }
     });
-
-    dispatch(onListingTransfer(sortedTransfers));
+    console.log("sortedTransfers", sortedTransfers);
+    dispatch(setFiltroCodigo(sortedTransfers));
     setIsAscending(!isAscending);
   };
 
