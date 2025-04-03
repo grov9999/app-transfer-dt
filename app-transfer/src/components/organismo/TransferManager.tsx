@@ -23,7 +23,10 @@ import { ModalAprobacion } from "../pages/ModalAprobacion";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { onListingDetaTransfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 import ModalRechazo from "../pages/ModalRechazo";
-import { setFiltroCodigo } from "../../store/tablaTransferenciaSlice";
+import {
+  onDeleteTranferTem,
+  setFiltroCodigo,
+} from "../../store/tablaTransferenciaSlice";
 import { formatDate } from "../../utils/formatDate";
 import { useStateHooks } from "../../hooks/useStateHooks";
 
@@ -104,7 +107,7 @@ export const TransferManager = () => {
       }
     });
 
-   // dispatch(onListingTransfer(sortedTransfers));
+    // dispatch(onListingTransfer(sortedTransfers));
     dispatch(setFiltroCodigo(sortedTransfers));
     setIsAscending(!isAscending);
   };
@@ -337,6 +340,11 @@ export const TransferManager = () => {
                                   } else {
                                     dispatch(
                                       onDeleteTranfer(
+                                        item as IListDetalleTransferencia
+                                      )
+                                    );
+                                    dispatch(
+                                      onDeleteTranferTem(
                                         item as IListDetalleTransferencia
                                       )
                                     );

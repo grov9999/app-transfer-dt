@@ -35,9 +35,17 @@ export const tablaTransferenciaSlice = createSlice({
     ) => {
       state.filtroTransferencia = action.payload;
     },
+    onDeleteTranferTem: (
+      state: TransferState,
+      action: PayloadAction<IListDetalleTransferencia>
+    ) => {
+      state.filtroTransferencia = state.filtroTransferencia.filter(
+        (trans) => trans.resultado_pt_id !== action.payload.resultado_pt_id // Aquí eliminamos el ítem cuyo pt_id coincida con el proporcionado
+      );
+    },
   },
 });
 
-export const { onUpdateTransferTem, setFiltroCodigo } =
+export const { onUpdateTransferTem, setFiltroCodigo, onDeleteTranferTem } =
   tablaTransferenciaSlice.actions;
 export default tablaTransferenciaSlice.reducer;
