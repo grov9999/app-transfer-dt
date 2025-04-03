@@ -80,7 +80,7 @@ export const TransferManager = () => {
           item.centro_costo.toLowerCase().includes(searchFast)
       )
     : currentItems;
-    
+
   const sortTable = (column: keyof IListDetalleTransferencia) => {
     const sortedTransfers = [...transferencias].sort((a, b) => {
       let valueA = a[column];
@@ -104,7 +104,8 @@ export const TransferManager = () => {
       }
     });
 
-    dispatch(onListingTransfer(sortedTransfers));
+   // dispatch(onListingTransfer(sortedTransfers));
+    dispatch(setFiltroCodigo(sortedTransfers));
     setIsAscending(!isAscending);
   };
 
