@@ -4,3 +4,4 @@ export const formatDate = (date: Date): string => {
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
 };
+

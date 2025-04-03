@@ -46,7 +46,7 @@ export const TransferManager = () => {
     openModalAprobacion,
     setOpenModalAprobacion,
     openModalRechazar,
-    setOpenModalRechazar
+    setOpenModalRechazar,
   } = useStateHooks();
 
   const [isAscending, setIsAscending] = useState(true);
@@ -64,7 +64,6 @@ export const TransferManager = () => {
 
     getTransferencia().then((response) => {
       if (!response.ok) {
-        console.log("Responde Error");
       } else {
         dispatch(
           onListingTransfer(response.data as IListDetalleTransferencia[])
@@ -97,7 +96,7 @@ export const TransferManager = () => {
   const displayedItems = searchFast ? filterTransfersFast : currentItems;
 
   const sortTable = (column: keyof IListDetalleTransferencia) => {
-    const sortedItems = [...transferencias].sort((a, b) => {
+    const sortedTransfers = [...transferencias].sort((a, b) => {
       let valueA = a[column];
       let valueB = b[column];
 
@@ -119,7 +118,7 @@ export const TransferManager = () => {
       }
     });
 
-    dispatch(onListingTransfer(sortedItems));
+    dispatch(onListingTransfer(sortedTransfers));
     setIsAscending(!isAscending);
   };
 

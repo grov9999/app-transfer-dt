@@ -3,6 +3,8 @@ import { useAppSelector } from "../../store/TransferenciaRedux";
 import { FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setFiltroCodigo } from "../../store/tablaTransferenciaSlice";
+import { formatDate } from "../../utils/formatDate";
+import { formatDateLocal } from "../../utils/formatDateLocal";
 
 export const TransferSearch = () => {
   const navigate = useNavigate();
@@ -13,82 +15,94 @@ export const TransferSearch = () => {
 
   const dispatch = useDispatch();
 
-  const [searchCod, setSearchCod] = useState("");
-  const [searchEst, setSearchEst] = useState("");
-  const [searchMon, setSearchMon] = useState("");
-  const [searchMonFin, setSearchMonFin] = useState("");
+  const [searchCode, setSearchCode] = useState("");
+  const [searchStatus, setSearchStatus] = useState("");
+  const [searchAmountStart, setSearchAmountStart] = useState("");
+  const [searchAmountEnd, setSearchAmountEnd] = useState("");
   const [searchCost, setSearchCost] = useState("");
-  const [searchFech, setSearchFech] = useState("");
-  const [searchFechFin, setSearchFechFin] = useState("");
+  const [searchDateStart, setsearchDateStart] = useState("");
+  const [searchDateEnd, setSearchDateEnd] = useState("");
 
   const handleLimpiar = (e: FormEvent) => {
     e.preventDefault();
-    setSearchCod("");
-    setSearchEst("");
-    setSearchMon("");
-    setSearchMonFin("");
+    setSearchCode("");
+    setSearchStatus("");
+    setSearchAmountStart("");
+    setSearchAmountEnd("");
     setSearchCost("");
-    setSearchFech("");
-    setSearchFechFin("");
+    setsearchDateStart("");
+    setSearchDateEnd("");
+
+    dispatch(setFiltroCodigo(transferencias));
   };
 
-  const handleFiltros = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilterCode = (e: React.ChangeEvent<HTMLInputElement>) => {
     const valor = e.target.value;
-    setSearchCod(valor);
+    setSearchCode(valor);
   };
 
-  const handleFiltrosEst = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleFilterStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const valor = e.target.value;
-    setSearchEst(valor);
+    setSearchStatus(valor);
   };
 
-  const handleFiltrosMon = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilterAmountStart = (e: React.ChangeEvent<HTMLInputElement>) => {
     const valor = e.target.value;
-    setSearchMon(valor);
+    setSearchAmountStart(valor);
   };
 
-  const handleFiltrosMonFin = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilterAmountEnd = (e: React.ChangeEvent<HTMLInputElement>) => {
     const valor = e.target.value;
-    setSearchMonFin(valor);
+    setSearchAmountEnd(valor);
   };
 
-  const handleFiltrosCost = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilterCost = (e: React.ChangeEvent<HTMLInputElement>) => {
     const valor = e.target.value;
     setSearchCost(valor);
   };
 
-  const handleFiltrosFech = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilterDateStart = (e: React.ChangeEvent<HTMLInputElement>) => {
     const valor = e.target.value;
-    setSearchFech(valor);
+    setsearchDateStart(valor);
   };
 
-  const handleFiltrosFechFin = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilterDateEnd = (e: React.ChangeEvent<HTMLInputElement>) => {
     const valor = e.target.value;
-    setSearchFechFin(valor);
+    setSearchDateEnd(valor);
   };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    const montoMin = parseFloat(searchMon) || 0;
-    const montoMax = parseFloat(searchMonFin) || 999999;
+    const montoMin = parseFloat(searchAmountStart) || 0;
+    const montoMax = parseFloat(searchAmountEnd) || 999999;
 
+    const fechaInicio = searchDateStart
+      ? formatDateLocal(new Date(searchDateStart + "T00:00:00"))
+      : formatDateLocal(new Date("2000-01-01T00:00:00"));
+    const fechaFinal = searchDateEnd
+      ? formatDateLocal(new Date(searchDateEnd + "T23:59:59"))
+      : formatDateLocal(new Date(new Date().setDate(new Date().getDate() + 1)));
 
-    const newFiltrosCod = transferencias.filter((item) => {
+    const newFilterTransfer = transferencias.filter((item) => {
       const montoEvaluar = parseFloat(item.monto_total);
+      const fechaEvaluar = formatDate(new Date(item.fecha_generacion));
+
       return (
-        item.codigo.toLowerCase().includes(searchCod.toLowerCase()) &&
+        item.codigo.toLowerCase().includes(searchCode.toLowerCase()) &&
         item.estado
           .toLocaleLowerCase()
-          .includes(searchEst.toLocaleLowerCase()) &&
+          .includes(searchStatus.toLocaleLowerCase()) &&
         item.centro_costo
           .toLocaleLowerCase()
           .includes(searchCost.toLocaleLowerCase()) &&
         montoEvaluar >= montoMin &&
-        montoEvaluar <= montoMax
+        montoEvaluar <= montoMax &&
+        fechaEvaluar >= fechaInicio &&
+        fechaEvaluar <= fechaFinal
       );
     });
-    dispatch(setFiltroCodigo(newFiltrosCod));
+    dispatch(setFiltroCodigo(newFilterTransfer));
   };
 
   return (
@@ -121,8 +135,8 @@ export const TransferSearch = () => {
             <input
               type="text"
               id="ptcode"
-              value={searchCod}
-              onChange={handleFiltros}
+              value={searchCode}
+              onChange={handleFilterCode}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Buscar..."
             />
@@ -136,8 +150,8 @@ export const TransferSearch = () => {
             </label>
             <select
               id="status"
-              value={searchEst}
-              onChange={handleFiltrosEst}
+              value={searchStatus}
+              onChange={handleFilterStatus}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
             >
               <option key="0" value="">
@@ -165,7 +179,7 @@ export const TransferSearch = () => {
               type="text"
               id="costcenter"
               value={searchCost}
-              onChange={handleFiltrosCost}
+              onChange={handleFilterCost}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Todos"
             />
@@ -181,10 +195,10 @@ export const TransferSearch = () => {
               FECHA DESDE
             </label>
             <input
-              type="text"
+              type="date"
               id="datefrom"
-              value={searchFech}
-              onChange={handleFiltrosFech}
+              value={searchDateStart}
+              onChange={handleFilterDateStart}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="DD/MM/AAAA"
             />
@@ -197,10 +211,10 @@ export const TransferSearch = () => {
               FECHA HASTA
             </label>
             <input
-              type="text"
+              type="date"
               id="dateuntil"
-              value={searchFechFin}
-              onChange={handleFiltrosFechFin}
+              value={searchDateEnd}
+              onChange={handleFilterDateEnd}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="DD/MM/AAAA"
             />
@@ -215,8 +229,8 @@ export const TransferSearch = () => {
             <input
               type="text"
               id="amountfrom"
-              value={searchMon}
-              onChange={handleFiltrosMon}
+              value={searchAmountStart}
+              onChange={handleFilterAmountStart}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="0.00"
             />
@@ -231,8 +245,8 @@ export const TransferSearch = () => {
             <input
               type="text"
               id="amountuntil"
-              value={searchMonFin}
-              onChange={handleFiltrosMonFin}
+              value={searchAmountEnd}
+              onChange={handleFilterAmountEnd}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="0.00"
             />

@@ -3,16 +3,16 @@ import { IListDetalleTransferencia } from "../interfaces/IListDetalleTransferenc
 
 export interface TransferState {
   filtroTransferencia: IListDetalleTransferencia[];
-  filtroCodigo: string;
-  fechaInicio: string;
-  fechaFin: string;
+  // filtroCodigo: string;
+  // fechaInicio: string;
+  // fechaFin: string;
 }
 
 const initialStateFilter: TransferState = {
-  filtroTransferencia: [],
-  filtroCodigo: "",
-  fechaInicio: "",
-  fechaFin: "",
+  filtroTransferencia: []
+  // filtroCodigo: "",
+  // fechaInicio: "",
+  // fechaFin: "",
 };
 
 export const tablaTransferenciaSlice = createSlice({
