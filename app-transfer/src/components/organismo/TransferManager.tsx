@@ -63,10 +63,6 @@ export const TransferManager = () => {
           onListingTransfer(response.data as IListDetalleTransferencia[])
         );
         dispatch(setFiltroCodigo(response.data as IListDetalleTransferencia[]));
-        /*  dispatch(setFiltroEstado(response.data as IListDetalleTransferencia[]));
-        dispatch(setFiltroMonto(response.data as IListDetalleTransferencia[]));
-        dispatch(setFiltroCosto(response.data as IListDetalleTransferencia[]));
-        dispatch(setFiltroFecha(response.data as IListDetalleTransferencia[]));  */
       }
     });
   };
