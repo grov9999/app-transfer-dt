@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { setFiltroCodigo } from "../../store/tablaTransferenciaSlice";
 import { formatDate } from "../../utils/formatDate";
 import { formatDateLocal } from "../../utils/formatDateLocal";
+import { SelectTransfer } from "../molecules/SelectTransfer";
+import { InputTransfer } from "../molecules/InputTransfer";
 
 export const TransferSearch = () => {
   const navigate = useNavigate();
@@ -126,47 +128,28 @@ export const TransferSearch = () => {
         </h1>
         <div className="grid gap-6 mb-6 md:grid-cols-4">
           <div>
-            <label
-              htmlFor="ptcode"
-              className="block mb-2 text-sm font-medium text-gray-900 "
-            >
-              CÓDIGO PT
-            </label>
-            <input
-              type="text"
+            <InputTransfer
               id="ptcode"
               value={searchCode}
               onChange={handleFilterCode}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Buscar..."
+              label="CÓDIGO PT"
+              type="text"
             />
           </div>
           <div>
-            <label
-              htmlFor="status"
-              className="block mb-2 text-sm font-medium text-gray-900 "
-            >
-              ESTADO
-            </label>
-            <select
+            <SelectTransfer
               id="status"
               value={searchStatus}
               onChange={handleFilterStatus}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-            >
-              <option key="0" value="">
-                Seleccionar estado
-              </option>
-              <option key="1" value="Pendiente">
-                Pendiente
-              </option>
-              <option key="2" value="Rechazado">
-                Rechazado
-              </option>
-              <option key="3" value="Aprobado">
-                Aprobado
-              </option>
-            </select>
+              label="ESTADO"
+              options={[
+                { value: "", label: "Seleccionar estado" },
+                { value: "Pendiente", label: "Pendiente" },
+                { value: "Rechazado", label: "Rechazado" },
+                { value: "Aprobado", label: "Aprobado" },
+              ]}
+            />
           </div>
           <div>
             <label
