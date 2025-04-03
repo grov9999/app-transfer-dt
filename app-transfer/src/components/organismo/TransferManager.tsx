@@ -23,9 +23,7 @@ import { ModalAprobacion } from "../pages/ModalAprobacion";
 import { IListDetalleTransferencia } from "../../interfaces/IListDetalleTransferencia";
 import { onListingDetaTransfer } from "../../store/detalleTransferencia/detalleTransferenciaSlice";
 import ModalRechazo from "../pages/ModalRechazo";
-import {
-  setFiltroCodigo
-} from "../../store/tablaTransferenciaSlice";
+import { setFiltroCodigo } from "../../store/tablaTransferenciaSlice";
 import { formatDate } from "../../utils/formatDate";
 import { useStateHooks } from "../../hooks/useStateHooks";
 
@@ -74,23 +72,18 @@ export const TransferManager = () => {
   };
 
   const [searchFast, setsearchFast] = useState("");
-  const [filterTransfersFast, setfilterTransfersFast] = useState<
-    IListDetalleTransferencia[]
-  >([]);
-
   const handleSearchFast = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const valor = e.target.value;
+    const valor = e.target.value.toLocaleLowerCase();
     setsearchFast(valor);
-    const newFilterTransfersFast = transferencias.filter(
-      (item) =>
-        item.codigo.toLowerCase().includes(valor) ||
-        item.centro_costo.toLowerCase().includes(valor)
-    );
-    setfilterTransfersFast(newFilterTransfersFast);
   };
 
-  const displayedItems = searchFast ? filterTransfersFast : currentItems;
-
+  const displayedItems = searchFast
+    ? transferencias.filter(
+        (item) =>
+          item.codigo.toLowerCase().includes(searchFast) ||
+          item.centro_costo.toLowerCase().includes(searchFast)
+      )
+    : currentItems;
   const sortTable = (column: keyof IListDetalleTransferencia) => {
     const sortedTransfers = [...transferencias].sort((a, b) => {
       let valueA = a[column];
@@ -377,6 +370,7 @@ export const TransferManager = () => {
               onClick={() => {
                 setOpenModalDetalle(false);
                 setOpenModalAprobacion(true);
+                setsearchFast("");
               }}
               type="button"
               className={`px-5 mr-3 py-2.5 text-sm font-medium text-white rounded-lg  ${
@@ -390,7 +384,10 @@ export const TransferManager = () => {
             <button
               disabled={selectedTransfers.length > 0 ? false : true}
               type="button"
-              onClick={() => setOpenModalRechazar(true)}
+              onClick={() => {
+                setOpenModalRechazar(true);
+                setsearchFast("");
+              }}
               className={`px-5 py-2.5 text-sm font-medium text-white rounded-lg ${
                 selectedTransfers.length > 0
                   ? "bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer"
