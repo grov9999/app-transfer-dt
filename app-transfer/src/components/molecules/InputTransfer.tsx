@@ -1,5 +1,6 @@
 interface InputProps {
   id: string;
+  max?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
@@ -9,6 +10,7 @@ interface InputProps {
 
 export const InputTransfer = ({
   id,
+  max,
   value,
   onChange,
   placeholder,
@@ -25,6 +27,7 @@ export const InputTransfer = ({
     <input
       type={type}
       id={id}
+      max={max}
       value={value}
       onChange={onChange}
       placeholder={placeholder}
